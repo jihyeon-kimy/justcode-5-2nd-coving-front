@@ -59,6 +59,7 @@ body {
   background-color:black;
   color: #c4c4c4;
   line-height: 1.2;
+  
 }
 a {
   text-decoration:none;
