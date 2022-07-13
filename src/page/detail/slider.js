@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
-// Import Swiper React components
 import styled from 'styled-components';
-
-// import required modules
+import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 const EpListSlider = styled.div`
 display: flex;
@@ -91,7 +89,9 @@ function Slider({ width, height, data }) {
       >
         {value ? (
           <Button left={0} right={0} onClick={onLeftClick}>
-            <span>prev</span>
+            <span>
+              <BiChevronLeft size={40} />
+            </span>
           </Button>
         ) : null}
         {data.map(i => (
@@ -99,7 +99,9 @@ function Slider({ width, height, data }) {
         ))}
         {value ? (
           <Button left={96.7} right={0} onClick={onRightClick}>
-            <span>next</span>
+            <span>
+              <BiChevronRight size={40} />
+            </span>
           </Button>
         ) : null}
       </EpListSlider>
