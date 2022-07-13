@@ -27,10 +27,16 @@ scroll-behavior: smooth;
 }
   div {
     
-    min-width: 274px;
-    height 276px;
+    min-width: ${prop => prop.contentsBoxWidth}px;
+    height ${prop => prop.contentsBoxheight}px;
     margin-right: 15px;
+    margin-top: 30px;
     border: 1px solid white;
+    :hover {
+      transform: translateY(-15px);
+      transition: all 0.2s;
+    }
+    transition: all 0.2s;
   }
 `;
 
@@ -52,10 +58,10 @@ const Button = styled.button`
   }
 `;
 
-function Slider() {
+function Slider({ width, height, data }) {
   const [value, setValue] = useState();
   const el = useRef();
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
@@ -76,7 +82,13 @@ function Slider() {
   };
   return (
     <>
-      <EpListSlider ref={el} onMouseEnter={onOver} onMouseLeave={onLeave}>
+      <EpListSlider
+        ref={el}
+        onMouseEnter={onOver}
+        onMouseLeave={onLeave}
+        contentsBoxWidth={width}
+        contentsBoxheight={height}
+      >
         {value ? (
           <Button left={0} right={0} onClick={onLeftClick}>
             <span>prev</span>

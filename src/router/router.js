@@ -13,7 +13,7 @@ function Router() {
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/subscribe" element={<Subscribe />} />
-        <Route path="/viedo" element={<Viedo />} />
+        <Route path="/video" element={<Viedo />} />
         <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
