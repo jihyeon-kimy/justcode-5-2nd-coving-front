@@ -12,7 +12,7 @@ scroll-behavior: smooth;
 
 ::-webkit-scrollbar {
     width: 5px;
-    height: 3px;
+    height: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -94,8 +94,8 @@ function Slider({ width, height, data }) {
             </span>
           </Button>
         ) : null}
-        {data.map(i => (
-          <div>{i}</div>
+        {data.map((i, inx) => (
+          <div id={inx + 1}>{i}</div>
         ))}
         {value ? (
           <Button left={96.7} right={0} onClick={onRightClick}>

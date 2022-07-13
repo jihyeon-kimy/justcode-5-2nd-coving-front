@@ -1,22 +1,25 @@
 import styled from 'styled-components';
 import Slider from './slider';
 import 'swiper/css/bundle';
-import { BiHeart, BiUpload } from 'react-icons/bi';
+import { BiHeart, BiUpload, BiChevronLeft } from 'react-icons/bi';
 import { useState } from 'react';
 
 const Container = styled.section`
+  position: relative;
+  top: 79px;
   max-width: 100vw;
   height: 600vh;
 `;
 const MockHeader = styled.div`
+  position: fixed;
   width: 100%;
   height: 79px;
   background-color: gray;
+  z-index: 2;
 `;
 const TopContainer = styled.div`
   width: 100%;
-  height: 529px;
-
+  height: 580px;
   background: linear-gradient(
       to bottom,
       rgba(0, 0, 0, 0) 30%,
@@ -30,18 +33,20 @@ const TopContainer = styled.div`
 `;
 const BlurBox = styled.div`
   width: 100%;
-  height: 529px;
+  height: 625px;
   padding-right: 7%;
   padding-left: 3%;
   backdrop-filter: blur(80px);
 `;
 const ProgramDetailBox = styled.div`
+  position: relative;
+  top: 79px;
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 529px;
-  padding-top: 3%;
-  padding-bottom: 4%;
+  height: 500px;
+  margin-right: 20px;
+  margin-left: 20px;
   border-bottom: 0.1px solid white;
 `;
 
@@ -64,9 +69,9 @@ const InfoBox = styled.div`
   background-size: cover;
   margin-top: 20px;
   div {
-    font-size: 15px;
-    height: 26px;
-    line-height: 26px;
+    font-size: 17px;
+    height: 29px;
+    line-height: 28px;
     padding-left: 4px;
     padding-right: 4px;
     border: 0.1px solid #c4c4c4;
@@ -95,6 +100,7 @@ const PlayBtn = styled.button`
   :hover {
     transform: scale(1.03);
     transition: all 0.2s;
+    cursor: pointer;
   }
 `;
 
@@ -151,23 +157,30 @@ const RightBox = styled.div`
   border-radius: 5px;
 `;
 const EpListContainer = styled.div`
-  display: flex;
   width: 100%;
   height: 380px;
   padding-top: 3%;
 `;
 
-const Title = styled.p`
-  position: absolute;
-  padding-left: 5%;
+const OrderingBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 155px;
+  margin-left: 2.5%;
+  div:hover{
+      cursor: pointer;
+    }
+  }
 `;
 const RelatedVideoContainer = styled.div``;
 
 function Detail() {
   const [value, setValue] = useState(false);
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-  const reverse = data.reverse();
-  console.log(value);
+  const reverse = data
+    .slice(0)
+    .reverse()
+    .map(num => num);
   const onTClick = () => {
     setValue(true);
   };
@@ -175,64 +188,72 @@ function Detail() {
     setValue(false);
   };
   return (
-    <Container>
+    <>
       <MockHeader />
-      <TopContainer>
-        <BlurBox>
-          <ProgramDetailBox>
-            <LeftBox>
-              <TitleBox />
-              <InfoBox>
-                <div>15+</div>
-                <div>드라마</div>
-                <div>음악</div>
-                <div>로맨스</div>
-              </InfoBox>
-              <BtnBox>
-                <PlayBtn>이용권 구독하기</PlayBtn>
-                <Wishbox>
-                  <BiHeart size="40" color="white" />
-                  <WishTextBox>찜</WishTextBox>
-                </Wishbox>
-                <Sharebox>
-                  <BiUpload size="40" color="white" />
-                  <ShareTextBox>공유</ShareTextBox>
-                </Sharebox>
-              </BtnBox>
-              <CreatorBox>
-                <div>크리에이터</div>
-                <div>박찬욱</div>
-              </CreatorBox>
-              <ActorBox>
-                <div>출연</div>
-                <div>김고은, 한고은, 심고은</div>
-              </ActorBox>
-              <SummaryBox>
-                노래가 끝나고 운전대를 잡고 전화통화를 하는 척하는 여자는
-                조수석에 둔 대본을 살펴봐가며 오디션 연습을 하느라 교통 정체가
-                풀린 줄도 모르고 있다. 아무리 경적을 울려도 앞 차 여자가 움직일
-                생각을 않자, 뒷 차 남자는 차로를 갈아타 앞차 옆으로 와서
-                항의하듯 경적을 길게 울리고, 여자는 그런 남자에게 중지를 날린다.
-                엑셀을 밟고 멀어지는 남자.
-              </SummaryBox>
-            </LeftBox>
-            <CenterBox />
-            <RightBox />
-          </ProgramDetailBox>
-        </BlurBox>
-      </TopContainer>
-      <Title>라라랜드</Title>
-
-      <EpListContainer>
-        {value ? (
-          <Slider width={274} height={276} data={data} />
-        ) : (
-          <Slider width={274} height={276} data={reverse} />
-        )}
-      </EpListContainer>
-      <div onClick={onTClick}>첫화부터</div>
-      <div onClick={onFClick}>최신순</div>
-    </Container>
+      <Container>
+        <TopContainer>
+          <BlurBox>
+            <ProgramDetailBox>
+              <LeftBox>
+                <TitleBox />
+                <InfoBox>
+                  <div>15+</div>
+                  <div>드라마</div>
+                  <div>음악</div>
+                  <div>로맨스</div>
+                </InfoBox>
+                <BtnBox>
+                  <PlayBtn>이용권 구독하기</PlayBtn>
+                  <Wishbox>
+                    <BiHeart size="40" color="white" />
+                    <WishTextBox>찜</WishTextBox>
+                  </Wishbox>
+                  <Sharebox>
+                    <BiUpload size="40" color="white" />
+                    <ShareTextBox>공유</ShareTextBox>
+                  </Sharebox>
+                </BtnBox>
+                <CreatorBox>
+                  <div>크리에이터</div>
+                  <div>박찬욱</div>
+                </CreatorBox>
+                <ActorBox>
+                  <div>출연</div>
+                  <div>김고은, 한고은, 심고은</div>
+                </ActorBox>
+                <SummaryBox>
+                  노래가 끝나고 운전대를 잡고 전화통화를 하는 척하는 여자는
+                  조수석에 둔 대본을 살펴봐가며 오디션 연습을 하느라 교통 정체가
+                  풀린 줄도 모르고 있다. 아무리 경적을 울려도 앞 차 여자가
+                  움직일 생각을 않자, 뒷 차 남자는 차로를 갈아타 앞차 옆으로
+                  와서 항의하듯 경적을 길게 울리고, 여자는 그런 남자에게 중지를
+                  날린다. 엑셀을 밟고 멀어지는 남자.
+                </SummaryBox>
+              </LeftBox>
+              <CenterBox />
+              <RightBox />
+            </ProgramDetailBox>
+          </BlurBox>
+        </TopContainer>
+        <EpListContainer>
+          <OrderingBox>
+            <div
+              onClick={onTClick}
+              style={value ? { color: 'white' } : { color: '#c4c4c4' }}
+            >
+              첫화부터
+            </div>
+            <div
+              onClick={onFClick}
+              style={value ? { color: '#c4c4c4' } : { color: 'white' }}
+            >
+              최신화부터
+            </div>
+          </OrderingBox>
+          <Slider width={274} height={276} data={value ? data : reverse} />
+        </EpListContainer>
+      </Container>
+    </>
   );
 }
 
