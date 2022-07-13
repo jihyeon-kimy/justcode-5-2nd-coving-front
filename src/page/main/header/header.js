@@ -1,7 +1,11 @@
 import styled from 'styled-components';
+import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
+import { useState } from 'react';
 
 function Header() {
+  const [hide, setHide] = useState(false);
+
   return (
     <Container>
       <Navbar>
@@ -11,9 +15,13 @@ function Header() {
         </NavLeft>
         <NavRight>
           <FiSearch className="SearchIcon" />
-          <DropdownMenu />
+          <DropdownMenu
+            onMouseOver={() => setHide(true)}
+            onMouseOut={() => setHide(false)}
+          />
         </NavRight>
       </Navbar>
+      {hide && <Dropdown setHide={setHide} />}
     </Container>
   );
 }
