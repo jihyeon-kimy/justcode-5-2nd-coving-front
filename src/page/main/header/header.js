@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
-
+import ModalLayout from '../searchModal/modalLayout';
 function Header() {
-  const [hide, setHide] = useState(false);
+  const [dropdownHide, setdropdownHide] = useState(false);
+  const [searchModalHide, setsearchModalHide] = useState(false);
 
   return (
     <Container>
@@ -14,14 +16,29 @@ function Header() {
           <Menu>TV프로그램</Menu>
         </NavLeft>
         <NavRight>
-          <FiSearch className="SearchIcon" />
+          {searchModalHide ? (
+            <IoClose
+              className="SearchIcon"
+              onClick={() => {
+                setsearchModalHide(false);
+              }}
+            />
+          ) : (
+            <FiSearch
+              className="SearchIcon"
+              onClick={() => {
+                setsearchModalHide(true);
+              }}
+            />
+          )}
           <DropdownMenu
-            onMouseOver={() => setHide(true)}
-            onMouseOut={() => setHide(false)}
+            onMouseOver={() => setdropdownHide(true)}
+            onMouseOut={() => setdropdownHide(false)}
           />
         </NavRight>
       </Navbar>
-      {hide && <Dropdown setHide={setHide} />}
+      {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
+      {searchModalHide && <ModalLayout />}
     </Container>
   );
 }
@@ -46,10 +63,10 @@ const Navbar = styled.div`
   align-items: center;
 
   button {
-    background: transparent;
     padding: 0;
     border: 0;
     outline: 0;
+    background: transparent;
   }
 `;
 
@@ -89,11 +106,8 @@ const NavRight = styled.div`
   align-self: stretch;
 
   .SearchIcon {
-    font-size: 30px;
+    font-size: calc(10px + 1vw);
     cursor: pointer;
-    @media (max-width: 1200px) {
-      font-size: 18px;
-    }
     :hover {
       filter: brightness(150%);
     }

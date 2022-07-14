@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-function Dropdown({ setHide }) {
+function Dropdown({ setdropdownHide }) {
   return (
     <Container
-      onMouseOver={() => setHide(true)}
-      onMouseOut={() => setHide(false)}
+      onMouseOver={() => setdropdownHide(true)}
+      onMouseOut={() => setdropdownHide(false)}
     >
       <Profile>
         <ProfileImg />
