@@ -4,14 +4,17 @@ import 'swiper/css/bundle';
 
 const LeftWrapper = styled.div`
   width: 560px;
-  height: 450px;
+  height: auto;
 `;
 
 const TitleBox = styled.div`
+  width: auto;
   max-width: 500px;
-  height: 85px;
-  background-image: url('https://ifh.cc/g/FgSdt3.png');
-  background-size: cover;
+  img {
+    max-width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -97,15 +100,23 @@ const SummaryBox = styled.div`
   font-weight: 500;
 `;
 
-function LeftBox() {
+function LeftBox({ data }) {
+  const creatorArr = data.participants.filter(i => i.type === '크리에이터');
+  const creator = creatorArr.map(i => i.name);
+  const actorArr = data.participants.filter(i => i.type === '출연');
+  const actor = actorArr.map(i => i.name);
+  const isSummary = data.summary;
+  const titleImg = data.title_img_url;
   return (
     <LeftWrapper>
-      <TitleBox />
+      <TitleBox>
+        <img src={titleImg} />
+      </TitleBox>
       <InfoBox>
-        <div>15+</div>
-        <div>드라마</div>
-        <div>음악</div>
-        <div>로맨스</div>
+        <div>{data.age_range}</div>
+        {data.genres.map(i => (
+          <div>{i}</div>
+        ))}
       </InfoBox>
       <BtnBox>
         <PlayBtn>이용권 구독하기</PlayBtn>
@@ -120,19 +131,21 @@ function LeftBox() {
       </BtnBox>
       <CreatorBox>
         <div>크리에이터</div>
-        <div>박찬욱</div>
+        <div>
+          {creator.map(i => (
+            <span>{i} </span>
+          ))}
+        </div>
       </CreatorBox>
       <ActorBox>
         <div>출연</div>
-        <div>김고은, 한고은, 심고은</div>
+        <div>
+          {actor.map(i => (
+            <span>{i} </span>
+          ))}
+        </div>
       </ActorBox>
-      <SummaryBox>
-        노래가 끝나고 운전대를 잡고 전화통화를 하는 척하는 여자는 조수석에 둔
-        대본을 살펴봐가며 오디션 연습을 하느라 교통 정체가 풀린 줄도 모르고
-        있다. 아무리 경적을 울려도 앞 차 여자가 움직일 생각을 않자, 뒷 차 남자는
-        차로를 갈아타 앞차 옆으로 와서 항의하듯 경적을 길게 울리고, 여자는 그런
-        남자에게 중지를 날린다. 엑셀을 밟고 멀어지는 남자.
-      </SummaryBox>
+      <SummaryBox>{isSummary}</SummaryBox>
     </LeftWrapper>
   );
 }

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
-const EpListSlider = styled.div`
+const PosterSlider = styled.div`
 display: flex;
 overflow-x: scroll;
 max-width: 100%;
@@ -28,8 +28,9 @@ scroll-behavior: smooth;
     min-width: ${prop => prop.contentsBoxWidth}px;
     height ${prop => prop.contentsBoxheight}px;
     margin-right: 15px;
-    margin-top: 30px;
+    margin-top: 15px;
     border: 1px solid white;
+    border-radius: 3px;
     :hover {
       transform: translateY(-15px);
       transition: all 0.2s;
@@ -56,12 +57,12 @@ const Button = styled.button`
   }
 `;
 
-function Slider({ width, height, data }) {
+function PostSlider({ width, height, data }) {
   const [value, setValue] = useState();
-  const el = useRef();
+  const els = useRef();
 
   const scroll = scrollOffset => {
-    el.current.scrollLeft += scrollOffset;
+    els.current.scrollLeft += scrollOffset;
   };
 
   const onRightClick = () => {
@@ -78,10 +79,11 @@ function Slider({ width, height, data }) {
   const onLeave = () => {
     setValue(false);
   };
+
   return (
     <>
-      <EpListSlider
-        ref={el}
+      <PosterSlider
+        ref={els}
         onMouseEnter={onOver}
         onMouseLeave={onLeave}
         contentsBoxWidth={width}
@@ -95,7 +97,10 @@ function Slider({ width, height, data }) {
           </Button>
         ) : null}
         {data.map((i, inx) => (
-          <div id={inx + 1}>{i}</div>
+          <div
+            id={inx + 1}
+            style={{ backgroundImage: `url(${i})`, backgroundSize: `cover` }}
+          ></div>
         ))}
         {value ? (
           <Button left={96.7} right={0} onClick={onRightClick}>
@@ -104,9 +109,9 @@ function Slider({ width, height, data }) {
             </span>
           </Button>
         ) : null}
-      </EpListSlider>
+      </PosterSlider>
     </>
   );
 }
 
-export default Slider;
+export default PostSlider;
