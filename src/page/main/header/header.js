@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
+import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
-
+import SearchModal from '../searchModal/searchModal';
 function Header() {
-  const [hide, setHide] = useState(false);
+  const [dropdownHide, setdropdownHide] = useState(false);
+  const [searchModalHide, setsearchModalHide] = useState(false);
 
   return (
     <Container>
@@ -14,14 +16,29 @@ function Header() {
           <Menu>TV프로그램</Menu>
         </NavLeft>
         <NavRight>
-          <FiSearch className="SearchIcon" />
+          {searchModalHide ? (
+            <IoClose
+              className="SearchIcon"
+              onClick={() => {
+                setsearchModalHide(false);
+              }}
+            />
+          ) : (
+            <FiSearch
+              className="SearchIcon"
+              onClick={() => {
+                setsearchModalHide(true);
+              }}
+            />
+          )}
           <DropdownMenu
-            onMouseOver={() => setHide(true)}
-            onMouseOut={() => setHide(false)}
+            onMouseOver={() => setdropdownHide(true)}
+            onMouseOut={() => setdropdownHide(false)}
           />
         </NavRight>
       </Navbar>
-      {hide && <Dropdown setHide={setHide} />}
+      {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
+      {searchModalHide && <SearchModal />}
     </Container>
   );
 }
