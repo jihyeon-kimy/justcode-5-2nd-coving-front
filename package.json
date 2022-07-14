@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.25",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
