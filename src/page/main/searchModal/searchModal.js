@@ -1,16 +1,13 @@
 import styled from 'styled-components';
 import KeywordView from './keywordView';
-import ModalLayout from './modalLayout';
 import SearchView from './SearhView';
 
-function SearchModal() {
+function SearchModal({ keywordList, setKeywordList }) {
   return (
-    <ModalLayout>
-      <SearchBody>
-        <KeywordView />
-        {/* <SearchView /> */}
-      </SearchBody>
-    </ModalLayout>
+    <SearchBody>
+      <KeywordView keywordList={keywordList} setKeywordList={setKeywordList} />
+      {/* <SearchView /> */}
+    </SearchBody>
   );
 }
 

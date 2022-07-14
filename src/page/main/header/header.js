@@ -3,7 +3,7 @@ import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
-import SearchModal from '../searchModal/searchModal';
+import ModalLayout from '../searchModal/modalLayout';
 function Header() {
   const [dropdownHide, setdropdownHide] = useState(false);
   const [searchModalHide, setsearchModalHide] = useState(false);
@@ -38,7 +38,7 @@ function Header() {
         </NavRight>
       </Navbar>
       {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
-      {searchModalHide && <SearchModal />}
+      {searchModalHide && <ModalLayout />}
     </Container>
   );
 }
@@ -63,10 +63,10 @@ const Navbar = styled.div`
   align-items: center;
 
   button {
-    background: transparent;
     padding: 0;
     border: 0;
     outline: 0;
+    background: transparent;
   }
 `;
 
@@ -106,11 +106,8 @@ const NavRight = styled.div`
   align-self: stretch;
 
   .SearchIcon {
-    font-size: 30px;
+    font-size: calc(10px + 1vw);
     cursor: pointer;
-    @media (max-width: 1200px) {
-      font-size: 18px;
-    }
     :hover {
       filter: brightness(150%);
     }
