@@ -1,6 +1,15 @@
 import styled from 'styled-components';
+// import { useContext } from 'react';
+// import { UserContext } from '../../../context';
+
+import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
+  // const { email } = useContext(UserContext);
+  // const [user, setUser] = useContext(UserContext);
+
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
@@ -8,11 +17,32 @@ function Dropdown({ setdropdownHide }) {
     >
       <Profile>
         <ProfileImg />
-        <UserName>우영우</UserName>
+        <UserName>{email ? email : 'JUSTCODE'}</UserName>
       </Profile>
       <MenuList>
-        <Menu>My</Menu>
-        <Menu>로그인</Menu>
+        {token && email ? (
+          <>
+            <Menu>My</Menu>
+            <Menu
+              onClick={() => {
+                localStorage.clear();
+                window.location.replace('/');
+              }}
+            >
+              로그아웃
+            </Menu>
+          </>
+        ) : (
+          <>
+            <Menu
+              onClick={() => {
+                window.location.assign(GOOGLE_LOGIN_URL);
+              }}
+            >
+              로그인
+            </Menu>
+          </>
+        )}
       </MenuList>
     </Container>
   );

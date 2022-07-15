@@ -5,11 +5,13 @@ import {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
 } from '../../constants/SocialLogin';
+
+import { ServerURL } from '../../constants/ServerURL';
 import axios from 'axios';
 
-const CallBack = () => {
-  const SERVER_URL = 'http://localhost:3000/login/social/';
+import { Navigate } from 'react-router-dom';
 
+const CallBack = () => {
   //   useEffect(() => {
   //     async function callbackHandler() {
   //       const url = new URL(window.location.href);
@@ -107,6 +109,7 @@ const CallBack = () => {
         console.log(access_token);
 
         const googleAPI = `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`;
+
         const userInfo = await axios
           .get(googleAPI, {
             headers: {
@@ -127,12 +130,51 @@ const CallBack = () => {
         }
 
         const email = userInfo.email;
-      }
+        const signURL = `${ServerURL}/login`;
+        fetch(signURL, {
+          method: 'POST',
+          body: JSON.stringify({
+            email,
+          }),
+          headers: {
+            'content-Type': 'application/json',
+          },
+        })
+          .then(res => {
+            if (res.status == 201) {
+              alert('회원가입이 완료되었습니다.');
+              localStorage.setItem('token', access_token);
+              localStorage.setItem('email', email);
 
-      //   const [result, created] = await db.addGoogleUser(email);
-      //   if (!created) {
-      //     return res.status(400).json({ message: 'user-already-exists' });
-      //   }
+              // console.log('localStorage: ', localStorage);
+              // localStorage.getItem('token');
+              // console.log('getItem: ', localStorage);
+              // console.log(
+              //   `${localStorage.getItem('token')} + ${localStorage.getItem(
+              //     'email'
+              //   )}`
+              // );
+              // Navigate('/');
+              window.location.assign('/');
+            } else if (res.status == 321) {
+              alert('로그인이 완료되었습니다.');
+              localStorage.setItem('token', access_token);
+              localStorage.setItem('email', email);
+              window.location.assign('/');
+              // console.log(
+              //   `${localStorage.getItem('token')} + ${localStorage.getItem(
+              //     'email'
+              //   )}`
+              // );
+              // Navigate('/');
+            } else {
+              alert(JSON.stringify(res));
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
 
       //   const response = {
       //     id: '104849023681245968800',

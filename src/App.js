@@ -1,6 +1,8 @@
 import Router from './router/router';
 import { createGlobalStyle } from 'styled-components';
 
+import { UserContext } from './context';
+
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 html, body, div, span, applet, object, iframe,
@@ -68,10 +70,10 @@ a {
 `;
 function App() {
   return (
-    <>
+    <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
       <GlobalStyle />
       <Router />
-    </>
+    </UserContext.Provider>
   );
 }
 
