@@ -4,9 +4,11 @@ import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 
 const PosterSlider = styled.div`
 display: flex;
-overflow-x: scroll;
+
+overflow-x: hidden;
 max-width: 100%;
 height 100%;
+padding-left: 4%;
 scroll-behavior: smooth;
 
 
@@ -23,20 +25,31 @@ scroll-behavior: smooth;
 ::-webkit-scrollbar-track {
     background: #212121;
 }
-  div {
-    
-    min-width: ${prop => prop.contentsBoxWidth}px;
-    height ${prop => prop.contentsBoxheight}px;
-    margin-right: 15px;
-    margin-top: 15px;
-    border: 1px solid white;
-    border-radius: 3px;
-    :hover {
-      transform: translateY(-15px);
-      transition: all 0.2s;
-    }
-    transition: all 0.2s;
+  
+`;
+
+const Img = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  p {
+    padding: 10px 0;
   }
+`;
+
+const Div = styled.div`
+    
+  min-width: ${prop => prop.contentsBoxWidth}px;
+  height ${prop => prop.contentsBoxheight}px;
+  margin-right: 12px;
+  margin-top: 15px;
+  border-radius: 3px;
+  :hover {
+    transform: translateY(-15px);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  transition: all 0.2s;
 `;
 
 const Button = styled.button`
@@ -46,6 +59,7 @@ const Button = styled.button`
   width: 50px;
   height: 300px;
   border: none;
+  z-index: 2;
   background: linear-gradient(
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 1),
@@ -82,13 +96,7 @@ function PostSlider({ width, height, data }) {
 
   return (
     <>
-      <PosterSlider
-        ref={els}
-        onMouseEnter={onOver}
-        onMouseLeave={onLeave}
-        contentsBoxWidth={width}
-        contentsBoxheight={height}
-      >
+      <PosterSlider ref={els} onMouseEnter={onOver} onMouseLeave={onLeave}>
         {value ? (
           <Button left={0} right={0} onClick={onLeftClick}>
             <span>
@@ -97,11 +105,20 @@ function PostSlider({ width, height, data }) {
           </Button>
         ) : null}
         {data.map((i, inx) => (
-          <div
-            id={inx + 1}
-            style={{ backgroundImage: `url(${i})`, backgroundSize: `cover` }}
-          ></div>
+          <Img>
+            <Div
+              contentsBoxWidth={width}
+              contentsBoxheight={height}
+              id={inx + 1}
+              style={{
+                backgroundImage: `url(${i.poster_img_url})`,
+                backgroundSize: `cover`,
+              }}
+            ></Div>
+            <p id={inx + 2}>{i.title}</p>
+          </Img>
         ))}
+
         {value ? (
           <Button left={96.7} right={0} onClick={onRightClick}>
             <span>

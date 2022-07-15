@@ -1,19 +1,19 @@
 import styled from 'styled-components';
 import PostSlider from './postSlider';
 import 'swiper/css/bundle';
-import { useState } from 'react';
 
 const PosterBox = styled.div`
   width: 100%;
-  height: 400px;
-  padding-top: 5%;
+  height: auto;
+  padding-top: 3.5%;
 `;
 
 const SuggestionBox = styled.div`
   display: flex;
   justify-content: space-between;
   width: auto;
-  margin-left: 2.5%;
+  margin-left: 4%;
+  margin-bottom: 0.5%;
   div {
     width: 500px;
     font-size: 22px;
@@ -22,6 +22,7 @@ const SuggestionBox = styled.div`
 `;
 
 function PosterContainer({ data, name }) {
+  console.log(data);
   return (
     <PosterBox>
       <SuggestionBox>
