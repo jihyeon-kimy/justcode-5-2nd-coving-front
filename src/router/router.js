@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Detail from '../page/detail/detail';
+import Header from '../page/main/header/header';
 import Main from '../page/main/main';
 import Mypage from '../page/mypage/mypage';
 import Subscribe from '../page/subscribe/subscribe';
@@ -11,6 +12,7 @@ import Viedo from '../page/viedo/viedo';
 function Router() {
   return (
     <BrowserRouter>
+      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
@@ -18,6 +20,7 @@ function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/login/callback" element={<CallBack />} />
         <Route path="/viedo" element={<Viedo />} />
+
         <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
