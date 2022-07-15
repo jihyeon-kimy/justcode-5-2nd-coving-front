@@ -1,6 +1,12 @@
 import styled from 'styled-components';
-
+import { Link, useNavigate } from 'react-router-dom';
 function Dropdown({ setdropdownHide }) {
+  const navigate = useNavigate();
+
+  const onClickMy = () => {
+    navigate(`/mypage`);
+  };
+
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
@@ -11,7 +17,8 @@ function Dropdown({ setdropdownHide }) {
         <UserName>우영우</UserName>
       </Profile>
       <MenuList>
-        <Menu>My</Menu>
+        <Menu onClick={onClickMy}>My</Menu>
+
         <Menu>로그인</Menu>
       </MenuList>
     </Container>

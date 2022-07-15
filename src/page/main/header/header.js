@@ -4,12 +4,12 @@ import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
 import ModalLayout from '../searchModal/modalLayout';
-function Header() {
+function Header({ black }) {
   const [dropdownHide, setdropdownHide] = useState(false);
   const [searchModalHide, setsearchModalHide] = useState(false);
 
   return (
-    <Container>
+    <Container black={black}>
       <Navbar>
         <NavLeft>
           <Logo />
@@ -52,6 +52,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
   z-index: 2;
+  background-color: ${prop => prop.black};
 `;
 
 const Navbar = styled.div`

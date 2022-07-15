@@ -3,11 +3,9 @@ import TopContainer from './topContainer/topContainer';
 import EpListContainer from './epListContainer/epListContainer';
 import Header from '../main/header/header';
 import PosterContainer from './posterContainer/posterContainer';
-import { useEffect, useState } from 'react';
 import DETAILDATA from './data';
 
 const Container = styled.section`
-  position: absolute;
   max-width: 100%;
   height: auto;
 `;
