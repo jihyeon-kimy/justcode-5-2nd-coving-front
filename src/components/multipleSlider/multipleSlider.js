@@ -7,7 +7,7 @@ import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
 
-function MultipleSlider({ rank }) {
+function MultipleSlider({ rank, summary }) {
   const swiperNavPreRef = useRef(null);
   const swiperNavNextRef = useRef(null);
 
@@ -188,7 +188,7 @@ function MultipleSlider({ rank }) {
         {mockData.map((data, idx) => {
           return (
             <SwiperSlide key={data.toString() + idx.toString()}>
-              <Slide data={data} idx={idx} rank={rank} />
+              <Slide data={data} idx={idx} rank={rank} summary={summary} />
             </SwiperSlide>
           );
         })}
@@ -215,10 +215,9 @@ const Container = styled.div`
 
   .swiper-pagination-bullet-active,
   .swiper-pagination-bullet {
-    width: 0.4%;
-    min-width: 4.5px;
-    min-height: 4.5px;
-    padding-bottom: 0.4%;
+    width: 0.4vw;
+    height: 0.4vw;
+    border-radius: 0.5rem;
     background-color: #dad9d9 !important;
   }
 `;

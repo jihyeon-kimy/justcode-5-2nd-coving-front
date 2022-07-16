@@ -68,10 +68,9 @@ const Container = styled.div`
 
   .swiper-pagination-bullet-active,
   .swiper-pagination-bullet {
-    min-width: 5px;
-    min-height: 5px;
-    width: 0.5%;
-    padding-bottom: 0.5%;
+    width: 0.5vw;
+    height: 0.5vw;
+    border-radius: 0.5rem;
     background-color: #dad9d9 !important;
   }
 `;
