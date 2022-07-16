@@ -163,6 +163,7 @@ function MultipleSlider({ rank, summary }) {
           swiper.params.navigation.nextEl = swiperNavNextRef.current;
         }}
         centeredSlides={false}
+        speed={700}
         pagination={{
           clickable: true,
         }}
