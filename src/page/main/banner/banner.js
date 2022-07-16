@@ -52,6 +52,8 @@ function Banner() {
   );
 }
 
+export default Banner;
+
 const Container = styled.div`
   width: 100%;
   .swiper-pagination {
@@ -66,10 +68,10 @@ const Container = styled.div`
 
   .swiper-pagination-bullet-active,
   .swiper-pagination-bullet {
-    max-width: 10px;
-    width: 2%;
-    height: auto;
-    background-color: #ffffff !important;
+    width: 0.5vw;
+    height: 0.5vw;
+    border-radius: 0.5rem;
+    background-color: #dad9d9 !important;
   }
 `;
 
@@ -102,5 +104,3 @@ const SwiperNavNext = styled.div`
   right: 0px;
   ${Nav}
 `;
-
-export default Banner;
