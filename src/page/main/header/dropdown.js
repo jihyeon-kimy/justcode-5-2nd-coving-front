@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 // import { useContext } from 'react';
 // import { UserContext } from '../../../context';
@@ -5,6 +6,7 @@ import styled from 'styled-components';
 import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
+  const navigate = useNavigate();
   // const { email } = useContext(UserContext);
   // const [user, setUser] = useContext(UserContext);
 
@@ -22,7 +24,13 @@ function Dropdown({ setdropdownHide }) {
       <MenuList>
         {token && email ? (
           <>
-            <Menu>My</Menu>
+            <Menu
+              onClick={() => {
+                navigate('/mypage');
+              }}
+            >
+              My
+            </Menu>
             <Menu
               onClick={() => {
                 localStorage.clear();

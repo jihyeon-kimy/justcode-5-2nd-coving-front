@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 const EpListSlider = styled.div`
 display: flex;
 overflow-x: scroll;
 max-width: 100%;
 height 100%;
+padding-left: 4%;
 scroll-behavior: smooth;
 
 
@@ -24,13 +26,15 @@ scroll-behavior: smooth;
     background: #212121;
 }
   div {
+    
     display: flex;
     flex-direction: column;
-    
+    min-width: ${prop => prop.contentsBoxWidth}px;
+    min-height ${prop => prop.contentsBoxheight}px;
     width: ${prop => prop.contentsBoxWidth}px;
     height ${prop => prop.contentsBoxheight}px;
     margin-right: 15px;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 20px;
     border-radius:3px;
     
@@ -38,6 +42,7 @@ scroll-behavior: smooth;
     :hover {
       transform: translateY(-15px);
       transition: all 0.2s;
+      cursor: pointer;
     }
     transition: all 0.2s;
   }
@@ -62,7 +67,7 @@ const Button = styled.button`
     rgba(0, 0, 0, 1),
     rgba(0, 0, 0, 0)
   );
-
+  z-index: 2;
   span {
     color: white;
   }
@@ -72,12 +77,40 @@ const EpTitle = styled.p`
   margin-bottom: 10px;
 `;
 const Summary = styled.p`
-  font-size: 13.5px;
+  width: 100%;
+  height: 300px;
+
+  overflow: hidden;
+  white-space: normal;
+  line-height: 1.2;
+  height: 3.6em;
+  text-align: left;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-size: 14px;
+  color: #a1a1a1;
+`;
+const EtcBox = styled.span`
+  display: flex;
+  margin-top: 8px;
+`;
+const RunningTime = styled.span`
+  font-size: 14px;
+  margin-left: 4px;
+  color: #787878;
+`;
+const RealeseDate = styled.span`
+  font-size: 14px;
+  padding-right: 4px;
+  color: #787878;
+  border-right: 0.1px solid;
 `;
 function Slider({ width, height, data, title }) {
   const [value, setValue] = useState();
+  const navigate = useNavigate();
   const el = useRef();
-  console.log(data);
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
@@ -96,6 +129,7 @@ function Slider({ width, height, data, title }) {
   const onLeave = () => {
     setValue(false);
   };
+  const goToVideo = () => {};
   return (
     <>
       <EpListSlider
@@ -114,12 +148,25 @@ function Slider({ width, height, data, title }) {
         ) : null}
         {data.map((i, inx) => (
           <>
-            <div id={inx + 1}>
+            <div
+              id={inx + 1}
+              onClick={() => {
+                navigate('/video', {
+                  state: {
+                    data: i,
+                  },
+                });
+              }}
+            >
               <img src={i.img_url} />
               <EpTitle>
                 {title} 제{i.episode_num}화
               </EpTitle>
               <Summary>{i.summary}</Summary>
+              <EtcBox>
+                <RealeseDate>{i.release_date}</RealeseDate>
+                <RunningTime>{i.running_time}분</RunningTime>
+              </EtcBox>
             </div>
           </>
         ))}

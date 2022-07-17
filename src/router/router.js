@@ -8,20 +8,20 @@ import Subscribe from '../page/subscribe/subscribe';
 import Login from '../page/login/login';
 import CallBack from '../page/login/callback';
 import Viedo from '../page/viedo/viedo';
+import ProfileEdit from '../page/mypage/profileEdit';
 
 function Router() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/subscribe" element={<Subscribe />} />
+        <Route path="/video" element={<Viedo />} />
+        <Route path="/detail/:id" element={<Detail />} />
+        <Route path="/profileedit" element={<ProfileEdit />} />
         <Route path="/login" element={<Login />} />
         <Route path="/login/callback" element={<CallBack />} />
-        <Route path="/viedo" element={<Viedo />} />
-
-        <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );
