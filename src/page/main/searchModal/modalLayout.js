@@ -2,8 +2,10 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import SearchModal from './searchModal';
+import { useNavigate } from 'react-router-dom';
 
-function ModalLayout(props) {
+function ModalLayout({ setsearchModalHide }) {
+  let navigate = useNavigate();
   const [keywordInput, setKeywordInput] = useState();
   const [keywordList, setKeywordList] = useState([]);
 
@@ -23,26 +25,53 @@ function ModalLayout(props) {
   }
 
   return (
-    <Container>
-      <SearchBar>
-        <SearchInput
-          onChange={e => {
-            setKeywordInput(e.target.value);
-          }}
+    <Background>
+      <Container>
+        <SearchBar>
+          <SearchInput
+            onChange={e => {
+              setKeywordInput(e.target.value);
+            }}
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                SaveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                setsearchModalHide(false);
+              }
+            }}
+          />
+          <FiSearch
+            className="SearchBtn"
+            onClick={() => {
+              SaveList();
+              navigate(`/search?keyword=${keywordInput}`);
+              setsearchModalHide(false);
+            }}
+          />
+        </SearchBar>
+        <SearchModal
+          keywordList={keywordList}
+          setKeywordList={setKeywordList}
+          keywordInput={keywordInput}
         />
-        <FiSearch
-          className="SearchBtn"
-          onClick={() => {
-            SaveList();
-          }}
-        />
-      </SearchBar>
-      <SearchModal keywordList={keywordList} setKeywordList={setKeywordList} />
-    </Container>
+      </Container>
+    </Background>
   );
 }
 
 export default ModalLayout;
+
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #000000a8;
+  z-index: -1;
+`;
 
 const Container = styled.div`
   width: 100%;
