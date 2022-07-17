@@ -27,7 +27,6 @@ function Banner() {
         effect="fade"
         speed={1000}
         loop
-        sliderPerView={1}
         spaceBetween={30}
         pagination={{
           clickable: true,
