@@ -5,6 +5,8 @@ import Header from '../page/main/header/header';
 import Main from '../page/main/main';
 import Mypage from '../page/mypage/mypage';
 import Subscribe from '../page/subscribe/subscribe';
+import Login from '../page/login/login';
+import CallBack from '../page/login/callback';
 import Viedo from '../page/viedo/viedo';
 import ProfileEdit from '../page/mypage/profileEdit';
 
@@ -18,6 +20,8 @@ function Router() {
         <Route path="/video" element={<Viedo />} />
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/profileedit" element={<ProfileEdit />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/login/callback" element={<CallBack />} />
       </Routes>
     </BrowserRouter>
   );

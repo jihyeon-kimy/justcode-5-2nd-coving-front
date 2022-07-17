@@ -24,12 +24,13 @@ const MidBox = styled.div`
 `;
 
 function Mypage() {
+  const email = localStorage.getItem('email');
   return (
     <>
       <Container>
         <Header black={'black'} />
         <Wrapper>
-          <TopWrapper />
+          <TopWrapper email={email} />
           <MidBox />
           <BottomWrapper />
         </Wrapper>

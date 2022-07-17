@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import Header from '../main/header/header';
 import { HiPencil } from 'react-icons/hi';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const TopBox = styled.div`
   display: flex;
@@ -81,7 +80,7 @@ const Subscribe = styled.button`
   }
 `;
 
-function TopWrapper() {
+function TopWrapper({ email }) {
   const navigate = useNavigate();
 
   const goEdit = () => {
@@ -94,7 +93,7 @@ function TopWrapper() {
       </PhotoBoxWrapper>
       <UserInfoWrapper>
         <UserInfoNameBox>
-          <UserName>김민욱</UserName>
+          <UserName>{email}</UserName>
           <Edit onClick={goEdit}>
             <HiPencil />
           </Edit>

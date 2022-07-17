@@ -1,12 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+// import { useContext } from 'react';
+// import { UserContext } from '../../../context';
+
+import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
+
 function Dropdown({ setdropdownHide }) {
   const navigate = useNavigate();
+  // const { email } = useContext(UserContext);
+  // const [user, setUser] = useContext(UserContext);
 
-  const onClickMy = () => {
-    navigate(`/mypage`);
-  };
-
+  const email = localStorage.getItem('email');
+  const token = localStorage.getItem('token');
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
@@ -14,12 +19,38 @@ function Dropdown({ setdropdownHide }) {
     >
       <Profile>
         <ProfileImg />
-        <UserName>우영우</UserName>
+        <UserName>{email ? email : 'JUSTCODE'}</UserName>
       </Profile>
       <MenuList>
-        <Menu onClick={onClickMy}>My</Menu>
-
-        <Menu>로그인</Menu>
+        {token && email ? (
+          <>
+            <Menu
+              onClick={() => {
+                navigate('/mypage');
+              }}
+            >
+              My
+            </Menu>
+            <Menu
+              onClick={() => {
+                localStorage.clear();
+                window.location.replace('/');
+              }}
+            >
+              로그아웃
+            </Menu>
+          </>
+        ) : (
+          <>
+            <Menu
+              onClick={() => {
+                window.location.assign(GOOGLE_LOGIN_URL);
+              }}
+            >
+              로그인
+            </Menu>
+          </>
+        )}
       </MenuList>
     </Container>
   );
