@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 const PosterSlider = styled.div`
 display: flex;
@@ -74,6 +75,7 @@ const Button = styled.button`
 function PostSlider({ width, height, data }) {
   const [value, setValue] = useState();
   const els = useRef();
+  const navigate = useNavigate();
 
   const scroll = scrollOffset => {
     els.current.scrollLeft += scrollOffset;
@@ -107,6 +109,9 @@ function PostSlider({ width, height, data }) {
         {data.map((i, inx) => (
           <Img>
             <Div
+              onClick={() => {
+                navigate(`/detail/${i.id}`);
+              }}
               contentsBoxWidth={width}
               contentsBoxheight={height}
               id={inx + 1}

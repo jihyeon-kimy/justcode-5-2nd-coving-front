@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 
 const EpListSlider = styled.div`
 display: flex;
@@ -108,8 +109,8 @@ const RealeseDate = styled.span`
 `;
 function Slider({ width, height, data, title }) {
   const [value, setValue] = useState();
+  const navigate = useNavigate();
   const el = useRef();
-  console.log(data);
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
@@ -128,6 +129,7 @@ function Slider({ width, height, data, title }) {
   const onLeave = () => {
     setValue(false);
   };
+  const goToVideo = () => {};
   return (
     <>
       <EpListSlider
@@ -146,7 +148,16 @@ function Slider({ width, height, data, title }) {
         ) : null}
         {data.map((i, inx) => (
           <>
-            <div id={inx + 1}>
+            <div
+              id={inx + 1}
+              onClick={() => {
+                navigate('/video', {
+                  state: {
+                    data: i,
+                  },
+                });
+              }}
+            >
               <img src={i.img_url} />
               <EpTitle>
                 {title} 제{i.episode_num}화

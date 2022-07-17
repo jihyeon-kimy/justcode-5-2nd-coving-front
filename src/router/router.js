@@ -16,7 +16,7 @@ function Router() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/subscribe" element={<Subscribe />} />
         <Route path="/video" element={<Viedo />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/profileedit" element={<ProfileEdit />} />
       </Routes>
     </BrowserRouter>
