@@ -6,6 +6,7 @@ import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
   // const { email } = useContext(UserContext);
+  // const { token } = useContext(UserContext);
   // const [user, setUser] = useContext(UserContext);
 
   const email = localStorage.getItem('email');
