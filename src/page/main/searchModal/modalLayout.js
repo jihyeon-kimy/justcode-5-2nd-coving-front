@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import SearchModal from './searchModal';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../../../components/modal/modal';
 
 function ModalLayout({ setsearchModalHide }) {
   let navigate = useNavigate();
   const [keywordInput, setKeywordInput] = useState();
   const [keywordList, setKeywordList] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('keywordList')) !== null) {
@@ -33,19 +35,27 @@ function ModalLayout({ setsearchModalHide }) {
               setKeywordInput(e.target.value);
             }}
             onKeyPress={e => {
-              if (e.key === 'Enter') {
+              if (
+                keywordInput &&
+                keywordInput !== undefined &&
+                e.key === 'Enter'
+              ) {
                 SaveList();
                 navigate(`/search?keyword=${keywordInput}`);
                 setsearchModalHide(false);
               }
+              setOpenModal(true);
             }}
           />
           <FiSearch
             className="SearchBtn"
             onClick={() => {
-              SaveList();
-              navigate(`/search?keyword=${keywordInput}`);
-              setsearchModalHide(false);
+              if (keywordInput && keywordInput !== undefined) {
+                SaveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                setsearchModalHide(false);
+              }
+              setOpenModal(true);
             }}
           />
         </SearchBar>
@@ -55,6 +65,11 @@ function ModalLayout({ setsearchModalHide }) {
           keywordInput={keywordInput}
         />
       </Container>
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        text="검색어를 입력해주세요."
+      />
     </Background>
   );
 }

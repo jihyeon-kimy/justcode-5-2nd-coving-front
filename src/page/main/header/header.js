@@ -17,6 +17,7 @@ function Header() {
           <Logo
             onClick={() => {
               navigate('/');
+              setsearchModalHide(false);
             }}
           />
           <Menu>TV프로그램</Menu>
