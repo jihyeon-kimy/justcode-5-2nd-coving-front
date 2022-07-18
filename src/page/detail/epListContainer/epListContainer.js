@@ -1,18 +1,21 @@
 import styled from 'styled-components';
 import Slider from './slider';
-import 'swiper/css/bundle';
+import { BsDot } from 'react-icons/bs';
+
 import { useState } from 'react';
 
 const EpListBox = styled.div`
   width: 100%;
   height: auto;
+  padding-top: 35px;
 `;
 
 const OrderingBox = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 155px;
-  margin-left: 2.5%;
+  
+  width: 200px;
+  margin-left: 4%;
+  
   div:hover{
       cursor: pointer;
     }
@@ -41,6 +44,7 @@ function EpListContainer({ data, title }) {
         >
           첫화부터
         </div>
+        <BsDot />
         <div
           onClick={onFClick}
           style={value ? { color: '#c4c4c4' } : { color: 'white' }}
