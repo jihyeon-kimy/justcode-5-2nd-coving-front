@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
@@ -7,12 +8,18 @@ import ModalLayout from '../searchModal/modalLayout';
 function Header({ black }) {
   const [dropdownHide, setdropdownHide] = useState(false);
   const [searchModalHide, setsearchModalHide] = useState(false);
+  let navigate = useNavigate();
 
   return (
     <Container black={black}>
       <Navbar>
         <NavLeft>
-          <Logo />
+          <Logo
+            onClick={() => {
+              navigate('/');
+              setsearchModalHide(false);
+            }}
+          />
           <Menu>TV프로그램</Menu>
         </NavLeft>
         <NavRight>
@@ -38,7 +45,9 @@ function Header({ black }) {
         </NavRight>
       </Navbar>
       {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
-      {searchModalHide && <ModalLayout />}
+      {searchModalHide && (
+        <ModalLayout setsearchModalHide={setsearchModalHide} />
+      )}
     </Container>
   );
 }

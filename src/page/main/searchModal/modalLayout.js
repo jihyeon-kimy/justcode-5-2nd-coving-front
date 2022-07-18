@@ -2,10 +2,14 @@ import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { FiSearch } from 'react-icons/fi';
 import SearchModal from './searchModal';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../../components/modal/modal';
 
-function ModalLayout(props) {
+function ModalLayout({ setsearchModalHide }) {
+  let navigate = useNavigate();
   const [keywordInput, setKeywordInput] = useState();
   const [keywordList, setKeywordList] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('keywordList')) !== null) {
@@ -23,26 +27,66 @@ function ModalLayout(props) {
   }
 
   return (
-    <Container>
-      <SearchBar>
-        <SearchInput
-          onChange={e => {
-            setKeywordInput(e.target.value);
-          }}
+    <Background>
+      <Container>
+        <SearchBar>
+          <SearchInput
+            onChange={e => {
+              setKeywordInput(e.target.value);
+            }}
+            onKeyPress={e => {
+              if (
+                keywordInput &&
+                keywordInput !== undefined &&
+                e.key === 'Enter'
+              ) {
+                SaveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                setsearchModalHide(false);
+              }
+              setOpenModal(true);
+            }}
+          />
+          <FiSearch
+            className="SearchBtn"
+            onClick={() => {
+              if (keywordInput && keywordInput !== undefined) {
+                SaveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                setsearchModalHide(false);
+              }
+              setOpenModal(true);
+            }}
+          />
+        </SearchBar>
+        <SearchModal
+          keywordList={keywordList}
+          setKeywordList={setKeywordList}
+          keywordInput={keywordInput}
         />
-        <FiSearch
-          className="SearchBtn"
-          onClick={() => {
-            SaveList();
-          }}
-        />
-      </SearchBar>
-      <SearchModal keywordList={keywordList} setKeywordList={setKeywordList} />
-    </Container>
+      </Container>
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        text="검색어를 입력해주세요."
+      />
+    </Background>
   );
 }
 
 export default ModalLayout;
+
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #000000a8;
+  z-index: -1;
+`;
 
 const Container = styled.div`
   width: 100%;
