@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import { BiHeart, BiUpload } from 'react-icons/bi';
-import { BsHeartFill, BsHeart } from 'react-icons/bs';
+import { BiUpload } from 'react-icons/bi';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import 'swiper/css/bundle';
 import { useEffect, useState } from 'react';
+import BASE_URL from '../../../config';
 
 const LeftWrapper = styled.div`
   width: 560px;
@@ -140,8 +139,9 @@ const More = styled.div`
   }
 `;
 
-function LeftBox({ data, wish }) {
-  const [wishValue, setWishValue] = useState();
+function LeftBox({ data, isWish }) {
+  const [wishValue, setWishValue] = useState(isWish);
+  const [wishs, setWishs] = useState([]);
   const [summaryValue, setSummaryValue] = useState(true);
   const creatorArr = data.participants.filter(i => i.type === '크리에이터');
   const creator = creatorArr.map(i => i.name);
@@ -150,13 +150,51 @@ function LeftBox({ data, wish }) {
   const isSummary = data.summary;
   const titleImg = data.title_img_url;
   const programId = data.id;
+  const token = localStorage.getItem('token');
+
   useEffect(() => {
-    wish.includes(programId) ? setWishValue(true) : setWishValue(false);
-  }, []);
-  console.log(programId);
+    if (wishs.length === 0) {
+      setWishValue(isWish);
+      console.log('초기');
+    } else {
+      wishs.includes(programId) ? setWishValue(true) : setWishValue(false);
+      console.log('fetch');
+    }
+  }, [wishs, programId, wishValue, isWish]);
 
   const onMore = () => {
     setSummaryValue(!summaryValue);
+  };
+
+  const onWish = () => {
+    const res = {
+      id: [programId],
+    };
+    if (wishValue) {
+      fetch(`${BASE_URL}/my/favorite`, {
+        method: 'DELETE',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(res),
+      })
+        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+          fetch(`${BASE_URL}/my/favorite`, {
+            method: 'GET',
+            headers: {
+              access_token: token,
+              'Content-Type': 'application/json',
+            },
+          })
+            .then(res => res.json())
+            .then(res => {
+              setWishs(res.data.map(i => i.id));
+            });
+        });
+    }
   };
 
   return (
@@ -172,7 +210,7 @@ function LeftBox({ data, wish }) {
       </InfoBox>
       <BtnBox>
         <PlayBtn>이용권 구독하기</PlayBtn>
-        <Wishbox>
+        <Wishbox onClick={onWish}>
           {wishValue ? (
             <AiFillHeart size="40" color="white" />
           ) : (

@@ -3,6 +3,9 @@ import Header from '../main/header/header';
 import { HiPencil } from 'react-icons/hi';
 import TopWrapper from './topWrapper';
 import BottomWrapper from './bottomWrapper';
+import { useEffect, useState } from 'react';
+import BASE_URL from '../../config';
+
 const Container = styled.div`
   width: 100vw;
   overflow-x: hidden;
@@ -24,7 +27,28 @@ const MidBox = styled.div`
 `;
 
 function Mypage() {
+  const [wishs, setWishs] = useState([]);
+  const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
+
+  useEffect(() => {
+    (async () => {
+      const req = {
+        method: 'GET',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      };
+
+      const res = await fetch(`${BASE_URL}/my/favorite`, req);
+      const json = await res.json();
+      const wishProgram = await json.data;
+      setWishs(wishProgram);
+    })();
+  }, []);
+  console.log(wishs);
+
   return (
     <>
       <Container>
@@ -32,7 +56,7 @@ function Mypage() {
         <Wrapper>
           <TopWrapper email={email} />
           <MidBox />
-          <BottomWrapper />
+          <BottomWrapper wishs={wishs} />
         </Wrapper>
       </Container>
     </>

@@ -22,7 +22,6 @@ const SuggestionBox = styled.div`
 `;
 
 function PosterContainer({ data, name }) {
-  console.log(data);
   return (
     <PosterBox>
       <SuggestionBox>

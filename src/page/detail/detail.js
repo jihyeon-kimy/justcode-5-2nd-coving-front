@@ -74,34 +74,50 @@ function Detail() {
 
       setDatas(json.data);
     })();
-  }, [id]);
-  console.log(datas);
-  const wish = [1, 2, 4, 6];
+  }, []);
 
+  // useEffect(() => {
+  //   (async () => {
+  //     const req = {
+  //       method: 'GET',
+  //       headers: {
+  //         access_token: token,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     };
+
+  //     const res = await fetch(`${BASE_URL}/my/favorite`, req);
+  //     const json = await res.json();
+  //     const wishProgram = await json.data.map(i => i.id);
+  //     setWishs(wishProgram);
+  //   })();
+  // }, []);
+
+  const isWish = datas.isLiked;
   const info = datas.programInfo[0];
   const episode = datas.programInfo[0].episode_info;
   const isTitle = datas.programInfo[0].title;
   const similarProgram = datas.similar_program_list;
   const withProgram = datas.with_program_list;
-
+  console.log(isWish);
   const suggestion = [
     {
       name: '같이 보기 좋은 프로그램',
-      poster: [...similarProgram],
+      poster: [...withProgram],
     },
     {
       name: '유사한 프로그램',
-      poster: [...withProgram],
+      poster: [...similarProgram],
     },
   ];
 
   return (
     <Container>
       <Header />
-      <TopContainer data={info} wish={wish} />
+      <TopContainer data={info} isWish={isWish} />
       <EpListContainer data={episode} title={isTitle} />
-      {suggestion.map(i => (
-        <PosterContainer name={i.name} data={i.poster} />
+      {suggestion.map((i, inx) => (
+        <PosterContainer id={inx} name={i.name} data={i.poster} />
       ))}
     </Container>
   );
