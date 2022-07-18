@@ -35,16 +35,13 @@ function ModalLayout({ setsearchModalHide }) {
               setKeywordInput(e.target.value);
             }}
             onKeyPress={e => {
-              if (
-                keywordInput &&
-                keywordInput !== undefined &&
-                e.key === 'Enter'
-              ) {
+              if (keywordInput === undefined && e.key === 'Enter') {
+                setOpenModal(true);
+              } else if (e.key === 'Enter') {
                 SaveList();
                 navigate(`/search?keyword=${keywordInput}`);
                 setsearchModalHide(false);
               }
-              setOpenModal(true);
             }}
           />
           <FiSearch
@@ -54,8 +51,9 @@ function ModalLayout({ setsearchModalHide }) {
                 SaveList();
                 navigate(`/search?keyword=${keywordInput}`);
                 setsearchModalHide(false);
+              } else {
+                setOpenModal(true);
               }
-              setOpenModal(true);
             }}
           />
         </SearchBar>
