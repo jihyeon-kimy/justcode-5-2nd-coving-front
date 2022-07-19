@@ -1,19 +1,17 @@
 import styled from 'styled-components';
 import { IoCloseCircleSharp, IoCloseOutline } from 'react-icons/io5';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import BASE_URL from '../../../../config';
 
 function KeywordView({ keywordList, setKeywordList }) {
-  const mockKeywords = [
-    'Be the SMF',
-    '뿅뿅 지구오락실',
-    '이브',
-    '나는 SOLO',
-    '인사이더',
-    '소시탐탐',
-    '유 퀴즈 온 더 블럭',
-    '환승연애',
-    '동승글즈3',
-    '유미의 세포들',
-  ];
+  useEffect(() => {
+    axios.get(`${BASE_URL}/search/popular`).then(result => {
+      setPopularKeywordList(result.data);
+    });
+  }, []);
+
+  const [popularKeywordList, setPopularKeywordList] = useState([]);
 
   function DeleteOne(index) {
     setKeywordList(prev => {
@@ -66,12 +64,12 @@ function KeywordView({ keywordList, setKeywordList }) {
         <TitleGroup>
           <Title>실시간 인기 검색어</Title>
         </TitleGroup>
-        {mockKeywords &&
-          mockKeywords.map((keyword, index) => {
+        {popularKeywordList &&
+          popularKeywordList.map((keyword, index) => {
             return (
               <KeywordGroup key={keyword?.toString() + index?.toString()}>
                 <Num>{index + 1}</Num>
-                <Keyword>{keyword}</Keyword>
+                <Keyword>{keyword.title}</Keyword>
               </KeywordGroup>
             );
           })}

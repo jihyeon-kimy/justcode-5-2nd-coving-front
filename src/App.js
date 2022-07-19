@@ -1,6 +1,7 @@
 import Router from './router/router';
 import { createGlobalStyle } from 'styled-components';
-
+import { Provider } from 'react-redux';
+import store from './store.js';
 import { UserContext } from './context';
 
 const GlobalStyle = createGlobalStyle`
@@ -71,8 +72,10 @@ a {
 function App() {
   return (
     <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
-      <GlobalStyle />
-      <Router />
+      <Provider store={store}>
+        <GlobalStyle />
+        <Router />
+      </Provider>
     </UserContext.Provider>
   );
 }
