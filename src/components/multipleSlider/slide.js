@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function Slide({ data, idx, rank, summary }) {
+function Slide({ program, idx, rank, summary }) {
   const [summaryhide, setSummaryHide] = useState(false);
   return (
     <Contatiner>
       {summary ? (
         <ProgramImg
-          img={!summaryhide && data.img}
+          img={!summaryhide && program.program_poster_url}
           onMouseOver={() => {
             setSummaryHide(true);
           }}
@@ -17,23 +17,23 @@ function Slide({ data, idx, rank, summary }) {
         >
           {summaryhide && (
             <CardContents>
-              <ProgramTitle>{data.title}</ProgramTitle>
-              <Programgenre>{data.genre}</Programgenre>
-              <Summary>{data.summary}</Summary>
+              <ProgramTitle>{program.program_title}</ProgramTitle>
+              <Programgenre>{program.genre}</Programgenre>
+              <Summary>{program.summary}</Summary>
             </CardContents>
           )}
         </ProgramImg>
       ) : (
-        <ProgramImg img={data.img} />
+        <ProgramImg img={program.program_poster_url} />
       )}
 
       {rank ? (
         <ProgramInfo>
           <Rank>{idx + 1}</Rank>
-          <Title>{data.title}</Title>
+          <Title>{program.program_title}</Title>
         </ProgramInfo>
       ) : (
-        <Title>{data.title}</Title>
+        <Title>{program.program_title}</Title>
       )}
     </Contatiner>
   );
