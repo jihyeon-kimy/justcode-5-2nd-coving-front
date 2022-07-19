@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import KeywordView from './keywordView/keywordView';
-import SearchView from './searchView/searhView';
+import SearchView from './searchView/searchView';
 
 function SearchModal({
   keywordList,
