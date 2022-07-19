@@ -28,6 +28,7 @@ const MidBox = styled.div`
 
 function Mypage() {
   const [wishs, setWishs] = useState([]);
+  const [watchs, setWatchs] = useState([]);
   const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
 
@@ -40,13 +41,17 @@ function Mypage() {
           'Content-Type': 'application/json',
         },
       };
-
-      const res = await fetch(`${BASE_URL}/my/favorite`, req);
-      const json = await res.json();
-      const wishProgram = await json.data;
+      const watchRes = await fetch(`${BASE_URL}/my/watch`, req);
+      const wishRes = await fetch(`${BASE_URL}/my/favorite`, req);
+      const watchJson = await watchRes.json();
+      const wishJson = await wishRes.json();
+      const watchEp = await watchJson.data;
+      const wishProgram = await wishJson.data;
+      setWatchs(watchEp);
       setWishs(wishProgram);
     })();
   }, []);
+  console.log(watchs);
   console.log(wishs);
 
   return (
@@ -56,7 +61,7 @@ function Mypage() {
         <Wrapper>
           <TopWrapper email={email} />
           <MidBox />
-          <BottomWrapper wishs={wishs} />
+          <BottomWrapper wishs={wishs} watchs={watchs} />
         </Wrapper>
       </Container>
     </>

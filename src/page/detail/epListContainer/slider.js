@@ -52,6 +52,7 @@ scroll-behavior: smooth;
     max-height: 150px;
     border-radius:3px;
     margin-bottom: 10px;
+    
   }
 `;
 
@@ -107,14 +108,15 @@ const RealeseDate = styled.span`
   color: #787878;
   border-right: 0.1px solid;
 `;
-function Slider({ width, height, data, title }) {
+
+function Slider({ width, height, data, title, watch, programId }) {
   const [value, setValue] = useState();
   const navigate = useNavigate();
   const el = useRef();
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
-
+  console.log(data);
   const onRightClick = () => {
     scroll(1000);
   };
@@ -130,6 +132,50 @@ function Slider({ width, height, data, title }) {
     setValue(false);
   };
   const goToVideo = () => {};
+  // const onWish = () => {
+  //   const res = {
+  //     id: [programId],
+  //   };
+  //   if (wishValue) {
+  //     fetch(`${BASE_URL}/my/watch`, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         access_token: token,
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(res),
+  //     })
+  //       .then(res => res.json())
+  //       .then(res => {
+  //         console.log(res);
+  //         fetch(`${BASE_URL}/my/favorite`, {
+  //           method: 'GET',
+  //           headers: {
+  //             access_token: token,
+  //             'Content-Type': 'application/json',
+  //           },
+  //         })
+  //           .then(res => res.json())
+  //           .then(res => {
+  //             setWishs(res.data.map(i => i.id));
+  //           });
+  //       });
+  //   } else {
+  //     fetch(`${BASE_URL}/my/favorite`, {
+  //       method: 'GET',
+  //       headers: {
+  //         access_token: token,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //       .then(res => res.json())
+  //       .then(res => {
+  //         setWishs(res.data.map(i => i.id));
+  //         console.log(res);
+  //       });
+  //   }
+  // };
+
   return (
     <>
       <EpListSlider
@@ -153,12 +199,15 @@ function Slider({ width, height, data, title }) {
               onClick={() => {
                 navigate('/video', {
                   state: {
+                    title: title,
                     data: i,
+                    programId: programId,
                   },
                 });
               }}
             >
               <img src={i.img_url} />
+
               <EpTitle>
                 {title} 제{i.episode_num}화
               </EpTitle>

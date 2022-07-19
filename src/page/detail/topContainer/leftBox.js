@@ -194,6 +194,19 @@ function LeftBox({ data, isWish }) {
               setWishs(res.data.map(i => i.id));
             });
         });
+    } else {
+      fetch(`${BASE_URL}/my/favorite`, {
+        method: 'GET',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => res.json())
+        .then(res => {
+          setWishs(res.data.map(i => i.id));
+          console.log(res);
+        });
     }
   };
 

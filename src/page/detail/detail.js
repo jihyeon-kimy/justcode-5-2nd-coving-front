@@ -4,9 +4,9 @@ import BASE_URL from '../../config';
 import EpListContainer from './epListContainer/epListContainer';
 import Header from '../main/header/header';
 import PosterContainer from './posterContainer/posterContainer';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import VideoModal from '../viedo/videoModal';
 const Container = styled.section`
   max-width: 100%;
   height: auto;
@@ -65,8 +65,27 @@ function Detail() {
     ],
   };
   const [datas, setDatas] = useState(dataInterface);
+  const [watch, setWatch] = useState([]);
   const { id } = useParams();
   const programId = Number(id);
+  const location = useLocation();
+
+  const [video, setVideo] = useState(false);
+  const [urls, setUrls] = useState('');
+
+  const closeModal = () => {
+    setVideo(false);
+  };
+
+  useEffect(() => {
+    if (location.state.url) {
+      setUrls(location.state.url);
+      setVideo(location.state.boolean);
+      console.log(video);
+      console.log(location.state.id);
+    }
+  }, []);
+
   useEffect(() => {
     (async () => {
       const res = await fetch(`${BASE_URL}/program/${programId}`);
@@ -74,7 +93,15 @@ function Detail() {
 
       setDatas(json.data);
     })();
-  }, []);
+  }, [id]);
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`${BASE_URL}/my/watch`);
+      const json = await res.json();
+      setWatch(json.data.map(i => i.id));
+    })();
+  }, [id]);
+  console.log(watch);
 
   // useEffect(() => {
   //   (async () => {
@@ -99,7 +126,7 @@ function Detail() {
   const isTitle = datas.programInfo[0].title;
   const similarProgram = datas.similar_program_list;
   const withProgram = datas.with_program_list;
-  console.log(isWish);
+
   const suggestion = [
     {
       name: '같이 보기 좋은 프로그램',
@@ -112,14 +139,22 @@ function Detail() {
   ];
 
   return (
-    <Container>
-      <Header />
-      <TopContainer data={info} isWish={isWish} />
-      <EpListContainer data={episode} title={isTitle} />
-      {suggestion.map((i, inx) => (
-        <PosterContainer id={inx} name={i.name} data={i.poster} />
-      ))}
-    </Container>
+    <>
+      <Container>
+        <Header />
+        <TopContainer data={info} isWish={isWish} />
+        <EpListContainer
+          data={episode}
+          title={isTitle}
+          watch={watch}
+          programId={programId}
+        />
+        {suggestion.map((i, inx) => (
+          <PosterContainer id={inx} name={i.name} data={i.poster} />
+        ))}
+      </Container>
+      {video ? <VideoModal closeModal={closeModal} url={urls} /> : null}
+    </>
   );
 }
 
