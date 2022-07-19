@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSelector } from 'react-redux';
-
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
@@ -12,37 +11,38 @@ function SearchView({ searchResultList }) {
   const [programList, setProgramList] = useState([]);
 
   useEffect(() => {
+    const HandleProgramList = () => {
+      let dataLength = searchResultList?.length;
+      if (window.innerWidth > 1460 && dataLength > 7)
+        setProgramList(searchResultList.slice(7, dataLength));
+      else if (
+        window.innerWidth > 1200 &&
+        window.innerWidth <= 1460 &&
+        dataLength > 6
+      )
+        setProgramList(searchResultList.slice(6, dataLength));
+      else if (
+        window.innerWidth > 760 &&
+        window.innerWidth <= 1200 &&
+        dataLength > 5
+      )
+        setProgramList(searchResultList.slice(5, dataLength));
+      else if (
+        window.innerWidth > 0 &&
+        window.innerWidth <= 760 &&
+        dataLength > 3
+      )
+        setProgramList(searchResultList.slice(3, dataLength));
+      else setProgramList([]);
+    };
+
     HandleProgramList();
     window.addEventListener('resize', HandleProgramList);
+
     return () => {
       window.removeEventListener('resize', HandleProgramList);
     };
-  }, [searchResultList]);
-
-  const HandleProgramList = searchResultList => {
-    let dataLength = searchResultList?.length;
-    if (window.innerWidth > 1460 && dataLength > 7)
-      setProgramList(searchResultList.slice(7, dataLength));
-    else if (
-      window.innerWidth > 1200 &&
-      window.innerWidth <= 1460 &&
-      dataLength > 6
-    )
-      setProgramList(searchResultList.slice(6, dataLength));
-    else if (
-      window.innerWidth > 760 &&
-      window.innerWidth <= 1200 &&
-      dataLength > 5
-    )
-      setProgramList(searchResultList.slice(5, dataLength));
-    else if (
-      window.innerWidth > 0 &&
-      window.innerWidth <= 760 &&
-      dataLength > 3
-    )
-      setProgramList(searchResultList.slice(3, dataLength));
-    else setProgramList([]);
-  };
+  }, []);
 
   return (
     <Container>
