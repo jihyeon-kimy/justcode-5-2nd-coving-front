@@ -5,10 +5,20 @@ import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
 import { useState } from 'react';
 import ModalLayout from '../searchModal/modalLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  closeSearchModal,
+  openSearchModal,
+  switchSearchIcon,
+  changeKeyword,
+} from '../../../store';
+
 function Header({ black }) {
-  const [dropdownHide, setdropdownHide] = useState(false);
-  const [searchModalHide, setsearchModalHide] = useState(false);
   let navigate = useNavigate();
+  let dispatch = useDispatch();
+  let searchModalStatus = useSelector(state => state.searchModalStatus);
+  let searchIconStatus = useSelector(state => state.searchIconStatus);
+  const [dropdownHide, setdropdownHide] = useState(false);
 
   return (
     <Container black={black}>
@@ -17,27 +27,36 @@ function Header({ black }) {
           <Logo
             onClick={() => {
               navigate('/');
-              setsearchModalHide(false);
+              dispatch(closeSearchModal());
+              dispatch(switchSearchIcon(0));
             }}
           />
           <Menu>TV프로그램</Menu>
         </NavLeft>
         <NavRight>
-          {searchModalHide ? (
-            <IoClose
-              className="SearchIcon"
-              onClick={() => {
-                setsearchModalHide(false);
-              }}
-            />
-          ) : (
-            <FiSearch
-              className="SearchIcon"
-              onClick={() => {
-                setsearchModalHide(true);
-              }}
-            />
-          )}
+          {
+            [
+              <FiSearch
+                className="SearchIcon"
+                onClick={() => {
+                  dispatch(openSearchModal());
+                  dispatch(switchSearchIcon(1));
+                  dispatch(changeKeyword());
+                }}
+                key="0"
+              />,
+              <IoClose
+                className="SearchIcon"
+                onClick={() => {
+                  dispatch(closeSearchModal());
+                  dispatch(switchSearchIcon(0));
+                  dispatch(changeKeyword());
+                }}
+                key="1"
+              />,
+              <div key="3" />,
+            ][searchIconStatus]
+          }
           <DropdownMenu
             onMouseOver={() => setdropdownHide(true)}
             onMouseOut={() => setdropdownHide(false)}
@@ -45,9 +64,7 @@ function Header({ black }) {
         </NavRight>
       </Navbar>
       {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
-      {searchModalHide && (
-        <ModalLayout setsearchModalHide={setsearchModalHide} />
-      )}
+      {searchModalStatus && <ModalLayout />}
     </Container>
   );
 }
