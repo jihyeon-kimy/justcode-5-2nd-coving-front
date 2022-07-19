@@ -41,14 +41,15 @@ function ModalLayout() {
     }
   }, []);
 
-  function SaveList() {
+  const saveList = () => {
     setKeywordList(prev => {
       const unduplicate = new Set([...prev, keywordInput]);
       const newKeywordList = [...unduplicate];
       localStorage.setItem('keywordList', JSON.stringify(newKeywordList));
       return newKeywordList;
     });
-  }
+  };
+
   return (
     <Background>
       <Container>
@@ -64,7 +65,7 @@ function ModalLayout() {
               ) {
                 setOpenModal(true);
               } else if (e.key === 'Enter') {
-                SaveList();
+                saveList();
                 navigate(`/search?keyword=${keywordInput}`);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
@@ -76,7 +77,7 @@ function ModalLayout() {
             className="SearchBtn"
             onClick={() => {
               if (keywordInput && keywordInput !== '') {
-                SaveList();
+                saveList();
                 navigate(`/search?keyword=${keywordInput}`);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));

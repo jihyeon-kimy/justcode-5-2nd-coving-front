@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
+import { closeSearchModal, switchSearchIcon } from '../../../../store';
 
 function SearchView({ searchResultList }) {
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   let keywordInput = useSelector(state => state.inputKeyword.keyword);
   const [programList, setProgramList] = useState([]);
 
@@ -80,7 +84,14 @@ function SearchView({ searchResultList }) {
         {programList &&
           programList.map((data, index) => {
             return (
-              <Keyword key={data.toString() + index.toString()}>
+              <Keyword
+                key={data.toString() + index.toString()}
+                onClick={() => {
+                  navigate(`/detail/${data.program_id}`);
+                  dispatch(closeSearchModal());
+                  dispatch(switchSearchIcon(0));
+                }}
+              >
                 {data.title.includes(keywordInput) ? (
                   <>
                     {data.title.split(keywordInput)[0]}

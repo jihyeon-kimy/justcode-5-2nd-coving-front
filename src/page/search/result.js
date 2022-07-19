@@ -10,7 +10,6 @@ function Result({ dataList, count }) {
       <Desc>
         '<span>{keywordInput}</span>' 검색 결과가 {count || 0}개 있습니다.
       </Desc>
-      ;
       {dataList &&
         dataList.map((data, idx) => {
           return (

@@ -1,10 +1,20 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { switchSearchIcon } from '../../store';
 
 function Slide({ program, idx, rank, summary }) {
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   const [summaryhide, setSummaryHide] = useState(false);
   return (
-    <Contatiner>
+    <Contatiner
+      onClick={() => {
+        navigate(`/detail/${program.program_id}`);
+        dispatch(switchSearchIcon(0));
+      }}
+    >
       {summary ? (
         <ProgramImg
           img={!summaryhide && program.program_poster_url}
@@ -65,6 +75,7 @@ const ProgramImg = styled.div`
 `;
 
 const CardContents = styled.div`
+  border: 1px solid purple;
   padding: 12%;
 `;
 

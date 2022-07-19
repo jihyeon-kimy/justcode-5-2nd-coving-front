@@ -1,10 +1,22 @@
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { closeSearchModal, switchSearchIcon } from '../../../../store';
 
 function Slide({ data }) {
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   let keywordInput = useSelector(state => state.inputKeyword.keyword);
+
   return (
-    <SlideContainer>
+    <SlideContainer
+      onClick={() => {
+        navigate(`/detail/${data.program_id}`);
+        dispatch(closeSearchModal());
+        dispatch(switchSearchIcon(0));
+      }}
+    >
       <ProgramImg img={data.poster_img_url} />
       <Title>
         {data.title.includes(keywordInput) ? (
