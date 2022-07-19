@@ -44,14 +44,20 @@ function MultipleSlider({ rank, summary, title, count, programList }) {
         }}
         breakpoints={{
           0: {
-            slidesPerView: 5,
-            spaceBetween: 810,
-            slidesPerGroup: 5,
+            slidesPerView: 3,
+            spaceBetween: 10,
           },
-          800: {
+          760: {
+            slidesPerView: 5,
+            spaceBetween: 10,
+          },
+          1200: {
+            slidesPerView: 6,
+            spaceBetween: 10,
+          },
+          1460: {
             slidesPerView: 7,
-            spaceBetween: 12,
-            slidesPerGroup: 7,
+            spaceBetween: 10,
           },
         }}
         onReachEnd={swiper =>
