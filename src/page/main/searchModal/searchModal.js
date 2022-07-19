@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import KeywordView from './keywordView';
-import SearchView from './searhView';
+import KeywordView from './keywordView/keywordView';
+import SearchView from './searchView/searchView';
 
-function SearchModal({ keywordList, setKeywordList, keywordInput }) {
-  const [isThere, setisThere] = useState('');
-  useEffect(() => {
-    setisThere(keywordInput?.length);
-  }, [keywordInput]);
+function SearchModal({
+  keywordList,
+  setKeywordList,
+  searchResultList,
+  viewChange,
+}) {
   return (
     <SearchBody>
-      {isThere ? (
-        <SearchView keywordInput={keywordInput} />
+      {viewChange ? (
+        <SearchView searchResultList={searchResultList} />
       ) : (
         <KeywordView
           keywordList={keywordList}

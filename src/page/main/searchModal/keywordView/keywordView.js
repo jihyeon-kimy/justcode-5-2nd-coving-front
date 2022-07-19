@@ -1,19 +1,22 @@
 import styled from 'styled-components';
 import { IoCloseCircleSharp, IoCloseOutline } from 'react-icons/io5';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../../../config';
+import { useDispatch } from 'react-redux';
+import { closeSearchModal, switchSearchIcon } from '../../../../store';
 
 function KeywordView({ keywordList, setKeywordList }) {
-  const mockKeywords = [
-    'Be the SMF',
-    '뿅뿅 지구오락실',
-    '이브',
-    '나는 SOLO',
-    '인사이더',
-    '소시탐탐',
-    '유 퀴즈 온 더 블럭',
-    '환승연애',
-    '동승글즈3',
-    '유미의 세포들',
-  ];
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+  const [popularKeywordList, setPopularKeywordList] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${BASE_URL}/search/popular`).then(result => {
+      setPopularKeywordList(result.data);
+    });
+  }, []);
 
   function DeleteOne(index) {
     setKeywordList(prev => {
@@ -66,12 +69,20 @@ function KeywordView({ keywordList, setKeywordList }) {
         <TitleGroup>
           <Title>실시간 인기 검색어</Title>
         </TitleGroup>
-        {mockKeywords &&
-          mockKeywords.map((keyword, index) => {
+        {popularKeywordList &&
+          popularKeywordList.map((keyword, index) => {
             return (
               <KeywordGroup key={keyword?.toString() + index?.toString()}>
                 <Num>{index + 1}</Num>
-                <Keyword>{keyword}</Keyword>
+                <Keyword
+                  onClick={() => {
+                    navigate(`/detail/${keyword.program_id}`);
+                    dispatch(closeSearchModal());
+                    dispatch(switchSearchIcon(0));
+                  }}
+                >
+                  {keyword.title}
+                </Keyword>
               </KeywordGroup>
             );
           })}
