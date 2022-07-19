@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
 import { closeSearchModal, switchSearchIcon } from '../../../../store';
+import BASE_URL from '../../../../config';
 
 function SearchView({ searchResultList }) {
   let navigate = useNavigate();
@@ -47,6 +49,10 @@ function SearchView({ searchResultList }) {
       window.removeEventListener('resize', HandleProgramList);
     };
   }, []);
+
+  const SearchLog = programId => {
+    axios.post(`${BASE_URL}/search/${programId}`);
+  };
 
   return (
     <Container>
@@ -90,6 +96,7 @@ function SearchView({ searchResultList }) {
                   navigate(`/detail/${data.program_id}`);
                   dispatch(closeSearchModal());
                   dispatch(switchSearchIcon(0));
+                  SearchLog(data.program_id);
                 }}
               >
                 {data.title.includes(keywordInput) ? (

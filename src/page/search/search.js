@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import BASE_URL from '../../config';
 import axios from 'axios';
 import { changeKeyword, openSearchModal, switchSearchIcon } from '../../store';
-import Result from './result';
 import NoResult from './noResult';
+import Result from './result/result';
 
 function Search() {
   let dispatch = useDispatch();
