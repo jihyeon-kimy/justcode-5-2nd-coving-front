@@ -5,13 +5,13 @@ import { useEffect, useState } from 'react';
 import BASE_URL from '../../../../config';
 
 function KeywordView({ keywordList, setKeywordList }) {
+  const [popularKeywordList, setPopularKeywordList] = useState([]);
+
   useEffect(() => {
     axios.get(`${BASE_URL}/search/popular`).then(result => {
       setPopularKeywordList(result.data);
     });
   }, []);
-
-  const [popularKeywordList, setPopularKeywordList] = useState([]);
 
   function DeleteOne(index) {
     setKeywordList(prev => {
