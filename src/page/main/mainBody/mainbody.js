@@ -43,7 +43,7 @@ function MainBody() {
         <MultipleSlider
           rank={false}
           summary={false}
-          title=""
+          title="디렉터가 추천하는 콘텐츠 모음집"
           programList={data[3].listByDirector}
         />
         <MultipleSlider
