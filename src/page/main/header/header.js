@@ -10,7 +10,6 @@ import {
   closeSearchModal,
   openSearchModal,
   switchSearchIcon,
-  changeKeyword,
 } from '../../../store';
 
 function Header({ black }) {
@@ -41,7 +40,6 @@ function Header({ black }) {
                 onClick={() => {
                   dispatch(openSearchModal());
                   dispatch(switchSearchIcon(1));
-                  dispatch(changeKeyword());
                 }}
                 key="0"
               />,
@@ -50,7 +48,6 @@ function Header({ black }) {
                 onClick={() => {
                   dispatch(closeSearchModal());
                   dispatch(switchSearchIcon(0));
-                  dispatch(changeKeyword());
                 }}
                 key="1"
               />,

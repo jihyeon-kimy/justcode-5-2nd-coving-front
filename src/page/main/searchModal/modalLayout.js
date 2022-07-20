@@ -1,47 +1,79 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FiSearch } from 'react-icons/fi';
+import debounce from 'lodash.debounce';
 import BASE_URL from '../../../config';
 import SearchModal from './searchModal';
 import Modal from '../../../components/modal/modal';
 import {
-  changeKeyword,
   closeSearchModal,
   switchSearchIcon,
+  setSearchResultList,
+  initSearchResultList,
+  onLoading,
+  offLoading,
 } from '../../../store';
 
 function ModalLayout() {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  const [keywordList, setKeywordList] = useState([]);
+  let location = useLocation();
   const [openModal, setOpenModal] = useState(false);
-  const [searchResultList, setSearchResultList] = useState([]);
-  const [viewChange, setViewChange] = useState(false);
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
+  const [keywordInput, setKeywordInput] = useState(
+    decodeURI(location.search).includes('keyword')
+      ? decodeURI(location.search).split('=')[1]
+      : ''
+  );
 
-  useEffect(() => {
-    axios
-      .get(`${BASE_URL}/search/instant?keyword=${keywordInput}`)
+  const [instantResultList, setInstantResultList] = useState([]);
+  const [viewChange, setViewChange] = useState(false);
+  const handleChange = event => {
+    setKeywordInput(event.target.value);
+    const debounceHanddler = debounce(() => {
+      axios
+        .get(`${BASE_URL}/search/instant?keyword=${event.target.value}`)
+        .then(result => {
+          if (result.status === 200) {
+            setInstantResultList(result.data.dataList);
+            setViewChange(true);
+          } else {
+            setViewChange(false);
+          }
+        });
+    }, 600);
+    debounceHanddler();
+  };
+
+  const searchInputKeyword = async keyword => {
+    dispatch(onLoading());
+    dispatch(initSearchResultList());
+    await axios
+      .get(`${BASE_URL}/search?keyword=${keyword}`)
       .then(result => {
         if (result.status === 200) {
-          setSearchResultList(result.data.dataList);
-          setViewChange(true);
+          dispatch(setSearchResultList(result.data));
         } else {
-          setViewChange(false);
+          dispatch(initSearchResultList());
         }
+      })
+      .finally(() => {
+        dispatch(offLoading());
+        navigate(`/search?keyword=${keyword}`);
       });
-  }, [keywordInput]);
+  };
 
+  const [keywordList, setKeywordList] = useState([]);
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('keywordList')) !== null) {
       setKeywordList(JSON.parse(localStorage.getItem('keywordList')));
     }
   }, []);
 
-  const saveList = () => {
+  const saveList = keywordInput => {
     setKeywordList(prev => {
       const unduplicate = new Set([...prev, keywordInput]);
       const newKeywordList = [...unduplicate];
@@ -55,30 +87,28 @@ function ModalLayout() {
       <Container>
         <SearchBar>
           <SearchInput
-            onChange={e => {
-              dispatch(changeKeyword(e.target.value));
-            }}
+            onChange={handleChange}
             onKeyPress={e => {
               if (
-                (e.key === 'Enter' && keywordInput === undefined) ||
-                keywordInput === ''
+                e.key === 'Enter' &&
+                (keywordInput === undefined || keywordInput === '')
               ) {
                 setOpenModal(true);
               } else if (e.key === 'Enter') {
-                saveList();
-                navigate(`/search?keyword=${keywordInput}`);
+                searchInputKeyword(keywordInput);
+                saveList(keywordInput);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
               }
             }}
-            value={keywordInput || ''}
+            value={keywordInput}
           />
           <FiSearch
             className="SearchBtn"
             onClick={() => {
               if (keywordInput && keywordInput !== '') {
-                saveList();
-                navigate(`/search?keyword=${keywordInput}`);
+                searchInputKeyword(keywordInput);
+                saveList(keywordInput);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
               } else {
@@ -90,8 +120,9 @@ function ModalLayout() {
         <SearchModal
           keywordList={keywordList}
           setKeywordList={setKeywordList}
-          searchResultList={searchResultList}
+          instantResultList={instantResultList}
           viewChange={viewChange}
+          keywordInput={keywordInput}
         />
       </Container>
       <Modal

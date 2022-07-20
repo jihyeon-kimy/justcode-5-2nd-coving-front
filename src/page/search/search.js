@@ -1,31 +1,18 @@
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
-import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import BASE_URL from '../../config';
-import axios from 'axios';
-import { changeKeyword, openSearchModal, switchSearchIcon } from '../../store';
+import { openSearchModal, switchSearchIcon } from '../../store';
 import NoResult from './noResult';
 import Result from './result/result';
 
 function Search() {
   let dispatch = useDispatch();
   let location = useLocation();
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
-  let [haveContent, setHaveContet] = useState(false);
-  const [data, setData] = useState('');
-
-  useEffect(() => {
-    axios.get(`${BASE_URL}/search?keyword=${keywordInput}`).then(result => {
-      if (result.status === 200) {
-        setHaveContet(true);
-        setData(result.data);
-      } else {
-        setHaveContet(false);
-      }
-    });
-  }, [location.search]);
+  let data = useSelector(state => state.searchResultList);
+  let keywordInput = decodeURI(location.search).includes('keyword')
+    ? decodeURI(location.search).split('=')[1]
+    : '';
 
   return (
     <Container>
@@ -36,10 +23,8 @@ function Search() {
               dispatch(openSearchModal());
               dispatch(switchSearchIcon(1));
             }}
-            onChange={e => {
-              dispatch(changeKeyword(e.target.value));
-            }}
             value={keywordInput || ''}
+            readOnly
           />
           <FiSearch
             className="SearchBtn"
@@ -49,13 +34,18 @@ function Search() {
           />
         </SearchBar>
       </SearchGroup>
-
       <Contents>
-        {haveContent ? (
-          <Result dataList={data.dataList} count={data.count} />
-        ) : (
-          <NoResult />
-        )}
+        {!data.loading ? (
+          Object.keys(data.data).length !== 0 ? (
+            <Result
+              dataList={data.data.dataList}
+              count={data.data.count}
+              keywordInput={keywordInput}
+            />
+          ) : (
+            <NoResult keywordInput={keywordInput} />
+          )
+        ) : null}
       </Contents>
     </Container>
   );
@@ -101,3 +91,7 @@ const SearchInput = styled.input.attrs(props => ({
 `;
 
 const Contents = styled.div``;
+const Test = styled.div`
+  font-size: 500px;
+  color: red;
+`;

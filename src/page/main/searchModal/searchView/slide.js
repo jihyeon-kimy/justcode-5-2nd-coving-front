@@ -1,15 +1,13 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { closeSearchModal, switchSearchIcon } from '../../../../store';
 import BASE_URL from '../../../../config';
 
-function Slide({ data }) {
+function Slide({ data, keywordInput }) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
 
   const SearchLog = programId => {
     axios.post(`${BASE_URL}/search/${programId}`);
