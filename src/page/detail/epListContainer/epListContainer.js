@@ -12,13 +12,12 @@ const EpListBox = styled.div`
 
 const OrderingBox = styled.div`
   display: flex;
-  
+
   width: 200px;
   margin-left: 4%;
-  
-  div:hover{
-      cursor: pointer;
-    }
+
+  div:hover {
+    cursor: pointer;
   }
 `;
 

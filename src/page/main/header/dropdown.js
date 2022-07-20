@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-// import { useContext } from 'react';
-// import { UserContext } from '../../../context';
+import { useContext } from 'react';
+import { UserContext } from '../../../context';
 
 import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
   const navigate = useNavigate();
-  // const { email } = useContext(UserContext);
-  // const { token } = useContext(UserContext);
+  const { email, token, user, setUser } = useContext(UserContext);
+  // 아래 부분이 문제임. 아래 부분을 Context 생성할 때 주지 않았음
   // const [user, setUser] = useContext(UserContext);
 
-  const email = localStorage.getItem('email');
-  const token = localStorage.getItem('token');
+  // const email = localStorage.getItem('email');
+  // const token = localStorage.getItem('token');
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
