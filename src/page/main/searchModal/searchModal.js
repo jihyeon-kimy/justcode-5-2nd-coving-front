@@ -1,12 +1,23 @@
 import styled from 'styled-components';
-import KeywordView from './keywordView';
-import SearchView from './SearhView';
+import KeywordView from './keywordView/keywordView';
+import SearchView from './searchView/searchView';
 
-function SearchModal({ keywordList, setKeywordList }) {
+function SearchModal({
+  keywordList,
+  setKeywordList,
+  searchResultList,
+  viewChange,
+}) {
   return (
     <SearchBody>
-      <KeywordView keywordList={keywordList} setKeywordList={setKeywordList} />
-      {/* <SearchView /> */}
+      {viewChange ? (
+        <SearchView searchResultList={searchResultList} />
+      ) : (
+        <KeywordView
+          keywordList={keywordList}
+          setKeywordList={setKeywordList}
+        />
+      )}
     </SearchBody>
   );
 }
