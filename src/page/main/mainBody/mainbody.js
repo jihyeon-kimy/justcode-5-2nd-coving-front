@@ -23,7 +23,7 @@ function MainBody() {
         {data[0].listByIsWatching.length !== 0 && (
           <MultipleSlider
             rank={false}
-            summary={true}
+            summary={false}
             title="시청 중인 컨텐츠"
             programList={data[0].listByIsWatching}
           />
