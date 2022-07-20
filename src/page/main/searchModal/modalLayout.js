@@ -73,7 +73,7 @@ function ModalLayout() {
     }
   }, []);
 
-  const saveList = () => {
+  const saveList = keywordInput => {
     setKeywordList(prev => {
       const unduplicate = new Set([...prev, keywordInput]);
       const newKeywordList = [...unduplicate];
@@ -95,8 +95,8 @@ function ModalLayout() {
               ) {
                 setOpenModal(true);
               } else if (e.key === 'Enter') {
-                searchInputKeyword(e.target.value);
-                saveList();
+                searchInputKeyword(keywordInput);
+                saveList(keywordInput);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
               }
@@ -105,10 +105,10 @@ function ModalLayout() {
           />
           <FiSearch
             className="SearchBtn"
-            onClick={e => {
+            onClick={() => {
               if (keywordInput && keywordInput !== '') {
-                searchInputKeyword(e.target.value);
-                saveList();
+                searchInputKeyword(keywordInput);
+                saveList(keywordInput);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
               } else {
