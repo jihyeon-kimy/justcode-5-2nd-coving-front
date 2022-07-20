@@ -23,8 +23,8 @@ function Router() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/profileedit" element={<ProfileEdit />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/search" element={<Search />} />
         <Route path="/login/callback" element={<CallBack />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </BrowserRouter>
   );

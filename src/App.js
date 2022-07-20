@@ -71,15 +71,15 @@ a {
 }
 `;
 function App() {
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
   // 토큰과 이메일을 유저에 넣고, 아래 value에 유저와 셋유저 넣기.
   return (
-    <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
-      <Provider store={store}>
-        <GlobalStyle />
-        <Router />
-      </Provider>
-    </UserContext.Provider>
+    // <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
+    <Provider store={store}>
+      <GlobalStyle />
+      <Router />
+    </Provider>
+    // </UserContext.Provider>
   );
 }
 
