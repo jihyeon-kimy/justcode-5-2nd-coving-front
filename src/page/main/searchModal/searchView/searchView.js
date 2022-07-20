@@ -47,7 +47,7 @@ function SearchView({ instantResultList, keywordInput }) {
     return () => {
       window.removeEventListener('resize', HandleProgramList);
     };
-  }, []);
+  }, [instantResultList]);
 
   const SearchLog = programId => {
     axios.post(`${BASE_URL}/search/${programId}`);
