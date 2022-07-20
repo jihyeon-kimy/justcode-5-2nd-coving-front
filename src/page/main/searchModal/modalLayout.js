@@ -1,11 +1,39 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { FiSearch } from 'react-icons/fi';
+import BASE_URL from '../../../config';
 import SearchModal from './searchModal';
+import Modal from '../../../components/modal/modal';
+import {
+  changeKeyword,
+  closeSearchModal,
+  switchSearchIcon,
+} from '../../../store';
 
-function ModalLayout(props) {
-  const [keywordInput, setKeywordInput] = useState();
+function ModalLayout() {
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
   const [keywordList, setKeywordList] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [searchResultList, setSearchResultList] = useState([]);
+  const [viewChange, setViewChange] = useState(false);
+  let keywordInput = useSelector(state => state.inputKeyword.keyword);
+
+  useEffect(() => {
+    axios
+      .get(`${BASE_URL}/search/instant?keyword=${keywordInput}`)
+      .then(result => {
+        if (result.status === 200) {
+          setSearchResultList(result.data.dataList);
+          setViewChange(true);
+        } else {
+          setViewChange(false);
+        }
+      });
+  }, [keywordInput]);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('keywordList')) !== null) {
@@ -13,40 +41,85 @@ function ModalLayout(props) {
     }
   }, []);
 
-  function SaveList() {
+  const saveList = () => {
     setKeywordList(prev => {
       const unduplicate = new Set([...prev, keywordInput]);
       const newKeywordList = [...unduplicate];
       localStorage.setItem('keywordList', JSON.stringify(newKeywordList));
       return newKeywordList;
     });
-  }
+  };
 
   return (
-    <Container>
-      <SearchBar>
-        <SearchInput
-          onChange={e => {
-            setKeywordInput(e.target.value);
-          }}
+    <Background>
+      <Container>
+        <SearchBar>
+          <SearchInput
+            onChange={e => {
+              dispatch(changeKeyword(e.target.value));
+            }}
+            onKeyPress={e => {
+              if (
+                (e.key === 'Enter' && keywordInput === undefined) ||
+                keywordInput === ''
+              ) {
+                setOpenModal(true);
+              } else if (e.key === 'Enter') {
+                saveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                dispatch(closeSearchModal());
+                dispatch(switchSearchIcon(2));
+              }
+            }}
+            value={keywordInput || ''}
+          />
+          <FiSearch
+            className="SearchBtn"
+            onClick={() => {
+              if (keywordInput && keywordInput !== '') {
+                saveList();
+                navigate(`/search?keyword=${keywordInput}`);
+                dispatch(closeSearchModal());
+                dispatch(switchSearchIcon(2));
+              } else {
+                setOpenModal(true);
+              }
+            }}
+          />
+        </SearchBar>
+        <SearchModal
+          keywordList={keywordList}
+          setKeywordList={setKeywordList}
+          searchResultList={searchResultList}
+          viewChange={viewChange}
         />
-        <FiSearch
-          className="SearchBtn"
-          onClick={() => {
-            SaveList();
-          }}
-        />
-      </SearchBar>
-      <SearchModal keywordList={keywordList} setKeywordList={setKeywordList} />
-    </Container>
+      </Container>
+      <Modal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        text="검색어를 입력해주세요."
+      />
+    </Background>
   );
 }
 
 export default ModalLayout;
 
+const Background = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #000000a8;
+  z-index: -1;
+`;
+
 const Container = styled.div`
   width: 100%;
-  padding: 8% 8% 4%;
+  padding: 10% 8% 4%;
   position: fixed;
   z-index: -1;
   background: #191919fc;

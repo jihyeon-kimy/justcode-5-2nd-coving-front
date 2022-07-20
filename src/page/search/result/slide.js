@@ -2,17 +2,24 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { switchSearchIcon } from '../../store';
+import axios from 'axios';
+import { switchSearchIcon } from '../../../store';
+import BASE_URL from '../../../config';
 
 function Slide({ program, idx, rank, summary }) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const [summaryhide, setSummaryHide] = useState(false);
+
+  const SearchLog = programId => {
+    axios.post(`${BASE_URL}/search/${programId}`);
+  };
   return (
     <Contatiner
       onClick={() => {
         navigate(`/detail/${program.program_id}`);
         dispatch(switchSearchIcon(0));
+        SearchLog(program.program_id);
       }}
     >
       {summary ? (
