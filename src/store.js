@@ -40,10 +40,23 @@ let searchIconStatus = createSlice({
 
 export let { switchSearchIcon } = searchIconStatus.actions;
 
+let userInfo = createSlice({
+  name: 'userInfo',
+  initialState: {},
+  reducers: {
+    changeUserInfo(state, action) {
+      return action.payload;
+    },
+  },
+});
+
+export let { changeUserInfo } = userInfo.actions;
+
 export default configureStore({
   reducer: {
     inputKeyword: inputKeyword.reducer,
     searchModalStatus: searchModalStatus.reducer,
     searchIconStatus: searchIconStatus.reducer,
+    userInfo: userInfo.reducer,
   },
 });

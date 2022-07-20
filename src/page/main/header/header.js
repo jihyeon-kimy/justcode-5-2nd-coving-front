@@ -105,7 +105,7 @@ const NavLeft = styled.div`
 `;
 
 const Logo = styled.img.attrs(props => ({
-  src: './image/COVING-LOGO.png',
+  src: '/image/COVING-LOGO.png',
   alt: 'logo',
 }))`
   width: 40%;
