@@ -5,13 +5,17 @@ import SearchView from './searchView/searchView';
 function SearchModal({
   keywordList,
   setKeywordList,
-  searchResultList,
+  instantResultList,
   viewChange,
+  keywordInput,
 }) {
   return (
     <SearchBody>
       {viewChange ? (
-        <SearchView searchResultList={searchResultList} />
+        <SearchView
+          instantResultList={instantResultList}
+          keywordInput={keywordInput}
+        />
       ) : (
         <KeywordView
           keywordList={keywordList}

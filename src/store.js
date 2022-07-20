@@ -1,17 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
 
-let inputKeyword = createSlice({
-  name: 'inputKeyword',
-  initialState: { keyword: '' },
-  reducers: {
-    changeKeyword(state, action) {
-      state.keyword = action.payload;
-    },
-  },
-});
-
-export let { changeKeyword } = inputKeyword.actions;
-
 let searchModalStatus = createSlice({
   name: 'searchModalStatus',
   initialState: false,
@@ -40,10 +28,36 @@ let searchIconStatus = createSlice({
 
 export let { switchSearchIcon } = searchIconStatus.actions;
 
+let searchResultList = createSlice({
+  name: 'searchResultList',
+  initialState: { loading: true, data: { count: 0, dataList: [] } },
+  reducers: {
+    onLoading(state) {
+      state.loading = true;
+    },
+    offLoading(state) {
+      state.loading = false;
+    },
+    setSearchResultList(state, action) {
+      state.data = action.payload;
+    },
+    initSearchResultList(state) {
+      state.data = {};
+    },
+  },
+});
+
+export let {
+  onLoading,
+  offLoading,
+  setSearchResultList,
+  initSearchResultList,
+} = searchResultList.actions;
+
 export default configureStore({
   reducer: {
-    inputKeyword: inputKeyword.reducer,
     searchModalStatus: searchModalStatus.reducer,
     searchIconStatus: searchIconStatus.reducer,
+    searchResultList: searchResultList.reducer,
   },
 });
