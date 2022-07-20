@@ -64,27 +64,29 @@ function Detail() {
       },
     ],
   };
+  const stateInterface = { url: '', boolean: false };
+  const { state } = useLocation();
+  const [location, setLocation] = useState(stateInterface);
   const [datas, setDatas] = useState(dataInterface);
   const [watch, setWatch] = useState([]);
   const { id } = useParams();
   const programId = Number(id);
-  const location = useLocation();
-
   const [video, setVideo] = useState(false);
   const [urls, setUrls] = useState('');
 
   const closeModal = () => {
+    setLocation(null);
     setVideo(false);
   };
 
   useEffect(() => {
-    if (location.state.url) {
-      setUrls(location.state.url);
-      setVideo(location.state.boolean);
-      console.log(video);
-      console.log(location.state.id);
+    if (location !== null) {
+      setLocation(state);
+
+      setUrls(location.url);
+      setVideo(location.boolean);
     }
-  }, []);
+  }, [state, location]);
 
   useEffect(() => {
     (async () => {
@@ -94,6 +96,7 @@ function Detail() {
       setDatas(json.data);
     })();
   }, [id]);
+
   useEffect(() => {
     (async () => {
       const res = await fetch(`${BASE_URL}/my/watch`);
@@ -101,24 +104,7 @@ function Detail() {
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
-  console.log(watch);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const req = {
-  //       method: 'GET',
-  //       headers: {
-  //         access_token: token,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     };
-
-  //     const res = await fetch(`${BASE_URL}/my/favorite`, req);
-  //     const json = await res.json();
-  //     const wishProgram = await json.data.map(i => i.id);
-  //     setWishs(wishProgram);
-  //   })();
-  // }, []);
+  //console.log(watch);
 
   const isWish = datas.isLiked;
   const info = datas.programInfo[0];
@@ -126,7 +112,6 @@ function Detail() {
   const isTitle = datas.programInfo[0].title;
   const similarProgram = datas.similar_program_list;
   const withProgram = datas.with_program_list;
-
   const suggestion = [
     {
       name: '같이 보기 좋은 프로그램',

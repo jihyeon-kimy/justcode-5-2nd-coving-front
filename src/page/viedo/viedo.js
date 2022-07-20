@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { BiChevronLeft } from 'react-icons/bi';
 import ControlBar from './controlBar';
+import BASE_URL from '../../config';
 const Container = styled.div`
   width: 100%;
   height: 99vh;
@@ -18,13 +19,18 @@ const Title = styled.div`
   color: white;
   font-size: 38px;
   z-index: 2;
+  div: hover {
+    cursor: pointer;
+  }
 `;
 const Wrapper = styled.div`
   position: absolute;
   bottom: 0.9%;
   width: 100%;
 `;
+
 function Viedo() {
+  const token = localStorage.getItem('token');
   const [nowPlaying, setNowPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [showControl, setShowControl] = useState(false);
@@ -106,6 +112,7 @@ function Viedo() {
     title: '',
     data: InterfaceData,
     programId: '',
+    watch: '',
   });
   const [titleValue, setTitleValue] = useState(true);
   const location = useLocation();
@@ -118,22 +125,39 @@ function Viedo() {
     setUrl(location.state);
   }, [url]);
   console.log(url.programId);
+  console.log(url.watch);
+  useEffect(() => {
+    if (!url.watch) {
+      fetch(`${BASE_URL}/episode/${url.data.id}`, {
+        method: 'POST',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(res => res.json())
+        .then(res => console.log(res));
+    }
+  }, []);
+
   return (
     <Container>
       {titleValue ? (
         <Title>
-          <BiChevronLeft
-            size={50}
-            onClick={() => {
-              navigate(`/detail/${url.programId}`, {
-                state: {
-                  url: url.data.video_url,
-                  boolean: true,
-                  id: url.data.id,
-                },
-              });
-            }}
-          />
+          <div>
+            <BiChevronLeft
+              size={50}
+              onClick={() => {
+                navigate(`/detail/${url.programId}`, {
+                  state: {
+                    url: url.data.video_url,
+                    boolean: true,
+                    id: url.data.id,
+                  },
+                });
+              }}
+            />
+          </div>
           {url.title}&nbsp;제&nbsp;{url.data.episode_num}화
         </Title>
       ) : null}

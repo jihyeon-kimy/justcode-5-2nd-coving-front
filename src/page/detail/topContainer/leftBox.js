@@ -155,10 +155,8 @@ function LeftBox({ data, isWish }) {
   useEffect(() => {
     if (wishs.length === 0) {
       setWishValue(isWish);
-      console.log('초기');
     } else {
       wishs.includes(programId) ? setWishValue(true) : setWishValue(false);
-      console.log('fetch');
     }
   }, [wishs, programId, wishValue, isWish]);
 
@@ -195,8 +193,8 @@ function LeftBox({ data, isWish }) {
             });
         });
     } else {
-      fetch(`${BASE_URL}/my/favorite`, {
-        method: 'GET',
+      fetch(`${BASE_URL}/program/${programId}`, {
+        method: 'POST',
         headers: {
           access_token: token,
           'Content-Type': 'application/json',
@@ -204,8 +202,19 @@ function LeftBox({ data, isWish }) {
       })
         .then(res => res.json())
         .then(res => {
-          setWishs(res.data.map(i => i.id));
           console.log(res);
+
+          fetch(`${BASE_URL}/my/favorite`, {
+            method: 'GET',
+            headers: {
+              access_token: token,
+              'Content-Type': 'application/json',
+            },
+          })
+            .then(res => res.json())
+            .then(res => {
+              setWishs(res.data.map(i => i.id));
+            });
         });
     }
   };

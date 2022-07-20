@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../../config';
 
 const EpListSlider = styled.div`
 display: flex;
@@ -111,12 +112,14 @@ const RealeseDate = styled.span`
 
 function Slider({ width, height, data, title, watch, programId }) {
   const [value, setValue] = useState();
+  const [watchs, setWatchs] = useState([]);
   const navigate = useNavigate();
   const el = useRef();
+  const token = localStorage.getItem('token');
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
-  console.log(data);
+
   const onRightClick = () => {
     scroll(1000);
   };
@@ -131,23 +134,29 @@ function Slider({ width, height, data, title, watch, programId }) {
   const onLeave = () => {
     setValue(false);
   };
-  const goToVideo = () => {};
+
+  useEffect(() => {
+    if (watch) {
+      setWatchs(watch);
+    }
+  }, [watch]);
   // const onWish = () => {
   //   const res = {
   //     id: [programId],
   //   };
   //   if (wishValue) {
-  //     fetch(`${BASE_URL}/my/watch`, {
-  //       method: 'DELETE',
+
+  //     fetch(`${BASE_URL}/episode/:id`, {
+  //       method: 'POST',
   //       headers: {
   //         access_token: token,
   //         'Content-Type': 'application/json',
   //       },
-  //       body: JSON.stringify(res),
   //     })
   //       .then(res => res.json())
   //       .then(res => {
   //         console.log(res);
+
   //         fetch(`${BASE_URL}/my/favorite`, {
   //           method: 'GET',
   //           headers: {
@@ -160,22 +169,10 @@ function Slider({ width, height, data, title, watch, programId }) {
   //             setWishs(res.data.map(i => i.id));
   //           });
   //       });
-  //   } else {
-  //     fetch(`${BASE_URL}/my/favorite`, {
-  //       method: 'GET',
-  //       headers: {
-  //         access_token: token,
-  //         'Content-Type': 'application/json',
-  //       },
-  //     })
-  //       .then(res => res.json())
-  //       .then(res => {
-  //         setWishs(res.data.map(i => i.id));
-  //         console.log(res);
-  //       });
   //   }
   // };
-
+  // console.log(watch.includes(data.id));
+  // console.log(watchs);
   return (
     <>
       <EpListSlider
@@ -201,6 +198,7 @@ function Slider({ width, height, data, title, watch, programId }) {
                   state: {
                     title: title,
                     data: i,
+                    watch: watchs.includes(data.id),
                     programId: programId,
                   },
                 });
