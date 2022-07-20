@@ -54,10 +54,23 @@ export let {
   initSearchResultList,
 } = searchResultList.actions;
 
+let userInfo = createSlice({
+  name: 'userInfo',
+  initialState: {},
+  reducers: {
+    changeUserInfo(state, action) {
+      return action.payload;
+    },
+  },
+});
+
+export let { changeUserInfo } = userInfo.actions;
+
 export default configureStore({
   reducer: {
     searchModalStatus: searchModalStatus.reducer,
     searchIconStatus: searchIconStatus.reducer,
     searchResultList: searchResultList.reducer,
+    userInfo: userInfo.reducer,
   },
 });

@@ -17,7 +17,7 @@ function Slide({ program, idx, rank, summary }) {
     >
       {summary ? (
         <ProgramImg
-          img={!summaryhide && program.program_poster_url}
+          img={!summaryhide && program.poster_img_url}
           onMouseOver={() => {
             setSummaryHide(true);
           }}
@@ -27,23 +27,23 @@ function Slide({ program, idx, rank, summary }) {
         >
           {summaryhide && (
             <CardContents>
-              <ProgramTitle>{program.program_title}</ProgramTitle>
-              <Programgenre>{program.genre}</Programgenre>
+              <ProgramTitle>{program.title}</ProgramTitle>
+              <Programgenre>{program.genres[0]}</Programgenre>
               <Summary>{program.summary}</Summary>
             </CardContents>
           )}
         </ProgramImg>
       ) : (
-        <ProgramImg img={program.program_poster_url} />
+        <ProgramImg img={program.poster_img_url} />
       )}
 
       {rank ? (
         <ProgramInfo>
           <Rank>{idx + 1}</Rank>
-          <Title>{program.program_title}</Title>
+          <Title>{program.title}</Title>
         </ProgramInfo>
       ) : (
-        <Title>{program.program_title}</Title>
+        <Title>{program.title}</Title>
       )}
     </Contatiner>
   );
@@ -75,7 +75,6 @@ const ProgramImg = styled.div`
 `;
 
 const CardContents = styled.div`
-  border: 1px solid purple;
   padding: 12%;
 `;
 

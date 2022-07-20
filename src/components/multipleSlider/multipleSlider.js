@@ -39,6 +39,7 @@ function MultipleSlider({ rank, summary, title, count, programList }) {
         }}
         centeredSlides={false}
         speed={700}
+        slidesPerView={7}
         pagination={{
           clickable: true,
         }}
@@ -46,18 +47,22 @@ function MultipleSlider({ rank, summary, title, count, programList }) {
           0: {
             slidesPerView: 3,
             spaceBetween: 10,
+            slidesPerGroup: 3,
           },
           760: {
             slidesPerView: 5,
             spaceBetween: 10,
+            slidesPerGroup: 5,
           },
           1200: {
             slidesPerView: 6,
             spaceBetween: 10,
+            slidesPerGroup: 6,
           },
           1460: {
             slidesPerView: 7,
             spaceBetween: 10,
+            slidesPerGroup: 7,
           },
         }}
         onReachEnd={swiper =>

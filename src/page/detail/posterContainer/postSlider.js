@@ -109,18 +109,18 @@ function PostSlider({ width, height, data }) {
         {data.map((i, inx) => (
           <Img>
             <Div
+              id={inx}
               onClick={() => {
                 navigate(`/detail/${i.id}`);
               }}
               contentsBoxWidth={width}
               contentsBoxheight={height}
-              id={inx + 1}
               style={{
                 backgroundImage: `url(${i.poster_img_url})`,
                 backgroundSize: `cover`,
               }}
-            ></Div>
-            <p id={inx + 2}>{i.title}</p>
+            />
+            <p id={inx + 1}>{i.title}</p>
           </Img>
         ))}
 
