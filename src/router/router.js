@@ -28,7 +28,6 @@ function Router() {
         <Route path="/search" element={<Search />} />
         <Route path="/list" element={<TvProgram />} />
         <Route path="/login/callback" element={<CallBack />} />
-        <Route path="/search" element={<Search />} />
       </Routes>
       <Footer />
     </BrowserRouter>

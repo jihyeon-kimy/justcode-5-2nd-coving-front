@@ -40,8 +40,7 @@ function Detail() {
             id: null,
             episode_num: null,
             img_url: '',
-            video_url:
-              'https://vpc-endpoint-check1993.s3.ap-northeast-2.amazonaws.com/coving/coving.mp4',
+            video_url: '',
             summary: '',
             release_date: '',
             running_time: '',
@@ -76,9 +75,11 @@ function Detail() {
   const programId = Number(id);
   const [video, setVideo] = useState(false);
   const [urls, setUrls] = useState('');
+
   const [epTitle, setEptitle] = useState('');
   const token = localStorage.getItem('token');
   console.log(token);
+
 
   const closeModal = () => {
     setLocation(null);
@@ -88,6 +89,7 @@ function Detail() {
   useEffect(() => {
     if (location !== null) {
       setLocation(state);
+
       setUrls(location.url);
       setVideo(location.boolean);
       const modalTitle = `${location.title} 제${location.epiNum}화`;
@@ -96,32 +98,24 @@ function Detail() {
   }, [state, location]);
   console.log(epTitle);
   useEffect(() => {
-    fetch(`${BASE_URL}/program/${programId}`, {
-      method: 'GET',
-      headers: {
-        access_token: token,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(res => res.json())
-      .then(res => {
-        setDatas(res.data);
-      });
+    (async () => {
+      const res = await fetch(`${BASE_URL}/program/${programId}`);
+      const json = await res.json();
+
+      setDatas(json.data);
+    })();
   }, [id]);
   console.log(datas.latest_watching_episode);
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${BASE_URL}/my/watch`, {
-        method: 'GET',
-        headers: {
-          access_token: token,
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await fetch(`${BASE_URL}/my/watch`);
       const json = await res.json();
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
+
+  //console.log(watch);
+
 
   const isWish = datas.isLiked;
   const last = datas.latest_watching_episode[0];
