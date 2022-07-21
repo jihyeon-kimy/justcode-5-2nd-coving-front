@@ -14,3 +14,7 @@ export const GOOGLE_CLIENT_ID =
   '836288151108-l2hfh9sct97jhtastmnkahhmi8edb5gm.apps.googleusercontent.com';
 export const GOOGLE_CLIENT_SECRET = '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';
 export const GOOGLE_LOGIN_URL = `https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?response_type=code&client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=google&scope=email`;
+
+//KAKAO
+export const KAKAO_CLIENT_ID = 'ee5a3e8dc70c8a3d8107bdb7d5b9b54d';
+export const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${KAKAO_CLIENT_ID}&redirect_uri=${SOCIAL_REDIRECT_URL}&state=kakao`;
