@@ -34,7 +34,7 @@ function Header({ black }) {
   }, []);
 
   return (
-    <Container black={black} scrollY={scrollY / 130}>
+    <Container black={black} end={scrollY / 200 + 0.7} start={scrollY / 1200}>
       <Navbar>
         <NavLeft>
           <Logo
@@ -89,7 +89,11 @@ function Header({ black }) {
 export default Header;
 
 const Container = styled.div`
-  background: rgba(0, 0, 0, ${props => props.scrollY});
+  background: linear-gradient(
+    rgba(0, 0, 0, ${props => props.end}),
+    rgba(0, 0, 0, ${props => props.start})
+  );
+
   width: 100%;
   position: fixed;
   display: flex;
@@ -143,15 +147,16 @@ const Menu = styled.button`
 `;
 
 const NavRight = styled.div`
-  width: 6%;
-  min-width: 50px;
+  width: 8%;
+  min-width: 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
 
   .SearchIcon {
-    font-size: calc(10px + 1vw);
+    width: 40%;
+    font-size: calc(10px + 1.1vw);
     cursor: pointer;
     :hover {
       filter: brightness(150%);
@@ -163,7 +168,8 @@ const DropdownMenu = styled.img.attrs(props => ({
   src: 'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100',
   alt: 'dropdownMenu',
 }))`
-  width: 35%;
+  padding: 11.5%;
+  width: 50%;
   min-width: 18px;
   object-fit: contain;
   align-self: stretch;
