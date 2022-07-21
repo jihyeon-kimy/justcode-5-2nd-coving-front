@@ -4,6 +4,7 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 import BASE_URL from '../../../config';
+import { useNavigate } from 'react-router-dom';
 
 const LeftWrapper = styled.div`
   width: 560px;
@@ -139,10 +140,13 @@ const More = styled.div`
   }
 `;
 
-function LeftBox({ data, isWish }) {
+function LeftBox({ data, isWish, last }) {
   const [wishValue, setWishValue] = useState(isWish);
   const [wishs, setWishs] = useState([]);
   const [summaryValue, setSummaryValue] = useState(true);
+  const lastEp = last.episode_num;
+  const video = last.video_url;
+  const isTitle = data.title;
   const creatorArr = data.participants.filter(i => i.type === '크리에이터');
   const creator = creatorArr.map(i => i.name);
   const actorArr = data.participants.filter(i => i.type === '출연');
@@ -151,7 +155,8 @@ function LeftBox({ data, isWish }) {
   const titleImg = data.title_img_url;
   const programId = data.id;
   const token = localStorage.getItem('token');
-
+  const navigate = useNavigate();
+  console.log(data);
   useEffect(() => {
     if (wishs.length === 0) {
       setWishValue(isWish);
@@ -218,6 +223,17 @@ function LeftBox({ data, isWish }) {
         });
     }
   };
+  console.log(lastEp);
+
+  const isData = {
+    episode_num: lastEp,
+    id: null,
+    img_url: '',
+    release_date: '',
+    running_time: null,
+    summary: null,
+    video_url: video,
+  };
 
   return (
     <LeftWrapper>
@@ -231,7 +247,40 @@ function LeftBox({ data, isWish }) {
         ))}
       </InfoBox>
       <BtnBox>
-        <PlayBtn>이용권 구독하기</PlayBtn>
+        {lastEp !== null ? (
+          <PlayBtn
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate('/video', {
+                state: {
+                  title: isTitle,
+                  data: isData,
+                  watch: true,
+                  programId: programId,
+                },
+              });
+            }}
+          >
+            <p>제&nbsp;{lastEp}화 이어보기</p>
+          </PlayBtn>
+        ) : (
+          <PlayBtn
+            onClick={() => {
+              window.scrollTo(0, 0);
+              navigate('/video', {
+                state: {
+                  title: isTitle,
+                  data: data.episode_info[0],
+                  watch: false,
+                  programId: programId,
+                },
+              });
+            }}
+          >
+            <p>{isTitle}&nbsp;시청하기</p>
+          </PlayBtn>
+        )}
+
         <Wishbox onClick={onWish}>
           {wishValue ? (
             <AiFillHeart size="40" color="white" />

@@ -173,6 +173,7 @@ function Slider({ width, height, data, title, watch, programId }) {
   // };
   // console.log(watch.includes(data.id));
   // console.log(watchs);
+  console.log(data);
   return (
     <>
       <EpListSlider
@@ -194,6 +195,7 @@ function Slider({ width, height, data, title, watch, programId }) {
             <div
               id={inx + 1}
               onClick={() => {
+                window.scrollTo(0, 0);
                 navigate('/video', {
                   state: {
                     title: title,

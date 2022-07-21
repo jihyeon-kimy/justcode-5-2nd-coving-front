@@ -5,11 +5,14 @@ import { BiCheck, BiErrorCircle } from 'react-icons/bi';
 import BASE_URL from '../../config';
 
 const BottomBox = styled.div`
+  display: flex;
+  align-items: flex-start;
   overflow-x: hidden;
   width: 100%;
   height: auto;
   padding: 2% 5%;
   background-color: black;
+  flex-wrap: wrap;
 `;
 const TabBox = styled.div`
   display: flex;
@@ -23,29 +26,47 @@ const TabBox = styled.div`
     font-size: 18px;
     height: 100%;
     margin-right: 30px;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
+    :hover {
+      cursor: pointer;
+      color: white;
+    }
+  }
+  .first {
+    color: ${prop => prop.firstTab.color};
+    border-bottom: ${prop => prop.firstTab.border};
+  }
+  .second {
+    color: ${prop => prop.secondTab.color};
+    border-bottom: ${prop => prop.secondTab.border};
   }
 `;
 
 const HistoryBox = styled.div`
   overflow-x: hidden;
   display: flex;
+  align-items: flex-start;
   width: 100%;
-  height: 70vh;
+  height: auto;
+  min-height: 100vh;
+  flex-wrap: wrap;
 `;
 const WishBox = styled.div`
   overflow-x: hidden;
   display: flex;
   width: 100%;
-  height: 70vh;
+  height: auto;
+  min-height: 100vh;
 `;
 
 const PosterWrapper = styled.div`
   overflow-x: hidden;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   width: ${prop => prop.width};
   height: auto;
+  max-height: ${prop => prop.height};
   margin-top: 5%;
   margin-right: 0.6%;
   transform: translateY(0px);
@@ -58,14 +79,14 @@ const PosterWrapper = styled.div`
 `;
 
 const Poster = styled.img`
+  max-width: ${prop => prop.width};
 
-  width: ${prop => prop.width}
   height: auto;
-  max-height: ${prop => prop.height}
+  max-height: ${prop => prop.height};
+
   margin-bottom: 10px;
-  border-radius:3px;
+  border-radius: 3px;
   filter: brightness(${prop => prop.edit});
-  
 `;
 
 const Box = styled.div`
@@ -123,6 +144,7 @@ const Empty = styled.div`
   }
 `;
 function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
+  const [tab, setTab] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [watchRes, setWatchRes] = useState();
   const [wishRes, setwishRes] = useState();
@@ -139,10 +161,12 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
   console.log(watch);
   const navigate = useNavigate();
   const onClickHistory = () => {
+    setTab(true);
     setValue(true);
     setEditMode(false);
   };
   const onClickWish = () => {
+    setTab(false);
     setValue(false);
     setEditMode(false);
   };
@@ -207,11 +231,24 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
     bgColor: 'white',
     hoverColor: 'black',
   };
+
+  const Tab = {
+    color: 'white',
+    border: '3px solid white',
+  };
+  const isnull = {
+    color: '',
+    border: '',
+  };
   return (
     <BottomBox>
-      <TabBox>
-        <div onClick={onClickHistory}>시청 내역</div>
-        <div onClick={onClickWish}>찜</div>
+      <TabBox firstTab={tab ? Tab : isnull} secondTab={tab ? isnull : Tab}>
+        <div className="first" onClick={onClickHistory}>
+          시청 내역
+        </div>
+        <div className="second" onClick={onClickWish}>
+          찜
+        </div>
       </TabBox>
       {value ? (
         <HistoryBox>
@@ -251,7 +288,7 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
               {editMode ? (
                 <>
                   {watch.map(i => (
-                    <PosterWrapper width="20%">
+                    <PosterWrapper width="18%" height={'400px'}>
                       <Box>
                         <Poster
                           src={i.img_url}
@@ -279,7 +316,7 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
               ) : (
                 <>
                   {watch.map(i => (
-                    <PosterWrapper width="20%">
+                    <PosterWrapper width="18%" height={'400px'}>
                       <Poster
                         src={i.img_url}
                         width="100%"
@@ -336,10 +373,7 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
           {editMode ? (
             <>
               {wish.map(i => (
-                <PosterWrapper
-                  width="14%"
-                  // onClick={() => navigate(`/detail/${i.id}`)}
-                >
+                <PosterWrapper width="14%" height={'500px'}>
                   <Box>
                     <Poster
                       src={i.poster_img_url}
@@ -355,7 +389,6 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
                         wishClickId.includes(i.id)
                           ? clickedStyle
                           : unClickedStyle
-                        // clickId.includes(i.id) ? clickedStyle : unClickedStyle
                       }
                     >
                       <BiCheck />
@@ -369,7 +402,8 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
               {wish.map(i => (
                 <PosterWrapper
                   width="14%"
-                  // onClick={() => navigate(`/detail/${i.id}`)}
+                  height={'500px'}
+                  onClick={() => navigate(`/detail/${i.id}`)}
                 >
                   <Poster
                     src={i.poster_img_url}
