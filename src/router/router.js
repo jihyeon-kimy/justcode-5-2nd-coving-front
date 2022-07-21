@@ -10,6 +10,7 @@ import CallBack from '../page/login/callback';
 import Viedo from '../page/viedo/viedo';
 import ProfileEdit from '../page/mypage/profileEdit';
 import Search from '../page/search/search';
+import Footer from '../page/main/footer/footer';
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/login/callback" element={<CallBack />} />
         <Route path="/search" element={<Search />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
