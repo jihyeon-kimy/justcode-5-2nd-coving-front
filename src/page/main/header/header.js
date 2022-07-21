@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Dropdown from './dropdown';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalLayout from '../searchModal/modalLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,8 +19,22 @@ function Header({ black }) {
   let searchIconStatus = useSelector(state => state.searchIconStatus);
   const [dropdownHide, setdropdownHide] = useState(false);
 
+  const [scrollY, setScrollY] = useState(0);
+  const handleScroll = () => {
+    const scrollPosition = window.pageYOffset;
+    setScrollY(scrollPosition);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <Container black={black}>
+    <Container black={black} scrollY={scrollY / 130}>
       <Navbar>
         <NavLeft>
           <Logo
@@ -30,7 +44,13 @@ function Header({ black }) {
               dispatch(switchSearchIcon(0));
             }}
           />
-          <Menu>TV프로그램</Menu>
+          <Menu
+            onClick={() => {
+              navigate('/list');
+            }}
+          >
+            TV프로그램
+          </Menu>
         </NavLeft>
         <NavRight>
           {
@@ -69,6 +89,7 @@ function Header({ black }) {
 export default Header;
 
 const Container = styled.div`
+  background: rgba(0, 0, 0, ${props => props.scrollY});
   width: 100%;
   position: fixed;
   display: flex;
