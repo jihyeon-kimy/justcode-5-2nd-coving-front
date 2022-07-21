@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { BiCheck } from 'react-icons/bi';
+import { BiCheck, BiErrorCircle } from 'react-icons/bi';
 import BASE_URL from '../../config';
 
 const BottomBox = styled.div`
@@ -95,8 +95,7 @@ const CheckBtn = styled.button`
 const EditBtn = styled.button`
   position: absolute;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   right: 7%;
   color: #858585;
   background-color: black;
@@ -109,6 +108,18 @@ const EditBtn = styled.button`
   :hover {
     color: white;
     border: 0.1px solid white;
+  }
+`;
+
+const Empty = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #858585;
+  span {
+    font-size: 30px;
   }
 `;
 function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
@@ -125,6 +136,7 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
   const [watch, setWatch] = useState(watchInterface);
   const [value, setValue] = useState(true);
   const token = localStorage.getItem('token');
+  console.log(watch);
   const navigate = useNavigate();
   const onClickHistory = () => {
     setValue(true);
@@ -203,78 +215,89 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
       </TabBox>
       {value ? (
         <HistoryBox>
-          {editMode ? (
-            <EditBtn
-              onClick={() => {
-                setEditMode(false);
-                fetch(`${BASE_URL}/my/watch`, {
-                  method: 'DELETE',
-                  headers: {
-                    access_token: token,
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(watchResponse),
-                })
-                  .then(res => res.json())
-                  .then(res => {
-                    console.log(res);
-                    watchUpdate(clickId);
-                    setClickIdValue([]);
-                  });
-              }}
-            >
-              완료({clickId.length})
-            </EditBtn>
-          ) : (
-            <EditBtn
-              onClick={() => {
-                setEditMode(true);
-              }}
-            >
-              편집
-            </EditBtn>
-          )}
-          {editMode ? (
+          {watch.length !== 0 ? (
             <>
-              {watch.map(i => (
-                <PosterWrapper width="20%">
-                  <Box>
-                    <Poster
-                      src={i.img_url}
-                      width="100%"
-                      height="auto"
-                      edit={'0.5'}
-                    />
-                    {i.title}&nbsp;제
-                    {i.episode_num}화<div>{i.updated_at}</div>
-                    <CheckBtn
-                      onClick={onClick}
-                      value={i.id}
-                      clicked={
-                        clickId.includes(i.id) ? clickedStyle : unClickedStyle
-                      }
-                    >
-                      <BiCheck />
-                    </CheckBtn>
-                  </Box>
-                </PosterWrapper>
-              ))}
+              {editMode ? (
+                <EditBtn
+                  onClick={() => {
+                    setEditMode(false);
+                    fetch(`${BASE_URL}/my/watch`, {
+                      method: 'DELETE',
+                      headers: {
+                        access_token: token,
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(watchResponse),
+                    })
+                      .then(res => res.json())
+                      .then(res => {
+                        console.log(res);
+                        watchUpdate(clickId);
+                        setClickIdValue([]);
+                      });
+                  }}
+                >
+                  완료({clickId.length})
+                </EditBtn>
+              ) : (
+                <EditBtn
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                >
+                  편집
+                </EditBtn>
+              )}
+              {editMode ? (
+                <>
+                  {watch.map(i => (
+                    <PosterWrapper width="20%">
+                      <Box>
+                        <Poster
+                          src={i.img_url}
+                          width="100%"
+                          height="auto"
+                          edit={'0.5'}
+                        />
+                        {i.title}&nbsp;제
+                        {i.episode_num}화<div>{i.updated_at}</div>
+                        <CheckBtn
+                          onClick={onClick}
+                          value={i.id}
+                          clicked={
+                            clickId.includes(i.id)
+                              ? clickedStyle
+                              : unClickedStyle
+                          }
+                        >
+                          <BiCheck />
+                        </CheckBtn>
+                      </Box>
+                    </PosterWrapper>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {watch.map(i => (
+                    <PosterWrapper width="20%">
+                      <Poster
+                        src={i.img_url}
+                        width="100%"
+                        height="auto"
+                        edit={'1.0'}
+                      />
+                      {i.title}&nbsp;제
+                      {i.episode_num}화<div>{i.updated_at}</div>
+                    </PosterWrapper>
+                  ))}
+                </>
+              )}
             </>
           ) : (
-            <>
-              {watch.map(i => (
-                <PosterWrapper width="20%">
-                  <Poster
-                    src={i.img_url}
-                    width="100%"
-                    height="auto"
-                    edit={'1.0'}
-                  />
-                  {i.title}&nbsp;제
-                  {i.episode_num}화<div>{i.updated_at}</div>
-                </PosterWrapper>
-              ))}
-            </>
+            <Empty>
+              <BiErrorCircle size={200} />
+              <span>시청내역이 없습니다.</span>
+            </Empty>
           )}
         </HistoryBox>
       ) : (
