@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { BsExclamationCircle } from 'react-icons/bs';
 import axios from 'axios';
 import BASE_URL from '../../config';
 
-function NoResult() {
+function NoResult({ keywordInput }) {
+  let navigate = useNavigate();
   const [popularKeywordList, setPopularKeywordList] = useState([]);
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/search/popular`).then(result => {
@@ -23,7 +23,10 @@ function NoResult() {
       {popularKeywordList &&
         popularKeywordList.map((keyword, index) => {
           return (
-            <Keyword key={keyword?.toString() + index?.toString()}>
+            <Keyword
+              key={keyword?.toString() + index?.toString()}
+              onClick={() => navigate(`/detail/${keyword.program_id}`)}
+            >
               {keyword.title}
             </Keyword>
           );

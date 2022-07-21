@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 import MultipleSlider from './multipleSlider';
 
-function Result({ dataList, count }) {
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
+function Result({ dataList, count, keywordInput }) {
   return (
     <>
       <Desc>

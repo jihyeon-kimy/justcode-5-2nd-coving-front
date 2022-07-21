@@ -1,7 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../../../config';
 
 const EpListSlider = styled.div`
 display: flex;
@@ -52,6 +53,7 @@ scroll-behavior: smooth;
     max-height: 150px;
     border-radius:3px;
     margin-bottom: 10px;
+    
   }
 `;
 
@@ -107,10 +109,13 @@ const RealeseDate = styled.span`
   color: #787878;
   border-right: 0.1px solid;
 `;
-function Slider({ width, height, data, title }) {
+
+function Slider({ width, height, data, title, watch, programId }) {
   const [value, setValue] = useState();
+  const [watchs, setWatchs] = useState([]);
   const navigate = useNavigate();
   const el = useRef();
+  const token = localStorage.getItem('token');
   const scroll = scrollOffset => {
     el.current.scrollLeft += scrollOffset;
   };
@@ -129,7 +134,45 @@ function Slider({ width, height, data, title }) {
   const onLeave = () => {
     setValue(false);
   };
-  const goToVideo = () => {};
+
+  useEffect(() => {
+    if (watch) {
+      setWatchs(watch);
+    }
+  }, [watch]);
+  // const onWish = () => {
+  //   const res = {
+  //     id: [programId],
+  //   };
+  //   if (wishValue) {
+
+  //     fetch(`${BASE_URL}/episode/:id`, {
+  //       method: 'POST',
+  //       headers: {
+  //         access_token: token,
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //       .then(res => res.json())
+  //       .then(res => {
+  //         console.log(res);
+
+  //         fetch(`${BASE_URL}/my/favorite`, {
+  //           method: 'GET',
+  //           headers: {
+  //             access_token: token,
+  //             'Content-Type': 'application/json',
+  //           },
+  //         })
+  //           .then(res => res.json())
+  //           .then(res => {
+  //             setWishs(res.data.map(i => i.id));
+  //           });
+  //       });
+  //   }
+  // };
+  // console.log(watch.includes(data.id));
+  // console.log(watchs);
   return (
     <>
       <EpListSlider
@@ -153,12 +196,16 @@ function Slider({ width, height, data, title }) {
               onClick={() => {
                 navigate('/video', {
                   state: {
+                    title: title,
                     data: i,
+                    watch: watchs.includes(data.id),
+                    programId: programId,
                   },
                 });
               }}
             >
               <img src={i.img_url} />
+
               <EpTitle>
                 {title} 제{i.episode_num}화
               </EpTitle>
