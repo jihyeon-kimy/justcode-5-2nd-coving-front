@@ -6,6 +6,7 @@ import { UserContext } from '../../../context';
 import {
   GOOGLE_LOGIN_URL,
   KAKAO_LOGIN_URL,
+  NAVER_LOGIN_URL,
 } from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
@@ -23,7 +24,7 @@ function Dropdown({ setdropdownHide }) {
     >
       <Profile>
         <ProfileImg />
-        <UserName>{email ? email : 'JUSTCODE'}</UserName>
+        <UserName>{email ? email.split('@')[0] : 'JUSTCODE'}</UserName>
       </Profile>
       <MenuList>
         {token && email ? (
@@ -51,7 +52,21 @@ function Dropdown({ setdropdownHide }) {
                 window.location.assign(GOOGLE_LOGIN_URL);
               }}
             >
-              로그인
+              구글 로그인
+            </Menu>
+            <Menu
+              onClick={() => {
+                window.location.assign(NAVER_LOGIN_URL);
+              }}
+            >
+              네이버 로그인
+            </Menu>
+            <Menu
+              onClick={() => {
+                window.location.assign(KAKAO_LOGIN_URL);
+              }}
+            >
+              카카오 로그인
             </Menu>
             <Menu
               onClick={() => {
@@ -73,7 +88,8 @@ const Container = styled.div`
   width: 13%;
   min-width: 90px;
   margin-right: 5%;
-  positon: relative;
+  position: absolute;
+  top: 100%;
   z-index: 2;
   background: #212121;
   border: 1px solid #4d4d4d;

@@ -100,11 +100,11 @@ function Viedo() {
   //   togglePictureInPicture(true);
   // }, []);
   const InterfaceData = {
-    episode_num: 1,
-    id: 1,
+    episode_num: null,
+    id: null,
     img_url: '',
     release_date: '',
-    running_time: 1,
+    running_time: null,
     summary: '',
     video_url: '',
   };
@@ -126,10 +126,12 @@ function Viedo() {
   }, [url]);
   console.log(url.programId);
   console.log(url.watch);
+  console.log(url.data);
+
   useEffect(() => {
-    if (!url.watch) {
+    if (!url.watch && url.data.id !== null) {
       fetch(`${BASE_URL}/episode/${url.data.id}`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           access_token: token,
           'Content-Type': 'application/json',
@@ -138,7 +140,7 @@ function Viedo() {
         .then(res => res.json())
         .then(res => console.log(res));
     }
-  }, []);
+  }, [url]);
 
   return (
     <Container>
