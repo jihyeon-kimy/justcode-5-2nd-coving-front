@@ -20,37 +20,37 @@ function MainBody() {
   return (
     data && (
       <>
-        {data[0].listByIsWatching.length !== 0 && (
+        {data.listByIsWatching.length !== 0 && (
           <MultipleSlider
             rank={false}
-            summary={true}
+            summary={false}
             title="시청 중인 컨텐츠"
-            programList={data[0].listByIsWatching}
+            programList={data.listByIsWatching}
           />
         )}
         <MultipleSlider
           rank={true}
           summary={false}
           title="코빙에서 꼭 봐야하는 콘텐츠"
-          programList={data[1].listByPopularity}
+          programList={data.listByPopularity}
         />
         <MultipleSlider
           rank={false}
           summary={true}
           title="당신이 즐겨볼 로맨스 영화"
-          programList={data[2].listByGenre}
+          programList={data.listByGenre}
         />
         <MultipleSlider
           rank={false}
           summary={false}
           title="디렉터가 추천하는 콘텐츠 모음집"
-          programList={data[3].listByDirector}
+          programList={data.listByDirector}
         />
         <MultipleSlider
           rank={false}
           summary={true}
           title="<우리들의 여름> 배우들의 컬렉션"
-          programList={data[4].listByActor}
+          programList={data.listByActor}
         />
       </>
     )
