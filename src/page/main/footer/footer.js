@@ -73,7 +73,7 @@ export default Footer;
 const Contatiner = styled.div`
   min-width: 800px;
   height: 400px;
-  padding: 40px;
+  padding: 60px 40px;
 `;
 
 const NoticeGroup = styled.div`
