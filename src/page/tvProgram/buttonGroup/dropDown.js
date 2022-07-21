@@ -18,7 +18,7 @@ function Dropdown() {
     genre: URL.includes('genre') ? URL[URL.indexOf('genre') + 1] : '장르 전체',
     channel: URL.includes('channel')
       ? URL[URL.indexOf('channel') + 1]
-      : '장르 전체',
+      : '채널 전체',
     sort: URL.includes('sort') ? URL[URL.indexOf('sort') + 1] : '',
   });
 

@@ -112,6 +112,7 @@ function PostSlider({ width, height, data }) {
               id={inx}
               onClick={() => {
                 navigate(`/detail/${i.id}`);
+                window.scrollTo(0, 0);
               }}
               contentsBoxWidth={width}
               contentsBoxheight={height}

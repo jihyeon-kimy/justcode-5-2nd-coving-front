@@ -5,8 +5,11 @@ import { BiChevronLeft } from 'react-icons/bi';
 import ControlBar from './controlBar';
 import BASE_URL from '../../config';
 const Container = styled.div`
+  position: relative;
   width: 100%;
   height: 99vh;
+  background-color: black;
+  z-index: 100;
 `;
 
 const Title = styled.div`
@@ -116,7 +119,7 @@ function Viedo() {
   });
   const [titleValue, setTitleValue] = useState(true);
   const location = useLocation();
-
+  console.log(location);
   //1. move 이벤트 연속 실행 방어
   //2. 일정시간 동안 실행 유지
   // 움직이면 true --> 움직이지 않으면 3초후 false
@@ -153,6 +156,8 @@ function Viedo() {
                 navigate(`/detail/${url.programId}`, {
                   state: {
                     url: url.data.video_url,
+                    title: url.title,
+                    epiNum: url.data.episode_num,
                     boolean: true,
                     id: url.data.id,
                   },
