@@ -129,7 +129,7 @@ function Viedo() {
   useEffect(() => {
     if (!url.watch) {
       fetch(`${BASE_URL}/episode/${url.data.id}`, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           access_token: token,
           'Content-Type': 'application/json',
