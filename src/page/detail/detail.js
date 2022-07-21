@@ -39,8 +39,7 @@ function Detail() {
             id: null,
             episode_num: null,
             img_url: '',
-            video_url:
-              'https://vpc-endpoint-check1993.s3.ap-northeast-2.amazonaws.com/coving/coving.mp4',
+            video_url: '',
             summary: '',
             release_date: '',
             running_time: '',

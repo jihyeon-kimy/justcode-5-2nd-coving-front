@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import { useContext } from 'react';
 import { UserContext } from '../../../context';
 
-import { GOOGLE_LOGIN_URL } from '../../../constants/SocialLogin';
+import {
+  GOOGLE_LOGIN_URL,
+  NAVER_LOGIN_URL,
+} from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
   const navigate = useNavigate();
@@ -42,13 +45,29 @@ function Dropdown({ setdropdownHide }) {
             </Menu>
           </>
         ) : (
-          <Menu
-            onClick={() => {
-              window.location.assign(GOOGLE_LOGIN_URL);
-            }}
-          >
-            로그인
-          </Menu>
+          <>
+            <Menu
+              onClick={() => {
+                window.location.assign(GOOGLE_LOGIN_URL);
+              }}
+            >
+              구글 로그인
+            </Menu>
+            <Menu
+              onClick={() => {
+                window.location.assign(NAVER_LOGIN_URL);
+              }}
+            >
+              네이버 로그인
+            </Menu>
+            <Menu
+              onClick={() => {
+                window.location.assign(KAKAO_LOGIN_URL);
+              }}
+            >
+              카카오 로그인
+            </Menu>
+          </>
         )}
       </MenuList>
     </Container>
