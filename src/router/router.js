@@ -11,6 +11,7 @@ import Viedo from '../page/viedo/viedo';
 import ProfileEdit from '../page/mypage/profileEdit';
 import Search from '../page/search/search';
 import Footer from '../page/main/footer/footer';
+import TvProgram from '../page/tvProgram/tvProgram';
 
 function Router() {
   return (
@@ -24,6 +25,8 @@ function Router() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/profileedit" element={<ProfileEdit />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/list" element={<TvProgram />} />
         <Route path="/login/callback" element={<CallBack />} />
         <Route path="/search" element={<Search />} />
       </Routes>
