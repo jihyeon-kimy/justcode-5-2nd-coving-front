@@ -31,7 +31,13 @@ function Header({ black }) {
               dispatch(switchSearchIcon(0));
             }}
           />
-          <Menu>TV프로그램</Menu>
+          <Menu
+            onClick={() => {
+              navigate('/list');
+            }}
+          >
+            TV프로그램
+          </Menu>
         </NavLeft>
         <NavRight>
           {
