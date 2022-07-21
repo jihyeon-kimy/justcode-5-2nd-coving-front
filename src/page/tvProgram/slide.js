@@ -6,7 +6,7 @@ function Slide({ program }) {
   return (
     <SlideContainer
       onClick={() => {
-        navigate(`/detail/${program.id}`);
+        navigate(`/detail/${program.program_id}`);
       }}
     >
       <ProgramImg img={program.poster_img_url} />
