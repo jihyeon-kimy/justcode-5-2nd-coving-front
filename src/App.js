@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 import { Provider } from 'react-redux';
 import store from './store.js';
 import { UserContext } from './context';
+import { useState } from 'react';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
@@ -70,13 +71,15 @@ a {
 }
 `;
 function App() {
+  // const [user, setUser] = useState();
+  // 토큰과 이메일을 유저에 넣고, 아래 value에 유저와 셋유저 넣기.
   return (
-    <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
-      <Provider store={store}>
-        <GlobalStyle />
-        <Router />
-      </Provider>
-    </UserContext.Provider>
+    // <UserContext.Provider value={{ email: 'JUSTCODE', token: '' }}>
+    <Provider store={store}>
+      <GlobalStyle />
+      <Router />
+    </Provider>
+    // </UserContext.Provider>
   );
 }
 

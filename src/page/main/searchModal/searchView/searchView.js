@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
@@ -10,35 +10,34 @@ import Slide from './slide';
 import { closeSearchModal, switchSearchIcon } from '../../../../store';
 import BASE_URL from '../../../../config';
 
-function SearchView({ searchResultList }) {
+function SearchView({ instantResultList, keywordInput }) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  let keywordInput = useSelector(state => state.inputKeyword.keyword);
   const [programList, setProgramList] = useState([]);
 
   useEffect(() => {
     const HandleProgramList = () => {
-      let dataLength = searchResultList?.length;
+      let dataLength = instantResultList?.length;
       if (window.innerWidth > 1460 && dataLength > 7)
-        setProgramList(searchResultList.slice(7, dataLength));
+        setProgramList(instantResultList.slice(7, dataLength));
       else if (
         window.innerWidth > 1200 &&
         window.innerWidth <= 1460 &&
         dataLength > 6
       )
-        setProgramList(searchResultList.slice(6, dataLength));
+        setProgramList(instantResultList.slice(6, dataLength));
       else if (
         window.innerWidth > 760 &&
         window.innerWidth <= 1200 &&
         dataLength > 5
       )
-        setProgramList(searchResultList.slice(5, dataLength));
+        setProgramList(instantResultList.slice(5, dataLength));
       else if (
         window.innerWidth > 0 &&
         window.innerWidth <= 760 &&
         dataLength > 3
       )
-        setProgramList(searchResultList.slice(3, dataLength));
+        setProgramList(instantResultList.slice(3, dataLength));
       else setProgramList([]);
     };
 
@@ -48,7 +47,7 @@ function SearchView({ searchResultList }) {
     return () => {
       window.removeEventListener('resize', HandleProgramList);
     };
-  }, []);
+  }, [instantResultList]);
 
   const SearchLog = programId => {
     axios.post(`${BASE_URL}/search/${programId}`);
@@ -76,11 +75,11 @@ function SearchView({ searchResultList }) {
           },
         }}
       >
-        {searchResultList &&
-          searchResultList.map((data, idx) => {
+        {instantResultList &&
+          instantResultList.map((data, idx) => {
             return (
               <SwiperSlide key={data.toString() + idx.toString()}>
-                <Slide data={data} idx={idx} />
+                <Slide data={data} keywordInput={keywordInput} />
               </SwiperSlide>
             );
           })}

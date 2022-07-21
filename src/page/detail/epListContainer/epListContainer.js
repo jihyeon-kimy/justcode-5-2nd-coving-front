@@ -12,17 +12,16 @@ const EpListBox = styled.div`
 
 const OrderingBox = styled.div`
   display: flex;
-  
+
   width: 200px;
   margin-left: 4%;
-  
-  div:hover{
-      cursor: pointer;
-    }
+
+  div:hover {
+    cursor: pointer;
   }
 `;
 
-function EpListContainer({ data, title }) {
+function EpListContainer({ data, title, watch, programId }) {
   const [value, setValue] = useState(false);
   const reverse = data
     .slice(0)
@@ -57,6 +56,8 @@ function EpListContainer({ data, title }) {
         height={276}
         data={value ? data : reverse}
         title={title}
+        watch={watch}
+        programId={programId}
       />
     </EpListBox>
   );

@@ -1,82 +1,24 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeUserInfo } from '../../store';
 import {
   SOCIAL_REDIRECT_URL,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
 } from '../../constants/SocialLogin';
 
+import Header from '../main/header/header';
+
 import { ServerURL } from '../../constants/ServerURL';
 import axios from 'axios';
 
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const CallBack = () => {
-  //   useEffect(() => {
-  //     async function callbackHandler() {
-  //       const url = new URL(window.location.href);
-  //       let req;
-
-  //       req = {
-  //         code: await url.searchParams.get('code'),
-  //         state: await url.searchParams.get('state'),
-  //         redirectUri: await SOCIAL_REDIRECT_URL,
-  //       };
-
-  //       if (req) {
-  //         // alert(JSON.stringify(req));
-  //         console.log(JSON.stringify(req));
-  //       }
-
-  //       const authorizationCode = await url.searchParams.get('code');
-
-  //       const url2 = `https://oauth2.googleapis.com/token?code=${authorizationCode}&client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&redirect_uri=${SOCIAL_REDIRECT_URL}&grant_type=authorization_code`;
-  //       const access_token = await axios
-  //         .post(url2, {
-  //           headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  //         })
-  //         .then(el => {
-  //           return el.data.access_token;
-  //         })
-  //         .catch(err => {
-  //           console.log('err=', err);
-  //         });
-
-  //       if (access_token) {
-  //         // alert(access_token);
-  //         console.log(access_token);
-
-  //         const googleAPI = `https://www.googleapis.com/oauth2/v2/userinfo?access_token=${access_token}`;
-  //         const userInfo = await axios
-  //           .get(googleAPI, {
-  //             headers: {
-  //               authorization: `Bearer ${access_token}`,
-  //             },
-  //           })
-  //           .then(el => {
-  //             return el.data;
-  //           })
-  //           .catch(err => {
-  //             console.log('err=', err);
-  //           });
-
-  //         if (userInfo) {
-  //           //   alert(JSON.stringify(userInfo));
-  //           console.log(JSON.stringify(userInfo));
-  //           console.log(access_token);
-  //         }
-
-  //         const email = userInfo.email;
-  //       }
-
-  //       //   const [result, created] = await db.addGoogleUser(email);
-  //       //   if (!created) {
-  //       //     return res.status(400).json({ message: 'user-already-exists' });
-  //       //   }
-  //     }
-
-  //     callbackHandler();
-  //   }, []);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+  let userInfo = useSelector(state => state.userInfo);
 
   async function callbackHandler() {
     const url = new URL(window.location.href);
@@ -89,7 +31,6 @@ const CallBack = () => {
     };
 
     if (req) {
-      // alert(JSON.stringify(req));
       console.log(JSON.stringify(req));
 
       const url2 = `https://oauth2.googleapis.com/token?code=${req.code}&client_id=${GOOGLE_CLIENT_ID}&client_secret=${GOOGLE_CLIENT_SECRET}&redirect_uri=${SOCIAL_REDIRECT_URL}&grant_type=authorization_code`;
@@ -146,27 +87,12 @@ const CallBack = () => {
               localStorage.setItem('token', access_token);
               localStorage.setItem('email', email);
 
-              // console.log('localStorage: ', localStorage);
-              // localStorage.getItem('token');
-              // console.log('getItem: ', localStorage);
-              // console.log(
-              //   `${localStorage.getItem('token')} + ${localStorage.getItem(
-              //     'email'
-              //   )}`
-              // );
-              // Navigate('/');
               window.location.assign('/');
             } else if (res.status == 321) {
               alert('로그인이 완료되었습니다.');
               localStorage.setItem('token', access_token);
               localStorage.setItem('email', email);
               window.location.assign('/');
-              // console.log(
-              //   `${localStorage.getItem('token')} + ${localStorage.getItem(
-              //     'email'
-              //   )}`
-              // );
-              // Navigate('/');
             } else {
               alert(JSON.stringify(res));
             }
@@ -186,9 +112,71 @@ const CallBack = () => {
     }
   }
 
-  callbackHandler();
+  async function callbackHandlerByCodeNStatus() {
+    const url = new URL(window.location.href);
+    let req;
 
-  return <h1>콜백</h1>;
+    req = {
+      code: await url.searchParams.get('code'),
+      state: await url.searchParams.get('state'),
+      redirectUri: await SOCIAL_REDIRECT_URL,
+    };
+
+    if (req) {
+      const signURL = `${ServerURL}/socialLogin`;
+      fetch(signURL, {
+        method: 'POST',
+        body: JSON.stringify({
+          req,
+        }),
+        headers: {
+          'content-Type': 'application/json',
+        },
+      })
+        .then(res => {
+          res.json().then(data => {
+            console.log(data.data);
+            localStorage.setItem('token', data.data.token);
+            localStorage.setItem('email', data.data.user.email);
+            dispatch(changeUserInfo(data.data.user));
+            console.log('전역 상태', userInfo);
+            if (data.data.message == 'signin') {
+              alert('로그인이 완료되었습니다.');
+            } else if (data.data.message == 'signup') {
+              alert('회원가입이 완료되었습니다.');
+            } else {
+              alert('에러');
+            }
+            // window.location.assign('/');
+            navigate('/');
+          });
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    }
+  }
+
+  // callbackHandler();
+  useEffect(() => {
+    callbackHandlerByCodeNStatus();
+  }, []);
+
+  return (
+    <Container>
+      <Title>구글 로그인</Title>
+    </Container>
+  );
 };
+
+const Container = styled.div`
+  padding: 50px;
+`;
+
+const Title = styled.h1`
+  font-weight: 900;
+  font-size: 24px;
+  color: white;
+`;
 
 export default CallBack;
