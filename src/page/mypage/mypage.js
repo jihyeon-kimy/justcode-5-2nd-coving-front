@@ -7,6 +7,7 @@ import BASE_URL from '../../config';
 
 const Container = styled.div`
   width: 100vw;
+  height: auto;
   overflow-x: hidden;
   overflow-y: hidden;
   background-color: #171717;
@@ -17,7 +18,7 @@ const Wrapper = styled.div`
   overflow-x: hidden;
   top: 80px;
   width: 100vw;
-  height: 100%;
+  height: auto;
 `;
 
 const MidBox = styled.div`
@@ -63,7 +64,6 @@ function Mypage() {
   return (
     <>
       <Container>
-        <Header black={'black'} />
         <Wrapper>
           <TopWrapper email={email} />
           <MidBox />

@@ -14,6 +14,7 @@ const Container = styled.section`
 
 function Detail() {
   const dataInterface = {
+    latest_watching_episode: [{ episode_num: null, video_url: '' }],
     programInfo: [
       {
         id: null,
@@ -65,6 +66,7 @@ function Detail() {
     ],
   };
   const stateInterface = { url: '', boolean: false };
+  const epInterface = { epiNum: null, title: '' };
   const { state } = useLocation();
   const [location, setLocation] = useState(stateInterface);
   const [datas, setDatas] = useState(dataInterface);
@@ -73,6 +75,11 @@ function Detail() {
   const programId = Number(id);
   const [video, setVideo] = useState(false);
   const [urls, setUrls] = useState('');
+
+  const [epTitle, setEptitle] = useState('');
+  const token = localStorage.getItem('token');
+  console.log(token);
+
 
   const closeModal = () => {
     setLocation(null);
@@ -85,9 +92,11 @@ function Detail() {
 
       setUrls(location.url);
       setVideo(location.boolean);
+      const modalTitle = `${location.title} 제${location.epiNum}화`;
+      setEptitle(modalTitle);
     }
   }, [state, location]);
-
+  console.log(epTitle);
   useEffect(() => {
     (async () => {
       const res = await fetch(`${BASE_URL}/program/${programId}`);
@@ -96,7 +105,7 @@ function Detail() {
       setDatas(json.data);
     })();
   }, [id]);
-
+  console.log(datas.latest_watching_episode);
   useEffect(() => {
     (async () => {
       const res = await fetch(`${BASE_URL}/my/watch`);
@@ -104,9 +113,12 @@ function Detail() {
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
+
   //console.log(watch);
 
+
   const isWish = datas.isLiked;
+  const last = datas.latest_watching_episode[0];
   const info = datas.programInfo[0];
   const episode = datas.programInfo[0].episode_info;
   const isTitle = datas.programInfo[0].title;
@@ -114,7 +126,7 @@ function Detail() {
   const withProgram = datas.with_program_list;
   const suggestion = [
     {
-      name: '같이 보기 좋은 프로그램',
+      name: '함께 즐겨보는 프로그램',
       poster: [...withProgram],
     },
     {
@@ -127,7 +139,7 @@ function Detail() {
     <>
       <Container>
         <Header />
-        <TopContainer data={info} isWish={isWish} />
+        <TopContainer data={info} isWish={isWish} last={last} />
         <EpListContainer
           data={episode}
           title={isTitle}
@@ -138,7 +150,9 @@ function Detail() {
           <PosterContainer id={inx} name={i.name} data={i.poster} />
         ))}
       </Container>
-      {video ? <VideoModal closeModal={closeModal} url={urls} /> : null}
+      {video ? (
+        <VideoModal closeModal={closeModal} url={urls} epTitle={epTitle} />
+      ) : null}
     </>
   );
 }
