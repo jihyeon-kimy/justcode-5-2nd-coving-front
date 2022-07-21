@@ -43,7 +43,7 @@ export default Slide;
 const SlideContainer = styled.div`
   width: 100%;
   padding-top: 10px;
-  positioin: relative;
+  position: relative;
   :hover {
     cursor: pointer;
   }
