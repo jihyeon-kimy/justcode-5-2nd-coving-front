@@ -34,12 +34,12 @@ function Header({ black }) {
   }, []);
 
   return (
-    <Container black={black} end={scrollY / 200 + 0.7} start={scrollY / 1200}>
+    <Container black={black} end={scrollY / 200 + 0.5} start={scrollY / 1100}>
       <Navbar>
         <NavLeft>
           <Logo
             onClick={() => {
-              navigate('/');
+              navigate('/main');
               dispatch(closeSearchModal());
               dispatch(switchSearchIcon(0));
             }}
@@ -165,7 +165,7 @@ const NavRight = styled.div`
 `;
 
 const DropdownMenu = styled.img.attrs(props => ({
-  src: 'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100',
+  src: 'https://i.ibb.co/8sYR6ps/profile-image-default.png',
   alt: 'dropdownMenu',
 }))`
   padding: 11.5%;
