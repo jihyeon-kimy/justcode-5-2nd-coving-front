@@ -4,6 +4,7 @@ import SubHeader from './components/subHeader';
 
 const Container = styled.div`
   display: flex;
+
   justify-content: center;
   width: 100%;
 `;

@@ -85,11 +85,11 @@ function Detail() {
   useEffect(() => {
     if (location !== null) {
       setLocation(state);
-
       setUrls(location.url);
       setVideo(location.boolean);
     }
   }, [state, location]);
+
   useEffect(() => {
     fetch(`${BASE_URL}/program/${programId}`, {
       method: 'GET',
@@ -117,7 +117,7 @@ function Detail() {
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
-  //console.log(watch);
+  console.log(watch);
 
   const isWish = datas.isLiked;
   const info = datas.programInfo[0];
