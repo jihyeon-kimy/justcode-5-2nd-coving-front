@@ -26,8 +26,8 @@ function ButtonGroup() {
 export default ButtonGroup;
 
 const Container = styled.div`
-  padding: 0 5.6%;
-  margin: 3% 0 3%;
+  padding: 0 3.9%;
+  margin: 2.5% 0 3%;
 `;
 
 const Title = styled.div`
