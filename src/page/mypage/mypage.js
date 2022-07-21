@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Header from '../main/header/header';
-import { HiPencil } from 'react-icons/hi';
 import TopWrapper from './topWrapper';
 import BottomWrapper from './bottomWrapper';
 import { useEffect, useState } from 'react';
@@ -9,11 +8,13 @@ import BASE_URL from '../../config';
 const Container = styled.div`
   width: 100vw;
   overflow-x: hidden;
+  overflow-y: hidden;
   background-color: #171717;
 `;
 
 const Wrapper = styled.div`
   position: relative;
+  overflow-x: hidden;
   top: 80px;
   width: 100vw;
   height: 100%;
@@ -22,16 +23,23 @@ const Wrapper = styled.div`
 const MidBox = styled.div`
   width: 100%;
   height: 9vh;
-
+  overflow-x: hidden;
   background-color: #363636;
 `;
 
 function Mypage() {
   const [wishs, setWishs] = useState([]);
   const [watchs, setWatchs] = useState([]);
+  const [updateWatch, setUpdateWatch] = useState();
+  const [updateWish, setUpdateWish] = useState();
   const token = localStorage.getItem('token');
   const email = localStorage.getItem('email');
-
+  const watchUpdate = e => {
+    setUpdateWatch(e);
+  };
+  const wishUpdate = e => {
+    setUpdateWish(e);
+  };
   useEffect(() => {
     (async () => {
       const req = {
@@ -50,9 +58,7 @@ function Mypage() {
       setWatchs(watchEp);
       setWishs(wishProgram);
     })();
-  }, []);
-  console.log(watchs);
-  console.log(wishs);
+  }, [updateWatch, updateWish]);
 
   return (
     <>
@@ -61,7 +67,12 @@ function Mypage() {
         <Wrapper>
           <TopWrapper email={email} />
           <MidBox />
-          <BottomWrapper wishs={wishs} watchs={watchs} />
+          <BottomWrapper
+            wishs={wishs}
+            watchs={watchs}
+            watchUpdate={watchUpdate}
+            wishUpdate={wishUpdate}
+          />
         </Wrapper>
       </Container>
     </>

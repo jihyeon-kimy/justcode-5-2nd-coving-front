@@ -74,6 +74,8 @@ function Detail() {
   const programId = Number(id);
   const [video, setVideo] = useState(false);
   const [urls, setUrls] = useState('');
+  const token = localStorage.getItem('token');
+  console.log(token);
 
   const closeModal = () => {
     setLocation(null);
@@ -83,29 +85,39 @@ function Detail() {
   useEffect(() => {
     if (location !== null) {
       setLocation(state);
-
       setUrls(location.url);
       setVideo(location.boolean);
     }
   }, [state, location]);
 
   useEffect(() => {
-    (async () => {
-      const res = await fetch(`${BASE_URL}/program/${programId}`);
-      const json = await res.json();
-
-      setDatas(json.data);
-    })();
+    fetch(`${BASE_URL}/program/${programId}`, {
+      method: 'GET',
+      headers: {
+        access_token: token,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => res.json())
+      .then(res => {
+        setDatas(res.data);
+      });
   }, [id]);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${BASE_URL}/my/watch`);
+      const res = await fetch(`${BASE_URL}/my/watch`, {
+        method: 'GET',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      });
       const json = await res.json();
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
-  //console.log(watch);
+  console.log(watch);
 
   const isWish = datas.isLiked;
   const info = datas.programInfo[0];
