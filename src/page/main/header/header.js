@@ -151,6 +151,7 @@ const NavRight = styled.div`
   align-self: stretch;
 
   .SearchIcon {
+    width: 50%;
     font-size: calc(10px + 1vw);
     cursor: pointer;
     :hover {
@@ -163,7 +164,8 @@ const DropdownMenu = styled.img.attrs(props => ({
   src: 'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100',
   alt: 'dropdownMenu',
 }))`
-  width: 35%;
+  padding: 6%;
+  width: 50%;
   min-width: 18px;
   object-fit: contain;
   align-self: stretch;
