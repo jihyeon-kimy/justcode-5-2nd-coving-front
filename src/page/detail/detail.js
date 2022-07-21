@@ -80,7 +80,6 @@ function Detail() {
   const token = localStorage.getItem('token');
   console.log(token);
 
-
   const closeModal = () => {
     setLocation(null);
     setVideo(false);
@@ -99,7 +98,13 @@ function Detail() {
   console.log(epTitle);
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${BASE_URL}/program/${programId}`);
+      const res = await fetch(`${BASE_URL}/program/${programId}`, {
+        method: 'GET',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      });
       const json = await res.json();
 
       setDatas(json.data);
@@ -108,14 +113,19 @@ function Detail() {
   console.log(datas.latest_watching_episode);
   useEffect(() => {
     (async () => {
-      const res = await fetch(`${BASE_URL}/my/watch`);
+      const res = await fetch(`${BASE_URL}/my/watch`, {
+        method: 'GET',
+        headers: {
+          access_token: token,
+          'Content-Type': 'application/json',
+        },
+      });
       const json = await res.json();
       setWatch(json.data.map(i => i.id));
     })();
   }, [id]);
 
   //console.log(watch);
-
 
   const isWish = datas.isLiked;
   const last = datas.latest_watching_episode[0];
