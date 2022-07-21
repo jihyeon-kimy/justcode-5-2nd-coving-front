@@ -20,7 +20,7 @@ export default Slide;
 const SlideContainer = styled.div`
   width: 100%;
   padding: 0 3% 20% 3%;
-  positioin: relative;
+  position: relative;
   :hover {
     transform: translateY(-3%);
     transition: transform 0.3s ease-in-out;

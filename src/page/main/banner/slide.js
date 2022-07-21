@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 export default function Slide({ title, subTitle, img, programId }) {
+  let navigate = useNavigate();
   return (
     <Container>
       <SliderImg img={img} />
@@ -10,7 +12,13 @@ export default function Slide({ title, subTitle, img, programId }) {
           <Title>{title}</Title>
           <SubTitle>{subTitle}</SubTitle>
         </Titles>
-        <GoDetail>자세히보기</GoDetail>
+        <GoDetail
+          onClick={() => {
+            navigate(`/detail/${programId}`);
+          }}
+        >
+          자세히보기
+        </GoDetail>
       </SliderInfo>
     </Container>
   );
@@ -42,7 +50,7 @@ const SliderInfo = styled.div`
 
 const Titles = styled.div`
   height: 100%;
-  width: 50%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

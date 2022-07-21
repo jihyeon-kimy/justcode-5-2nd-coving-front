@@ -1,20 +1,20 @@
 const SLIDER_LIST = [
   {
-    title: '',
-    subTitle: '다른 사람들이 많이 본 프로그램',
-    img: 'https://image.tving.com/upload/fe/highlight/2022/0720/20220720185646banner_image_url_u.jpg/dims/resize/F_webp,1920',
-    programId: 1,
+    title: '뉴욕 클라쓰',
+    subTitle: '목요일 밤 10시| ABC',
+    img: 'https://images.unsplash.com/photo-1619013971011-f901cfa5397b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80',
+    programId: 6,
   },
   {
-    title: `다른 사람들이 많이 보는 영화`,
-    subTitle: '<북 오브 러브>, <스텔라>등',
-    img: 'https://image.tving.com/upload/fe/highlight/2022/0712/20220712200606banner_image_url_u.jpg/dims/resize/F_webp,1920',
-    programId: 2,
+    title: `다른 사람들이 많이 본 프로그램`,
+    subTitle: '서울체크아웃',
+    img: 'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2344&q=80',
+    programId: 16,
   },
   {
-    title: '',
-    subTitle: '소녀시대의 탐나는 예능 정복기',
-    img: 'https://image.tving.com/upload/fe/highlight/2022/0705/20220705191619banner_image_url_u.jpg/dims/resize/F_webp,1920',
+    title: '응답하라 2022',
+    subTitle: '',
+    img: 'https://images.unsplash.com/photo-1635335356074-5a9e45b47a14?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2148&q=80',
     programId: 3,
   },
 ];

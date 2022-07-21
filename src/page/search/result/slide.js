@@ -61,7 +61,7 @@ export default Slide;
 const Contatiner = styled.div`
   width: 100%;
   padding-top: 10px;
-  positioin: relative;
+  position: relative;
   :hover {
     transform: translateY(-3%);
     transition: transform 0.3s ease-in-out;
