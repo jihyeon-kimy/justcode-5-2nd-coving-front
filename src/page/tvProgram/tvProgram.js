@@ -37,11 +37,12 @@ export default TvProgram;
 
 const Container = styled.div`
   padding: 5% 0;
-  height: 100vh;
   background: black;
+  float: both;
 `;
 
 const SlideContainer = styled.div`
+  height: 100%;
   padding: 0 3%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -53,7 +54,6 @@ const SlideContainer = styled.div`
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(5, 1fr);
   }
-
   @media screen and (max-width: 760px) {
     grid-template-columns: repeat(3, 1fr);
   }
