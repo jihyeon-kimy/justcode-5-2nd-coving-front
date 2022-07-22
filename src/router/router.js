@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from '../../src/page/main/header/header';
+import Opening from '../../src/page/opening/opening';
 import Detail from '../page/detail/detail';
 import Main from '../page/main/main';
 import Mypage from '../page/mypage/mypage';
@@ -18,7 +19,8 @@ function Router() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Main />} />
+        <Route path="/" element={<Opening />} />
+        <Route path="/main" element={<Main />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/subscribe" element={<Subscribe />} />
         <Route path="/video" element={<Viedo />} />
