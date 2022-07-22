@@ -12,6 +12,7 @@ function Slide({ program, idx, rank, summary }) {
     <Contatiner
       onClick={() => {
         navigate(`/detail/${program.program_id}`);
+        window.scrollTo(0, 0);
         dispatch(switchSearchIcon(0));
       }}
     >
