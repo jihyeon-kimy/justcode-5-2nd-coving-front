@@ -42,11 +42,15 @@ function Header() {
               navigate('/main');
               dispatch(closeSearchModal());
               dispatch(switchSearchIcon(0));
+              window.scrollTo(0, 0);
             }}
           />
           <Menu
             onClick={() => {
               navigate('/list');
+              dispatch(closeSearchModal());
+              dispatch(switchSearchIcon(0));
+              window.scrollTo(0, 0);
             }}
           >
             TV프로그램
@@ -60,6 +64,7 @@ function Header() {
                 onClick={() => {
                   dispatch(openSearchModal());
                   dispatch(switchSearchIcon(1));
+                  window.scrollTo(0, 0);
                 }}
                 key="0"
               />,
@@ -68,6 +73,7 @@ function Header() {
                 onClick={() => {
                   dispatch(closeSearchModal());
                   dispatch(switchSearchIcon(0));
+                  window.scrollTo(0, 0);
                 }}
                 key="1"
               />,

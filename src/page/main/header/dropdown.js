@@ -18,6 +18,7 @@ function Dropdown({ setdropdownHide }) {
         <Menu
           onClick={() => {
             navigate('/mypage');
+            window.scrollTo(0, 0);
           }}
         >
           My
