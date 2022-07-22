@@ -103,8 +103,7 @@ const Cancel = styled.button`
 `;
 function ProfileEdit() {
   const [name, setName] = useState('');
-  const image =
-    'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100';
+  const image = 'https://i.ibb.co/8sYR6ps/profile-image-default.png';
   const onEditModal = () => {};
   const onChange = e => {
     const edit = e.target.value;

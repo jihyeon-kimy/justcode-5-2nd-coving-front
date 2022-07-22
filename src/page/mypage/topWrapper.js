@@ -17,7 +17,7 @@ const PhotoBoxWrapper = styled.div`
   height: 100%;
 `;
 const PhotoBox = styled.img.attrs(props => ({
-  src: 'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100',
+  src: 'https://i.ibb.co/8sYR6ps/profile-image-default.png',
   alt: 'PropfileImg',
 }))`
   width: 100%;
