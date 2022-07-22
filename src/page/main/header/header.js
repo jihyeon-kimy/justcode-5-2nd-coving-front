@@ -99,8 +99,9 @@ const Container = styled.div`
     rgba(0, 0, 0, ${props => props.end}),
     rgba(0, 0, 0, ${props => props.start})
   );
-
-  width: 100%;
+  position: fixed;
+  top: 0;
+  width: 100vw;
   position: fixed;
   display: flex;
   flex-direction: column;
