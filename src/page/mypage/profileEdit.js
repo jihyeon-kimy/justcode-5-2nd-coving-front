@@ -116,7 +116,6 @@ function ProfileEdit() {
   };
   return (
     <>
-      <SubHeader />
       <Container>
         <Wrapper>
           <Title>프로필 편집</Title>

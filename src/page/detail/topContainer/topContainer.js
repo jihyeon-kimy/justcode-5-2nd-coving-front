@@ -54,10 +54,10 @@ const RightBox = styled.div`
   box-shadow: 3px 3px 100px 10px #292929;
 `;
 function TopContainer({ data, wish, isWish, last }) {
-  const backgroundImage = data.episode_info[0].img_url;
+  // const backgroundImage = data.episode_info[0].img_url;
   const posterImg = data.poster_img_url;
   return (
-    <TopWrapper backgroundImage={backgroundImage}>
+    <TopWrapper backgroundImage={posterImg}>
       <BlurBox>
         <ProgramDetailBox>
           <LeftBox data={data} wish={wish} isWish={isWish} last={last} />
