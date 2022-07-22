@@ -1,22 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { useContext } from 'react';
-import { UserContext } from '../../../context';
-
-import {
-  GOOGLE_LOGIN_URL,
-  KAKAO_LOGIN_URL,
-  NAVER_LOGIN_URL,
-} from '../../../constants/SocialLogin';
 
 function Dropdown({ setdropdownHide }) {
   const navigate = useNavigate();
-  // const { email, token } = useContext(UserContext);
-  // 아래 부분이 문제임. 아래 부분을 Context 생성할 때 주지 않았음
-  // const [user, setUser] = useContext(UserContext);
 
   const email = localStorage.getItem('email');
-  const token = localStorage.getItem('token');
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
@@ -27,56 +15,21 @@ function Dropdown({ setdropdownHide }) {
         <UserName>{email ? email.split('@')[0] : 'JUSTCODE'}</UserName>
       </Profile>
       <MenuList>
-        {token && email ? (
-          <>
-            <Menu
-              onClick={() => {
-                navigate('/mypage');
-              }}
-            >
-              My
-            </Menu>
-            <Menu
-              onClick={() => {
-                localStorage.clear();
-                window.location.replace('/');
-              }}
-            >
-              로그아웃
-            </Menu>
-          </>
-        ) : (
-          <>
-            <Menu
-              onClick={() => {
-                window.location.assign(GOOGLE_LOGIN_URL);
-              }}
-            >
-              구글 로그인
-            </Menu>
-            <Menu
-              onClick={() => {
-                window.location.assign(NAVER_LOGIN_URL);
-              }}
-            >
-              네이버 로그인
-            </Menu>
-            <Menu
-              onClick={() => {
-                window.location.assign(KAKAO_LOGIN_URL);
-              }}
-            >
-              카카오 로그인
-            </Menu>
-            <Menu
-              onClick={() => {
-                window.location.assign(KAKAO_LOGIN_URL);
-              }}
-            >
-              카카오 로그인
-            </Menu>
-          </>
-        )}
+        <Menu
+          onClick={() => {
+            navigate('/mypage');
+          }}
+        >
+          My
+        </Menu>
+        <Menu
+          onClick={() => {
+            localStorage.clear();
+            window.location.replace('/');
+          }}
+        >
+          로그아웃
+        </Menu>
       </MenuList>
     </Container>
   );
@@ -106,7 +59,7 @@ const Profile = styled.div`
 `;
 
 const ProfileImg = styled.img.attrs(props => ({
-  src: 'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100',
+  src: 'https://i.ibb.co/8sYR6ps/profile-image-default.png',
   alt: 'PropfileImg',
 }))`
   width: 20%;

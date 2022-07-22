@@ -135,20 +135,20 @@ const CallBack = () => {
       })
         .then(res => {
           res.json().then(data => {
-            console.log(data.data);
+            // console.log(data.data);
             localStorage.setItem('token', data.data.token);
             localStorage.setItem('email', data.data.user.email);
             dispatch(changeUserInfo(data.data.user));
-            console.log('전역 상태', userInfo);
-            if (data.data.message == 'signin') {
-              alert('로그인이 완료되었습니다.');
-            } else if (data.data.message == 'signup') {
-              alert('회원가입이 완료되었습니다.');
-            } else {
-              alert('에러');
-            }
+            // console.log('전역 상태', userInfo);
+            // if (data.data.message == 'signin') {
+            //   alert('로그인이 완료되었습니다.');
+            // } else if (data.data.message == 'signup') {
+            //   alert('회원가입이 완료되었습니다.');
+            // } else {
+            //   alert('에러');
+            // }
             // window.location.assign('/');
-            navigate('/');
+            navigate('/main');
           });
         })
         .catch(e => {
@@ -162,21 +162,13 @@ const CallBack = () => {
     callbackHandlerByCodeNStatus();
   }, []);
 
-  return (
-    <Container>
-      <Title>구글 로그인</Title>
-    </Container>
-  );
+  return <Container />;
 };
 
 const Container = styled.div`
-  padding: 50px;
-`;
-
-const Title = styled.h1`
-  font-weight: 900;
-  font-size: 24px;
-  color: white;
+  width: 100vw;
+  height: 100vh;
+  background: black;
 `;
 
 export default CallBack;
