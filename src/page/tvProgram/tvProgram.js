@@ -36,7 +36,6 @@ function TvProgram() {
 export default TvProgram;
 
 const Container = styled.div`
-  width: 100vw;
   padding: 5% 0;
   background: black;
 `;
