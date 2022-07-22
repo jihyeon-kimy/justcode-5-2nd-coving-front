@@ -43,7 +43,7 @@ const Container = styled.div`
 
 const SlideContainer = styled.div`
   height: 100%;
-  padding: 0 3%;
+  padding: 0 3.5%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 

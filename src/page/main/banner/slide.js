@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-export default function Slide({ title, subTitle, img, programId }) {
+function Slide({ title, subTitle, img, programId }) {
   let navigate = useNavigate();
   return (
     <Container>
       <SliderImg img={img} />
       <SliderInfo>
         <Titles>
-          <Title>{title}</Title>
+          <Title titleImg={title} />
           <SubTitle>{subTitle}</SubTitle>
         </Titles>
         <GoDetail
@@ -23,6 +23,8 @@ export default function Slide({ title, subTitle, img, programId }) {
     </Container>
   );
 }
+
+export default Slide;
 
 const Container = styled.div``;
 
@@ -38,30 +40,31 @@ const SliderImg = styled.div`
 `;
 
 const SliderInfo = styled.div`
-  width: 94%;
-  height: 23%;
-  margin: 0 3%;
+  width: 92%;
+  height: 43%;
+  margin: 0 4%;
   position: absolute;
-  top 50%;
+  top: 30%;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 `;
 
-const Titles = styled.div`
-  height: 100%;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+const Title = styled.img.attrs(props => ({
+  src: props.titleImg,
+  alt: 'title',
+}))`
+  width: 35%;
+  height: auto;
+  margin-bottom: 3%;
 `;
 
-const Title = styled.div`
-  width: 50%;
-  font-size: 3vw;
-  font-weight: 700;
-  word-break: keep-all;
-  color: #ffffff;
+const Titles = styled.div`
+  height: 100%;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const SubTitle = styled.div`
@@ -74,7 +77,7 @@ const SubTitle = styled.div`
 const GoDetail = styled.div`
   width: 13%;
   min-width: 70px;
-  height: 35%;
+  height: 15%;
   display: flex;
   align-items: center;
   justify-content: center;

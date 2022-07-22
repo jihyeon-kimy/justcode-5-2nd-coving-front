@@ -12,7 +12,7 @@ import {
   switchSearchIcon,
 } from '../../../store';
 
-function Header({ black }) {
+function Header() {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let searchModalStatus = useSelector(state => state.searchModalStatus);
@@ -34,7 +34,7 @@ function Header({ black }) {
   }, []);
 
   return (
-    <Container black={black} end={scrollY / 200 + 0.5} start={scrollY / 1100}>
+    <Container end={scrollY / 200 + 0.5} start={scrollY / 1100}>
       <Navbar>
         <NavLeft>
           <Logo
@@ -100,13 +100,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
   z-index: 2;
-  background-color: ${prop => prop.black};
 `;
 
 const Navbar = styled.div`
   width: 100%;
   height: 6%;
-  padding: 0 5%;
+  padding: 0 3.4%;
   display: flex;
   justify-content: space-between;
   align-items: center;
