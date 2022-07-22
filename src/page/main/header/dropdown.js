@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { switchSearchIcon } from '../../../store';
 
 function Dropdown({ setdropdownHide }) {
   const navigate = useNavigate();
 
   const email = localStorage.getItem('email');
+  let dispatch = useDispatch();
   return (
     <Container
       onMouseOver={() => setdropdownHide(true)}
@@ -18,6 +21,8 @@ function Dropdown({ setdropdownHide }) {
         <Menu
           onClick={() => {
             navigate('/mypage');
+            dispatch(switchSearchIcon(0));
+            window.scrollTo(0, 0);
           }}
         >
           My

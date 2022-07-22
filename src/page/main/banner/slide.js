@@ -15,6 +15,7 @@ function Slide({ title, subTitle, img, programId }) {
         <GoDetail
           onClick={() => {
             navigate(`/detail/${programId}`);
+            window.scrollTo(0, 0);
           }}
         >
           자세히보기

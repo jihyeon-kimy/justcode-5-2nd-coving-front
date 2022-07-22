@@ -7,6 +7,7 @@ function Slide({ program }) {
     <SlideContainer
       onClick={() => {
         navigate(`/detail/${program.program_id}`);
+        window.scrollTo(0, 0);
       }}
     >
       <ProgramImg img={program.poster_img_url} />
