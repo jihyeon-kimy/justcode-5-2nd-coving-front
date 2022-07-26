@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const TopBox = styled.div`
   display: flex;
+  overflow-x: hidden;
   width: 100%;
   height: 40vh;
   background-color: #171717;
