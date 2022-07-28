@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
-import { useNavigate } from 'react-router-dom';
 
 function Dropdown() {
-  let navigate = useNavigate();
-  let location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const genres = ['장르 전체', '코미디', '범죄', '로맨스', '공포', '복수'];
   const channels = ['채널 전체', 'JTBC', 'tvN', 'TVING', '채널A', 'Mnet'];
   const [openGenreDropdown, setOpneGenreDropdown] = useState(false);

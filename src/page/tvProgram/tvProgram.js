@@ -1,16 +1,16 @@
+import styled from 'styled-components';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import BASE_URL from '../../config';
 import ButtonGroup from './buttonGroup/buttonGroup';
 import Slide from './slide';
+import BASE_URL from '../../config';
 
 function TvProgram() {
   const [programAll, setProgramAll] = useState();
   const location = useLocation();
   useEffect(() => {
-    axios.get(`${BASE_URL}/list${location.search}`).then(result => {
+    axios.get(`${BASE_URL}/tvseries${location.search}`).then(result => {
       setProgramAll(result.data.data);
     });
   }, [location.search]);
