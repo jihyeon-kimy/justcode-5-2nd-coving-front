@@ -1,24 +1,25 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import Dropdown from './dropdown';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FiSearch } from 'react-icons/fi';
 import { IoClose } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
 import ModalLayout from '../searchModal/modalLayout';
-import { useDispatch, useSelector } from 'react-redux';
+import HeaderMenu from './headerMenu';
 import {
   closeSearchModal,
   openSearchModal,
+  setInputKeyword,
   switchSearchIcon,
 } from '../../../store';
 
 function Header() {
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   let searchModalStatus = useSelector(state => state.searchModalStatus);
   let searchIconStatus = useSelector(state => state.searchIconStatus);
-  const [dropdownHide, setdropdownHide] = useState(false);
-
+  const [headerMenuHide, setHeaderMenuHide] = useState(true);
   const [scrollY, setScrollY] = useState(0);
   const handleScroll = () => {
     const scrollPosition = window.pageYOffset;
@@ -64,6 +65,7 @@ function Header() {
                 onClick={() => {
                   dispatch(openSearchModal());
                   dispatch(switchSearchIcon(1));
+                  dispatch(setInputKeyword(''));
                   window.scrollTo(0, 0);
                 }}
                 key="0"
@@ -72,7 +74,9 @@ function Header() {
                 className="SearchIcon"
                 onClick={() => {
                   dispatch(closeSearchModal());
-                  dispatch(switchSearchIcon(0));
+                  dispatch(
+                    switchSearchIcon(location.pathname === '/search' ? 2 : 0)
+                  );
                   window.scrollTo(0, 0);
                 }}
                 key="1"
@@ -80,13 +84,22 @@ function Header() {
               <div key="3" />,
             ][searchIconStatus]
           }
-          <DropdownMenu
-            onMouseOver={() => setdropdownHide(true)}
-            onMouseOut={() => setdropdownHide(false)}
+          <Profile
+            onMouseOver={() => setHeaderMenuHide(false)}
+            onMouseOut={() => setHeaderMenuHide(true)}
           />
         </NavRight>
       </Navbar>
-      {dropdownHide && <Dropdown setdropdownHide={setdropdownHide} />}
+      {!headerMenuHide && (
+        <HeaderMenu
+          onOpen={() => {
+            setHeaderMenuHide(false);
+          }}
+          onClose={() => {
+            setHeaderMenuHide(true);
+          }}
+        />
+      )}
       {searchModalStatus && <ModalLayout />}
     </Container>
   );
@@ -95,24 +108,23 @@ function Header() {
 export default Header;
 
 const Container = styled.div`
+  width: 100%;
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   background: linear-gradient(
     rgba(0, 0, 0, ${props => props.end}),
     rgba(0, 0, 0, ${props => props.start})
   );
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   z-index: 2;
 `;
 
 const Navbar = styled.div`
   width: 100%;
   height: 6%;
-  padding: 0 3.4%;
+  padding: 0 4%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -126,6 +138,7 @@ const Navbar = styled.div`
 `;
 
 const NavLeft = styled.div`
+  margin: 1.5% 0;
   width: 20%;
   min-width: 130px;
   display: flex;
@@ -161,8 +174,9 @@ const NavRight = styled.div`
   align-self: stretch;
 
   .SearchIcon {
-    width: 40%;
-    font-size: calc(10px + 1.1vw);
+    width: 30%;
+    min-width: 15px;
+    font-size: calc(10px + 1.4vw);
     cursor: pointer;
     :hover {
       filter: brightness(150%);
@@ -170,13 +184,13 @@ const NavRight = styled.div`
   }
 `;
 
-const DropdownMenu = styled.img.attrs(props => ({
+const Profile = styled.img.attrs(props => ({
   src: 'https://i.ibb.co/8sYR6ps/profile-image-default.png',
   alt: 'dropdownMenu',
 }))`
-  padding: 11.5%;
-  width: 50%;
-  min-width: 18px;
+  width: 40%;
+  min-width: 22px;
+  padding-left: 10%;
   object-fit: contain;
   align-self: stretch;
   cursor: pointer;
