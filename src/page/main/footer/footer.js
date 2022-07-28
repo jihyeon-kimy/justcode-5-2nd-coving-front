@@ -72,8 +72,9 @@ export default Footer;
 
 const Contatiner = styled.div`
   min-width: 800px;
-  height: 400px;
-  padding: 60px 40px;
+  height: 30%;
+  min-height: 400px;
+  padding: 8% 4%; ;
 `;
 
 const NoticeGroup = styled.div`
@@ -139,11 +140,15 @@ const Info = styled.div`
   border-right: 1px solid #8e8e8e;
   font-size: calc(5px + 0.5vw);
   font-weight: 600;
-  line-height: 10px;
+  line-height: calc(7px + 0.5vw);
   color: #757373eb;
 
   :nth-child(1) {
     margin-left: 0;
     padding-left: 0;
+  }
+
+  :last-child {
+    border: none;
   }
 `;
