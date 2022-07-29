@@ -1,10 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import SubHeader from './components/subHeader';
 
 const Container = styled.div`
   display: flex;
-
   justify-content: center;
   width: 100%;
 `;
@@ -103,8 +101,7 @@ const Cancel = styled.button`
 `;
 function ProfileEdit() {
   const [name, setName] = useState('');
-  const image =
-    'https://image.tving.com/upload/profile/default.png/dims/resize/F_webp,100';
+  const image = 'https://i.ibb.co/8sYR6ps/profile-image-default.png';
   const onEditModal = () => {};
   const onChange = e => {
     const edit = e.target.value;
@@ -116,7 +113,6 @@ function ProfileEdit() {
   };
   return (
     <>
-      <SubHeader />
       <Container>
         <Wrapper>
           <Title>프로필 편집</Title>

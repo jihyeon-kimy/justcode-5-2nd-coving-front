@@ -73,12 +73,12 @@ const Button = styled.button`
 `;
 
 function PostSlider({ width, height, data }) {
-  const [value, setValue] = useState();
-  const els = useRef();
+  const [value, setValue] = useState(false);
+  const sliderElement = useRef();
   const navigate = useNavigate();
 
   const scroll = scrollOffset => {
-    els.current.scrollLeft += scrollOffset;
+    sliderElement.current.scrollLeft += scrollOffset;
   };
 
   const onRightClick = () => {
@@ -98,7 +98,11 @@ function PostSlider({ width, height, data }) {
 
   return (
     <>
-      <PosterSlider ref={els} onMouseEnter={onOver} onMouseLeave={onLeave}>
+      <PosterSlider
+        ref={sliderElement}
+        onMouseEnter={onOver}
+        onMouseLeave={onLeave}
+      >
         {value ? (
           <Button left={0} right={0} onClick={onLeftClick}>
             <span>
@@ -125,13 +129,13 @@ function PostSlider({ width, height, data }) {
           </Img>
         ))}
 
-        {value ? (
+        {value && (
           <Button left={96.7} right={0} onClick={onRightClick}>
             <span>
               <BiChevronRight size={40} />
             </span>
           </Button>
-        ) : null}
+        )}
       </PosterSlider>
     </>
   );

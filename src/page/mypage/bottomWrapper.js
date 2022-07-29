@@ -41,7 +41,6 @@ const TabBox = styled.div`
     border-bottom: ${prop => prop.secondTab.border};
   }
 `;
-
 const HistoryBox = styled.div`
   overflow-x: hidden;
   display: flex;
@@ -58,7 +57,6 @@ const WishBox = styled.div`
   height: auto;
   min-height: 100vh;
 `;
-
 const PosterWrapper = styled.div`
   overflow-x: hidden;
   overflow-y: hidden;
@@ -77,7 +75,6 @@ const PosterWrapper = styled.div`
   }
   transition: all 0.2s;
 `;
-
 const Poster = styled.img`
   max-width: ${prop => prop.width};
 
@@ -88,14 +85,12 @@ const Poster = styled.img`
   border-radius: 3px;
   filter: brightness(${prop => prop.edit});
 `;
-
 const Box = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
 `;
-
 const CheckBtn = styled.button`
   position: absolute;
   right: 0;
@@ -112,7 +107,6 @@ const CheckBtn = styled.button`
     border: 2px solid white;
   }
 `;
-
 const EditBtn = styled.button`
   position: absolute;
   display: flex;
@@ -131,7 +125,6 @@ const EditBtn = styled.button`
     border: 0.1px solid white;
   }
 `;
-
 const Empty = styled.div`
   display: flex;
   justify-content: center;
@@ -144,22 +137,22 @@ const Empty = styled.div`
   }
 `;
 function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
+  const wishInterface = [{ id: null, title: '', poster_img_url: '' }];
+  const watchInterface = [
+    { id: null, img_url: '', title: '', episode_num: null, updated_at: '' },
+  ];
   const [tab, setTab] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [watchRes, setWatchRes] = useState();
   const [wishRes, setwishRes] = useState();
   const [clickId, setClickIdValue] = useState([]);
   const [wishClickId, setWishClickId] = useState([]);
-  const wishInterface = [{ id: null, title: '', poster_img_url: '' }];
-  const watchInterface = [
-    { id: null, img_url: '', title: '', episode_num: null, updated_at: '' },
-  ];
   const [wish, setWish] = useState(wishInterface);
   const [watch, setWatch] = useState(watchInterface);
   const [value, setValue] = useState(true);
   const token = localStorage.getItem('token');
-  console.log(watch);
   const navigate = useNavigate();
+
   const onClickHistory = () => {
     setTab(true);
     setValue(true);
@@ -170,18 +163,13 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
     setValue(false);
     setEditMode(false);
   };
+
   useEffect(() => {
     setWatchRes(clickId);
-
-    console.log(clickId);
-    console.log(watchRes);
   }, [clickId, watchRes]);
 
   useEffect(() => {
     setwishRes(wishClickId);
-
-    console.log(wishClickId);
-    console.log(wishRes);
   }, [wishClickId, wishRes]);
 
   const watchResponse = {
@@ -205,7 +193,6 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
       const deleteId = clickId.filter(i => i !== clicked);
       setClickIdValue(deleteId);
     }
-    console.log(!clickId.includes(clicked));
   };
 
   const wishClick = e => {
@@ -216,7 +203,6 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
       const deleteId = wishClickId.filter(i => i !== wishClicked);
       setWishClickId(deleteId);
     }
-    console.log(!wishClickId.includes(wishClicked));
   };
 
   const unClickedStyle = {
@@ -240,6 +226,45 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
     color: '',
     border: '',
   };
+
+  const watchDelete = () => {
+    setEditMode(false);
+    fetch(`${BASE_URL}/my/watch`, {
+      method: 'DELETE',
+      headers: {
+        access_token: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(watchResponse),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        watchUpdate(clickId);
+        setClickIdValue([]);
+      });
+  };
+  const wishDelete = () => {
+    setEditMode(false);
+    fetch(`${BASE_URL}/my/favorite`, {
+      method: 'DELETE',
+      headers: {
+        access_token: token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wishResponse),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        wishUpdate(wishClickId);
+        setWishClickId([]);
+      });
+  };
+  const changeMode = () => {
+    setEditMode(true);
+  };
+
   return (
     <BottomBox>
       <TabBox firstTab={tab ? Tab : isnull} secondTab={tab ? isnull : Tab}>
@@ -255,35 +280,9 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
           {watch.length !== 0 ? (
             <>
               {editMode ? (
-                <EditBtn
-                  onClick={() => {
-                    setEditMode(false);
-                    fetch(`${BASE_URL}/my/watch`, {
-                      method: 'DELETE',
-                      headers: {
-                        access_token: token,
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(watchResponse),
-                    })
-                      .then(res => res.json())
-                      .then(res => {
-                        console.log(res);
-                        watchUpdate(clickId);
-                        setClickIdValue([]);
-                      });
-                  }}
-                >
-                  완료({clickId.length})
-                </EditBtn>
+                <EditBtn onClick={watchDelete}>완료({clickId.length})</EditBtn>
               ) : (
-                <EditBtn
-                  onClick={() => {
-                    setEditMode(true);
-                  }}
-                >
-                  편집
-                </EditBtn>
+                <EditBtn onClick={changeMode}>편집</EditBtn>
               )}
               {editMode ? (
                 <>
@@ -340,35 +339,9 @@ function BottomWrapper({ wishs, watchs, watchUpdate, wishUpdate }) {
       ) : (
         <WishBox>
           {editMode ? (
-            <EditBtn
-              onClick={() => {
-                setEditMode(false);
-                fetch(`${BASE_URL}/my/favorite`, {
-                  method: 'DELETE',
-                  headers: {
-                    access_token: token,
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify(wishResponse),
-                })
-                  .then(res => res.json())
-                  .then(res => {
-                    console.log(res);
-                    wishUpdate(wishClickId);
-                    setWishClickId([]);
-                  });
-              }}
-            >
-              완료({wishClickId.length})
-            </EditBtn>
+            <EditBtn onClick={wishDelete}>완료({wishClickId.length})</EditBtn>
           ) : (
-            <EditBtn
-              onClick={() => {
-                setEditMode(true);
-              }}
-            >
-              편집
-            </EditBtn>
+            <EditBtn onClick={changeMode}>편집</EditBtn>
           )}
           {editMode ? (
             <>
