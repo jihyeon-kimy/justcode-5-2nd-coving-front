@@ -109,7 +109,6 @@ function Viedo() {
   });
   const [titleValue, setTitleValue] = useState(true);
   const location = useLocation();
-  console.log(location);
 
   useEffect(() => {
     setUrl(location.state);
@@ -123,9 +122,7 @@ function Viedo() {
           access_token: token,
           'Content-Type': 'application/json',
         },
-      })
-        .then(res => res.json())
-        .then(res => console.log(res));
+      }).then(res => res.json());
     }
   }, [url]);
 
