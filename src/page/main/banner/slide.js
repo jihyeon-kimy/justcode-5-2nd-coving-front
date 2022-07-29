@@ -1,11 +1,10 @@
-import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
 function Slide({ title, subTitle, img, programId }) {
   let navigate = useNavigate();
   return (
-    <Container>
+    <>
       <SliderImg img={img} />
       <SliderInfo>
         <Titles>
@@ -21,13 +20,11 @@ function Slide({ title, subTitle, img, programId }) {
           자세히보기
         </GoDetail>
       </SliderInfo>
-    </Container>
+    </>
   );
 }
 
 export default Slide;
-
-const Container = styled.div``;
 
 const SliderImg = styled.div`
   width: 100%;
