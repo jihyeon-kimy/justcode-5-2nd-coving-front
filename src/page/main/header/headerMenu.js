@@ -1,18 +1,15 @@
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components';
 import { switchSearchIcon } from '../../../store';
 
-function Dropdown({ setdropdownHide }) {
+function HeaderMenu({ onOpen, onClose }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const email = localStorage.getItem('email');
-  let dispatch = useDispatch();
+
   return (
-    <Container
-      onMouseOver={() => setdropdownHide(true)}
-      onMouseOut={() => setdropdownHide(false)}
-    >
+    <Container onMouseOver={onOpen} onMouseOut={onClose}>
       <Profile>
         <ProfileImg />
         <UserName>{email ? email.split('@')[0] : 'JUSTCODE'}</UserName>
@@ -40,12 +37,12 @@ function Dropdown({ setdropdownHide }) {
   );
 }
 
-export default Dropdown;
+export default HeaderMenu;
 
 const Container = styled.div`
   width: 13%;
   min-width: 90px;
-  margin-right: 5%;
+  margin-right: 4%;
   position: absolute;
   top: 100%;
   z-index: 2;
