@@ -51,7 +51,7 @@ function SearchView({ instantResultList }) {
   }, [instantResultList]);
 
   const SearchLog = programId => {
-    axios.post(`${BASE_URL}/search/${programId}`);
+    axios.post(`${BASE_URL}/searchlog/${programId}`);
   };
 
   return (
