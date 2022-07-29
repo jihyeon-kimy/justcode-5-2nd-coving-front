@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import KeywordView from './keywordView/keywordView';
 import SearchView from './searchView/searchView';
 
@@ -7,25 +6,12 @@ function SearchModal({
   setKeywordList,
   instantResultList,
   viewChange,
-  keywordInput,
 }) {
-  return (
-    <SearchBody>
-      {viewChange ? (
-        <SearchView
-          instantResultList={instantResultList}
-          keywordInput={keywordInput}
-        />
-      ) : (
-        <KeywordView
-          keywordList={keywordList}
-          setKeywordList={setKeywordList}
-        />
-      )}
-    </SearchBody>
+  return viewChange ? (
+    <SearchView instantResultList={instantResultList} />
+  ) : (
+    <KeywordView keywordList={keywordList} setKeywordList={setKeywordList} />
   );
 }
 
 export default SearchModal;
-
-const SearchBody = styled.div``;

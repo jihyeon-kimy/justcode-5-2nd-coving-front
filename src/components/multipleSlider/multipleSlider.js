@@ -7,7 +7,14 @@ import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
 
-function MultipleSlider({ rank, summary, title, count, programList }) {
+function MultipleSlider({
+  rank,
+  summary,
+  title,
+  count,
+  programList,
+  searchLog,
+}) {
   const swiperNavPreRef = useRef(null);
   const swiperNavNextRef = useRef(null);
 
@@ -81,6 +88,7 @@ function MultipleSlider({ rank, summary, title, count, programList }) {
                   idx={idx}
                   rank={rank}
                   summary={summary}
+                  searchLog={searchLog}
                 />
               </SwiperSlide>
             );

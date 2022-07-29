@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { FiSearch } from 'react-icons/fi';
 import debounce from 'lodash.debounce';
@@ -12,30 +11,22 @@ import Modal from '../../../components/modal/modal';
 import {
   closeSearchModal,
   switchSearchIcon,
-  setSearchResultList,
-  initSearchResultList,
-  onLoading,
-  offLoading,
+  setInputKeyword,
 } from '../../../store';
 
 function ModalLayout() {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-  let location = useLocation();
+  let inputKeyword = useSelector(state => state.inputKeyword);
   const [openModal, setOpenModal] = useState(false);
-  const [keywordInput, setKeywordInput] = useState(
-    decodeURI(location.search).includes('keyword')
-      ? decodeURI(location.search).split('=')[1]
-      : ''
-  );
-
   const [instantResultList, setInstantResultList] = useState([]);
   const [viewChange, setViewChange] = useState(false);
-  const handleChange = event => {
-    setKeywordInput(event.target.value);
+
+  const getInstantResult = event => {
+    dispatch(setInputKeyword(event.target.value));
     const debounceHanddler = debounce(() => {
       axios
-        .get(`${BASE_URL}/search/instant?keyword=${event.target.value}`)
+        .get(`${BASE_URL}/instantsearch?keyword=${event.target.value}`)
         .then(result => {
           if (result.status === 200) {
             setInstantResultList(result.data.dataList);
@@ -48,24 +39,6 @@ function ModalLayout() {
     debounceHanddler();
   };
 
-  const searchInputKeyword = async keyword => {
-    dispatch(onLoading());
-    dispatch(initSearchResultList());
-    await axios
-      .get(`${BASE_URL}/search?keyword=${keyword}`)
-      .then(result => {
-        if (result.status === 200) {
-          dispatch(setSearchResultList(result.data));
-        } else {
-          dispatch(initSearchResultList());
-        }
-      })
-      .finally(() => {
-        dispatch(offLoading());
-        navigate(`/search?keyword=${keyword}`);
-      });
-  };
-
   const [keywordList, setKeywordList] = useState([]);
   useEffect(() => {
     if (JSON.parse(localStorage.getItem('keywordList')) !== null) {
@@ -73,9 +46,9 @@ function ModalLayout() {
     }
   }, []);
 
-  const saveList = keywordInput => {
+  const saveList = inputKeyword => {
     setKeywordList(prev => {
-      const unduplicate = new Set([...prev, keywordInput]);
+      const unduplicate = new Set([...prev, inputKeyword]);
       const newKeywordList = [...unduplicate];
       localStorage.setItem('keywordList', JSON.stringify(newKeywordList));
       return newKeywordList;
@@ -87,30 +60,31 @@ function ModalLayout() {
       <Container>
         <SearchBar>
           <SearchInput
-            onChange={handleChange}
+            onChange={getInstantResult}
             onKeyPress={e => {
               if (
                 e.key === 'Enter' &&
-                (keywordInput === undefined || keywordInput === '')
+                (e.target.value === undefined || e.target.value === '')
               ) {
                 setOpenModal(true);
               } else if (e.key === 'Enter') {
-                searchInputKeyword(keywordInput);
-                saveList(keywordInput);
+                saveList(e.target.value);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
+                navigate(`/search?keyword=${inputKeyword}`);
               }
             }}
-            value={keywordInput}
+            value={inputKeyword}
+            autoFocus
           />
           <FiSearch
             className="SearchBtn"
             onClick={() => {
-              if (keywordInput && keywordInput !== '') {
-                searchInputKeyword(keywordInput);
-                saveList(keywordInput);
+              if (inputKeyword && inputKeyword !== '') {
+                saveList(inputKeyword);
                 dispatch(closeSearchModal());
                 dispatch(switchSearchIcon(2));
+                navigate(`/search?keyword=${inputKeyword}`);
               } else {
                 setOpenModal(true);
               }
@@ -122,12 +96,13 @@ function ModalLayout() {
           setKeywordList={setKeywordList}
           instantResultList={instantResultList}
           viewChange={viewChange}
-          keywordInput={keywordInput}
         />
       </Container>
       <Modal
         openModal={openModal}
-        setOpenModal={setOpenModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
         text="검색어를 입력해주세요."
       />
     </Background>
@@ -170,7 +145,7 @@ const SearchBar = styled.div`
   }
 `;
 
-const SearchInput = styled.input.attrs(props => ({
+const SearchInput = styled.input.attrs(() => ({
   type: 'text',
   placeholder: 'TV프로그램, 영화 제목 및 출연진으로 검색해보세요',
 }))`

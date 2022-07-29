@@ -15,6 +15,18 @@ let searchModalStatus = createSlice({
 
 export let { openSearchModal, closeSearchModal } = searchModalStatus.actions;
 
+let inputKeyword = createSlice({
+  name: 'InputKeyword',
+  initialState: '',
+  reducers: {
+    setInputKeyword(state, action) {
+      return action.payload;
+    },
+  },
+});
+
+export let { setInputKeyword } = inputKeyword.actions;
+
 // searchIconStatus 0:돋보기 / 1:X / 2:공백
 let searchIconStatus = createSlice({
   name: 'searchIconStatus',
@@ -30,7 +42,7 @@ export let { switchSearchIcon } = searchIconStatus.actions;
 
 let searchResultList = createSlice({
   name: 'searchResultList',
-  initialState: { loading: true, data: { count: 0, dataList: [] } },
+  initialState: { loading: false, data: { count: 0, dataList: [] } },
   reducers: {
     onLoading(state) {
       state.loading = true;
@@ -72,5 +84,6 @@ export default configureStore({
     searchIconStatus: searchIconStatus.reducer,
     searchResultList: searchResultList.reducer,
     userInfo: userInfo.reducer,
+    inputKeyword: inputKeyword.reducer,
   },
 });

@@ -1,14 +1,15 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { BsExclamationCircle } from 'react-icons/bs';
 import axios from 'axios';
+import { BsExclamationCircle } from 'react-icons/bs';
 import BASE_URL from '../../config';
 
-function NoResult({ keywordInput }) {
+function NoResult() {
   let navigate = useNavigate();
   const [popularKeywordList, setPopularKeywordList] = useState([]);
-
+  let inputKeyword = useSelector(state => state.inputKeyword);
   useEffect(() => {
     axios.get(`${BASE_URL}/search/popular`).then(result => {
       setPopularKeywordList(result.data);
@@ -18,7 +19,7 @@ function NoResult({ keywordInput }) {
   return (
     <Container>
       <BsExclamationCircle className="icon" />
-      <Desc>'{keywordInput}' 검색 결과가 없습니다.</Desc>
+      <Desc>'{inputKeyword}' 검색 결과가 없습니다.</Desc>
       <Info>요즘 인기 있는 검색어를 추천해 드릴게요.</Info>
       {popularKeywordList &&
         popularKeywordList.map((keyword, index) => {
