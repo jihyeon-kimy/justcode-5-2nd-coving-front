@@ -4,7 +4,7 @@ import Buttons from './buttons';
 import Dropdown from './dropDown';
 
 function ButtonGroup() {
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <Container>
@@ -26,7 +26,7 @@ function ButtonGroup() {
 export default ButtonGroup;
 
 const Container = styled.div`
-  padding: 0 3.9%;
+  padding: 0 4%;
   margin: 2.5% 0 3%;
 `;
 
