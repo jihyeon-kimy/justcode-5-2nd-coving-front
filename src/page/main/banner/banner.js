@@ -1,6 +1,6 @@
-import { useRef } from 'react';
 import styled from 'styled-components';
 import { css } from 'styled-components';
+import { useRef } from 'react';
 import { Navigation, EffectFade, Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';

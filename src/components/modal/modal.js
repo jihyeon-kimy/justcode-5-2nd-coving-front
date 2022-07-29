@@ -1,20 +1,16 @@
 import styled from 'styled-components';
 
-function Modal({ openModal, setOpenModal, text }) {
-  return openModal ? (
-    <Background>
-      <Container>
-        <Contents>{text}</Contents>
-        <CloseBtn
-          onClick={() => {
-            setOpenModal(false);
-          }}
-        >
-          확인
-        </CloseBtn>
-      </Container>
-    </Background>
-  ) : null;
+function Modal({ openModal, onClose, text }) {
+  return (
+    openModal && (
+      <Background>
+        <Container>
+          <Contents>{text}</Contents>
+          <CloseBtn onClick={onClose}>확인</CloseBtn>
+        </Container>
+      </Background>
+    )
+  );
 }
 
 export default Modal;

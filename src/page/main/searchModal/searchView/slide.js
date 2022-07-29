@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { closeSearchModal, switchSearchIcon } from '../../../../store';
 import BASE_URL from '../../../../config';
 
-function Slide({ data, keywordInput }) {
+function Slide({ data }) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
-
+  let inputKeyword = useSelector(state => state.inputKeyword);
   const SearchLog = programId => {
     axios.post(`${BASE_URL}/search/${programId}`);
   };
@@ -24,11 +24,11 @@ function Slide({ data, keywordInput }) {
     >
       <ProgramImg img={data.poster_img_url} />
       <Title>
-        {data.title.includes(keywordInput) ? (
+        {data.title.includes(inputKeyword) ? (
           <>
-            {data.title.split(keywordInput)[0]}
-            <Highlight>{keywordInput}</Highlight>
-            {data.title.split(keywordInput)[1]}
+            {data.title.split(inputKeyword)[0]}
+            <Highlight>{inputKeyword}</Highlight>
+            {data.title.split(inputKeyword)[1]}
           </>
         ) : (
           data.title

@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/bundle';
 import 'swiper/css/pagination';
 import Slide from './slide';
 import { closeSearchModal, switchSearchIcon } from '../../../../store';
 import BASE_URL from '../../../../config';
 
-function SearchView({ instantResultList, keywordInput }) {
+function SearchView({ instantResultList }) {
   let navigate = useNavigate();
   let dispatch = useDispatch();
   const [programList, setProgramList] = useState([]);
+  let inputKeyword = useSelector(state => state.inputKeyword);
 
   useEffect(() => {
     const HandleProgramList = () => {
@@ -79,7 +80,7 @@ function SearchView({ instantResultList, keywordInput }) {
           instantResultList.map((data, idx) => {
             return (
               <SwiperSlide key={data.toString() + idx.toString()}>
-                <Slide data={data} keywordInput={keywordInput} />
+                <Slide data={data} />
               </SwiperSlide>
             );
           })}
@@ -98,11 +99,11 @@ function SearchView({ instantResultList, keywordInput }) {
                   SearchLog(data.program_id);
                 }}
               >
-                {data.title.includes(keywordInput) ? (
+                {data.title.includes(inputKeyword) ? (
                   <>
-                    {data.title.split(keywordInput)[0]}
-                    <Highlight>{keywordInput}</Highlight>
-                    {data.title.split(keywordInput)[1]}
+                    {data.title.split(inputKeyword)[0]}
+                    <Highlight>{inputKeyword}</Highlight>
+                    {data.title.split(inputKeyword)[1]}
                   </>
                 ) : (
                   data.title

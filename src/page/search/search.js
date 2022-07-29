@@ -1,18 +1,48 @@
 import styled from 'styled-components';
 import { FiSearch } from 'react-icons/fi';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { openSearchModal, switchSearchIcon } from '../../store';
+import {
+  openSearchModal,
+  setInputKeyword,
+  switchSearchIcon,
+  setSearchResultList,
+  initSearchResultList,
+  onLoading,
+  offLoading,
+} from '../../store';
 import NoResult from './noResult';
-import Result from './result/result';
+import Result from './result';
+import BASE_URL from '../../config';
 
 function Search() {
-  let dispatch = useDispatch();
-  let location = useLocation();
-  let data = useSelector(state => state.searchResultList);
-  let keywordInput = decodeURI(location.search).includes('keyword')
-    ? decodeURI(location.search).split('=')[1]
-    : '';
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const data = useSelector(state => state.searchResultList);
+  const inputKeyword = useSelector(state => state.inputKeyword);
+
+  useEffect(() => {
+    dispatch(onLoading());
+    let initInputKeyword = decodeURI(location.search).includes('keyword')
+      ? decodeURI(location.search).split('=')[1]
+      : '';
+    dispatch(setInputKeyword(initInputKeyword));
+
+    axios
+      .get(`${BASE_URL}/searchresult?keyword=${initInputKeyword}`)
+      .then(result => {
+        if (result.status === 200) {
+          dispatch(setSearchResultList(result.data));
+        } else {
+          dispatch(initSearchResultList());
+        }
+      })
+      .finally(() => {
+        dispatch(offLoading());
+      });
+  }, [dispatch, location.search]);
 
   return (
     <Container>
@@ -23,8 +53,11 @@ function Search() {
               dispatch(openSearchModal());
               dispatch(switchSearchIcon(1));
             }}
-            value={keywordInput || ''}
-            readOnly
+            value={inputKeyword || ''}
+            onChange={e => {
+              dispatch(setInputKeyword(e.target.value));
+            }}
+            autoFocus
           />
           <FiSearch
             className="SearchBtn"
@@ -34,19 +67,13 @@ function Search() {
           />
         </SearchBar>
       </SearchGroup>
-      <Contents>
-        {!data.loading ? (
-          Object.keys(data.data).length !== 0 ? (
-            <Result
-              dataList={data.data.dataList}
-              count={data.data.count}
-              keywordInput={keywordInput}
-            />
-          ) : (
-            <NoResult keywordInput={keywordInput} />
-          )
-        ) : null}
-      </Contents>
+
+      {!data.loading &&
+        (Object.keys(data.data).length !== 0 ? (
+          <Result dataList={data.data.dataList} count={data.data.count} />
+        ) : (
+          <NoResult />
+        ))}
     </Container>
   );
 }
@@ -88,10 +115,4 @@ const SearchInput = styled.input.attrs(props => ({
   font-size: calc(10px + 1vw);
   font-weight: 600;
   color: #ffffff;
-`;
-
-const Contents = styled.div``;
-const Test = styled.div`
-  font-size: 500px;
-  color: red;
 `;

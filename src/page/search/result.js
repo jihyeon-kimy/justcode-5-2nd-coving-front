@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-import MultipleSlider from './multipleSlider';
+import { useSelector } from 'react-redux';
+import MultipleSlider from '../../components/multipleSlider/multipleSlider';
 
-function Result({ dataList, count, keywordInput }) {
+function Result({ dataList, count }) {
+  let inputKeyword = useSelector(state => state.inputKeyword);
   return (
     <>
       <Desc>
-        '<span>{keywordInput}</span>' 검색 결과가 {count || 0}개 있습니다.
+        '<span>{inputKeyword}</span>' 검색 결과가 {count || 0}개 있습니다.
       </Desc>
       {dataList &&
         dataList.map((data, idx) => {
@@ -17,6 +19,7 @@ function Result({ dataList, count, keywordInput }) {
               count={`${data.programs.length}개`}
               key={data.channel_name.toString() + idx.toString()}
               programList={data.programs}
+              searchLog={true}
             />
           );
         })}

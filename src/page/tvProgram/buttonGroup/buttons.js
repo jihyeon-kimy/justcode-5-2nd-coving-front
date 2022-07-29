@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 function Buttons() {
   const genres = ['코미디', '범죄', '로맨스', '공포', '복수'];
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
-    <BtnGroup>
+    <Btns>
       {genres.map((genre, idx) => {
         return (
           <Btn
@@ -19,13 +19,13 @@ function Buttons() {
           </Btn>
         );
       })}
-    </BtnGroup>
+    </Btns>
   );
 }
 
 export default Buttons;
 
-const BtnGroup = styled.div`
+const Btns = styled.div`
   height: 45px;
   display: flex;
   align-items: center;

@@ -1,19 +1,24 @@
 import styled from 'styled-components';
-import { IoCloseCircleSharp, IoCloseOutline } from 'react-icons/io5';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BASE_URL from '../../../../config';
 import { useDispatch } from 'react-redux';
-import { closeSearchModal, switchSearchIcon } from '../../../../store';
+import axios from 'axios';
+import { IoCloseCircleSharp, IoCloseOutline } from 'react-icons/io5';
+import BASE_URL from '../../../../config';
+import {
+  closeSearchModal,
+  switchSearchIcon,
+  setSearchResultList,
+  setInputKeyword,
+} from '../../../../store';
 
 function KeywordView({ keywordList, setKeywordList }) {
-  let navigate = useNavigate();
-  let dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [popularKeywordList, setPopularKeywordList] = useState([]);
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/search/popular`).then(result => {
+    axios.get(`${BASE_URL}/popularsearch`).then(result => {
       setPopularKeywordList(result.data);
     });
   }, []);
@@ -54,7 +59,17 @@ function KeywordView({ keywordList, setKeywordList }) {
           keywordList.map((keyword, index) => {
             return (
               <KeywordGroup key={keyword?.toString() + index?.toString()}>
-                <Keyword>{keyword}</Keyword>
+                <Keyword
+                  onClick={() => {
+                    dispatch(setSearchResultList(keyword));
+                    dispatch(closeSearchModal());
+                    dispatch(setInputKeyword(keyword));
+                    navigate(`/search?keyword=${keyword}`);
+                    dispatch(switchSearchIcon(2));
+                  }}
+                >
+                  {keyword}
+                </Keyword>
                 <IoCloseOutline
                   className="deleteBtn"
                   onClick={() => {
