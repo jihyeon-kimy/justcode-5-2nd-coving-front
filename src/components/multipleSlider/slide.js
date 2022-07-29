@@ -12,7 +12,7 @@ function Slide({ program, idx, rank, summary, searchLog }) {
   const [summaryhide, setSummaryHide] = useState(false);
 
   const SearchLog = programId => {
-    axios.post(`${BASE_URL}/search/${programId}`);
+    axios.post(`${BASE_URL}/searchlog/${programId}`);
   };
 
   return (

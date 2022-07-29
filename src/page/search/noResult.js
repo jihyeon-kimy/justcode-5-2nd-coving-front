@@ -11,7 +11,7 @@ function NoResult() {
   const [popularKeywordList, setPopularKeywordList] = useState([]);
   let inputKeyword = useSelector(state => state.inputKeyword);
   useEffect(() => {
-    axios.get(`${BASE_URL}/search/popular`).then(result => {
+    axios.get(`${BASE_URL}/popularsearch`).then(result => {
       setPopularKeywordList(result.data);
     });
   }, []);
