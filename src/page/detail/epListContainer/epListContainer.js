@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import Slider from './slider';
 import { BsDot } from 'react-icons/bs';
-
 import { useState } from 'react';
 
 const EpListBox = styled.div`

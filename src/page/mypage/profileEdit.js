@@ -1,10 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
-import SubHeader from './components/subHeader';
 
 const Container = styled.div`
   display: flex;
-
   justify-content: center;
   width: 100%;
 `;

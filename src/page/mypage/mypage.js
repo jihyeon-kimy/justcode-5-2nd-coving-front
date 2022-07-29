@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Header from '../main/header/header';
 import TopWrapper from './topWrapper';
 import BottomWrapper from './bottomWrapper';
 import { useEffect, useState } from 'react';

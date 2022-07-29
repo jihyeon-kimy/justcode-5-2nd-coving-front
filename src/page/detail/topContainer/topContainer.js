@@ -17,7 +17,7 @@ const TopWrapper = styled.div`
       rgba(0, 0, 0, 1) 95%,
       rgba(0, 0, 0, 1) 100%
     ),
-    url(${prop => prop.backgroundImage});
+    url(${prop => prop.posterImg});
   background-size: cover;
 `;
 const BlurBox = styled.div`
@@ -53,14 +53,13 @@ const RightBox = styled.div`
   border-radius: 5px;
   box-shadow: 3px 3px 100px 10px #292929;
 `;
-function TopContainer({ data, wish, isWish, last }) {
-  // const backgroundImage = data.episode_info[0].img_url;
-  const posterImg = data.poster_img_url;
+function TopContainer({ data, last, wishList }) {
+  const { poster_img_url: posterImg } = data;
   return (
-    <TopWrapper backgroundImage={posterImg}>
+    <TopWrapper posterImg={posterImg}>
       <BlurBox>
         <ProgramDetailBox>
-          <LeftBox data={data} wish={wish} isWish={isWish} last={last} />
+          <LeftBox data={data} last={last} wishList={wishList} />
           <CenterBox />
           <RightBox posterImg={posterImg} />
         </ProgramDetailBox>

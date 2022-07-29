@@ -52,8 +52,6 @@ function VideoModal({ url, closeModal, epTitle }) {
     setValue(true);
   };
 
-  console.log(url);
-
   const onLeave = () => {
     setValue(false);
   };

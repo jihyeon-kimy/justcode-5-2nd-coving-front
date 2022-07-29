@@ -70,7 +70,6 @@ function Viedo() {
   };
 
   const onPlayIconClick = () => {
-    console.log(videoElement);
     if (videoElement) {
       if (nowPlaying) {
         setNowPlaying(false);
@@ -93,15 +92,6 @@ function Viedo() {
 
   const navigate = useNavigate();
 
-  // const videoRef = useRef(null);
-  // const {
-  //   isPictureInPictureActive,
-  //   isPictureInPictureAvailable,
-  //   togglePictureInPicture,
-  // } = usePictureInPicture(videoRef);
-  // useEffect(() => {
-  //   togglePictureInPicture(true);
-  // }, []);
   const InterfaceData = {
     episode_num: null,
     id: null,
@@ -120,16 +110,10 @@ function Viedo() {
   const [titleValue, setTitleValue] = useState(true);
   const location = useLocation();
   console.log(location);
-  //1. move 이벤트 연속 실행 방어
-  //2. 일정시간 동안 실행 유지
-  // 움직이면 true --> 움직이지 않으면 3초후 false
 
   useEffect(() => {
     setUrl(location.state);
   }, [url]);
-  console.log(url.programId);
-  console.log(url.watch);
-  console.log(url.data);
 
   useEffect(() => {
     if (!url.watch && url.data.id !== null) {

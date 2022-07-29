@@ -1,3 +1,0 @@
-function Poster() {
-  return null;
-}

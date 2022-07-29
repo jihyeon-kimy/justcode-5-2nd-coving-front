@@ -140,90 +140,45 @@ const More = styled.div`
   }
 `;
 
-function LeftBox({ data, isWish, last }) {
-  const [wishValue, setWishValue] = useState(isWish);
-  const [wishs, setWishs] = useState([]);
+function LeftBox({ data, last, wishList }) {
+  const [wishValue, setWishValue] = useState(wishList);
   const [summaryValue, setSummaryValue] = useState(true);
-  const lastEp = last.episode_num;
-  const video = last.video_url;
-  const isTitle = data.title;
-  const creatorArr = data.participants.filter(i => i.type === '크리에이터');
+  const { episode_num: lastEp, video_url: video } = last;
+  const {
+    id: programId,
+    title: isTitle,
+    participants,
+    summary: isSummary,
+    title_img_url: titleImg,
+  } = data;
+  const creatorArr = participants.filter(i => i.type === '크리에이터');
   const creator = creatorArr.map(i => i.name);
-  const actorArr = data.participants.filter(i => i.type === '출연');
+  const actorArr = participants.filter(i => i.type === '출연');
   const actor = actorArr.map(i => i.name);
-  const isSummary = data.summary;
-  const titleImg = data.title_img_url;
-  const programId = data.id;
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
-  console.log(data);
+
   useEffect(() => {
-    if (wishs.length === 0) {
-      setWishValue(isWish);
-    } else {
-      wishs.includes(programId) ? setWishValue(true) : setWishValue(false);
-    }
-  }, [wishs, programId, wishValue, isWish]);
+    setWishValue(wishList);
+  }, [wishList]);
 
   const onMore = () => {
-    setSummaryValue(!summaryValue);
+    setSummaryValue(prev => !prev);
   };
 
   const onWish = () => {
-    const res = {
-      id: [programId],
-    };
-    if (wishValue) {
-      fetch(`${BASE_URL}/my/favorite`, {
-        method: 'DELETE',
-        headers: {
-          access_token: token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(res),
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log(res);
-          fetch(`${BASE_URL}/my/favorite`, {
-            method: 'GET',
-            headers: {
-              access_token: token,
-              'Content-Type': 'application/json',
-            },
-          })
-            .then(res => res.json())
-            .then(res => {
-              setWishs(res.data.map(i => i.id));
-            });
-        });
-    } else {
-      fetch(`${BASE_URL}/program/${programId}`, {
+    (async () => {
+      const res = await fetch(`${BASE_URL}/program/${programId}`, {
         method: 'POST',
         headers: {
           access_token: token,
           'Content-Type': 'application/json',
         },
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log(res);
-
-          fetch(`${BASE_URL}/my/favorite`, {
-            method: 'GET',
-            headers: {
-              access_token: token,
-              'Content-Type': 'application/json',
-            },
-          })
-            .then(res => res.json())
-            .then(res => {
-              setWishs(res.data.map(i => i.id));
-            });
-        });
-    }
+      });
+      const json = await res.json();
+      await setWishValue(json.data.isLiked);
+    })();
   };
-  console.log(lastEp);
 
   const isData = {
     episode_num: lastEp,
@@ -233,6 +188,30 @@ function LeftBox({ data, isWish, last }) {
     running_time: null,
     summary: null,
     video_url: video,
+  };
+
+  const continueWatch = () => {
+    window.scrollTo(0, 0);
+    navigate('/video', {
+      state: {
+        title: isTitle,
+        data: isData,
+        watch: true,
+        programId: programId,
+      },
+    });
+  };
+
+  const watch = () => {
+    window.scrollTo(0, 0);
+    navigate('/video', {
+      state: {
+        title: isTitle,
+        data: data.episode_info[0],
+        watch: false,
+        programId: programId,
+      },
+    });
   };
 
   return (
@@ -248,35 +227,11 @@ function LeftBox({ data, isWish, last }) {
       </InfoBox>
       <BtnBox>
         {lastEp !== null ? (
-          <PlayBtn
-            onClick={() => {
-              window.scrollTo(0, 0);
-              navigate('/video', {
-                state: {
-                  title: isTitle,
-                  data: isData,
-                  watch: true,
-                  programId: programId,
-                },
-              });
-            }}
-          >
+          <PlayBtn onClick={continueWatch}>
             <p>제&nbsp;{lastEp}화 이어보기</p>
           </PlayBtn>
         ) : (
-          <PlayBtn
-            onClick={() => {
-              window.scrollTo(0, 0);
-              navigate('/video', {
-                state: {
-                  title: isTitle,
-                  data: data.episode_info[0],
-                  watch: false,
-                  programId: programId,
-                },
-              });
-            }}
-          >
+          <PlayBtn onClick={watch}>
             <p>{isTitle}&nbsp;시청하기</p>
           </PlayBtn>
         )}
