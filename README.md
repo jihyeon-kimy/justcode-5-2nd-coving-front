@@ -1,217 +1,70 @@
-Tving Clone 코딩 프로젝트입니다. 💻
+# 🎞 COVING 프로젝트
 
-## **프로젝트 선정이유**
 
-- 쉽고 대중적이면서 다양한 기능들이 있는 OTT 사이트를 제작해보면서 전역 상태 관리, 실시간 API 호출, API 상태 관리, 동영상 플레이어 등을 배우고자 함.
-- 검은 이미지와 이미지의 하단 블러 처리 등 디자인적으로 감각있는 사이트를 퍼블리싱해보면서 스타일드 컴퍼넌트 퍼블리싱에 대해 적응하고자 함.
-- 동영상 플레이어를 제작하는 과정에서 외부 API를 수정하여 사용하는 법, 새로운 라이브러리를 학습하고 이것을 프로젝트에 반영하는 법을 배울 수 있다고 생각함.
-- 키워드 기반으로 빠른 실시간 검색어 처리, 타이핑 할 때 검색 결과를 가져오기 처리 등 빠른 API 처리를 위해 다각적으로 연구를 진행하고자 함.
-- 영상의 장르와 참여 인력, 배우, 제작사 등 다양한 정보를 구분하고 이를 통해 추천 알고리즘을 구현하고자 함.
-- 영상 데이터를 처리해봄으로써, S3 등 외부 저장소 사용을 시도해보고자 함.
+## 1. 프로젝트 소개
 
-## **프로젝트 사이트**
-
-- 🖥 Coving
-
-## **프로젝트 구현 영상**
-
-[https://youtu.be/UQssE0uqbE0](https://youtu.be/UQssE0uqbE0)
-
-### **개발 인원 및 기간**
-
+- 프로젝트 : OTT서비스 [TVING](https://www.tving.com/onboarding?&utm_source=google_keyword&utm_medium=cpc&utm_campaign=tving&utm_content=pcweb&utm_term=%ED%8B%B0%EB%B9%99&BSCPN=TVING&BSPRG=GOOGLESA&BSCCN1=%ED%8B%B0%EB%B9%99&gclid=CjwKCAjw-L-ZBhB4EiwA76YzOeu4oSYXm5AweGcYFiKmgi_G4q17Uluples3kZC1kCDwH_r6DeuA_BoCAhcQAvD_BwE)을 참고하여 진행한 팀 프로젝트
 - 개발기간 : 2022/7/11 ~ 2022/7/26
-- 개발 인원 : 6명
-- 팀원: 김민욱, 김지현, 김형우, 이상민, 이주리, 케빈
-- Github 링크
-    - [프론트엔드](https://github.com/wecode-bootcamp-korea/justcode-5-2nd-coving-front)
-    - [백엔드](https://github.com/wecode-bootcamp-korea/justcode-5-2nd-coving-back)
+- 개발 인원 : 6명(FE 2명, BE 4명)
+- 팀원: 김지현, 김민욱, 김형우, 이상민, 이주리, 케빈
+- Github 링크 : [프론트엔드](https://github.com/wecode-bootcamp-korea/justcode-5-2nd-coving-front) / [백엔드](https://github.com/wecode-bootcamp-korea/justcode-5-2nd-coving-back)
+- [노션 프로젝트 페이지](https://www.notion.so/wecode/4-Coving-2b7f3313343345588d57b47cb711a019)
+    
+<br />
 
-### 팀원 역할 분담
+## 2. 팀원 역할 분담
 
-**프론트**
+| 이름 | 포지션 | 역할 |
+| ------ | ------ | ------ |
+| 김지현 | FE | **오프닝 페이지, 메인 페이지, 프로그램 페이지, 검색 모달, 검색 페이지** |
+| 김민욱 | FE | 서브 페이지, 상세페이지, 비디오플레이, 마이페이지 |
+| 김형우 | BE | 검색 API(키워드 검색& 실시간 인기 검색어), 소셜로그인 - 카카오톡 |
+| 이상민 | BE | 상세페이지 API, 마이페이지 API, 소셜로그인 - 네이버 |
+| 이주리 | BE | 메인페이지 API, TV 프로그램 API |
+| 케빈 | BE | 로그인/회원가입 API, 소셜로그인 - 구글, AWS 배포 |
 
-- 김민욱
-    - 서브 페이지, 상세페이지, 비디오플레이, 마이페이지
-- 김지현
-    - 오프닝 페이지, 메인 페이지, 프로그램 페이지, 검색 모달, 검색 페이지
 
-**백**
+<br />
 
-- 김형우
-    - 검색 API(키워드 검색& 실시간 인기 검색어), 소셜로그인 - 카카오톡
-- 이상민
-    - 상세페이지 API, 마이페이지 API, 소셜로그인 - 네이버
-- 이주리
-    - 메인페이지 API, TV 프로그램 API
-- 케빈
-    - 로그인/회원가입 API, 소셜로그인 - 구글, AWS 배포
+## 3. 기술 스택
 
-### **데모 영상(이미지 클릭)**
+- Front-End : Javascript, React.js, Styled-Component
+- Back-End : Node.js, express, Bcrypt, JWT, RESTful API, 소셜 로그인 (카카오, 네이버, 구글)
+- Infra : S3, AWS EC2, Docker, MySQL, RDS
 
-추후 추가기능 구현 완료후, 올릴 예정
+<br />
 
-## **적용 기술 및 구현 기능**
+## 4. 데모 영상
 
-### **적용 기술**
+https://user-images.githubusercontent.com/78922001/192206297-ef364876-2f46-47da-a173-c3885a660f54.mp4
 
-> **Front-End** : Javascript, React.js, Styled-Component
-> 
+<br />
 
-> **Back-End** : Node.js, express, Bcrypt, JWT, RESTful API, 소셜 로그인 (카카오, 네이버, 구글)
-> 
+## 5. 구현 기능
 
-> **Infra** : S3, AWS EC2, Docker, MySQL, RDS
-> 
+### 1) 메인 페이지(/main)
+- React-Swiper 라이브러리를 커스터마이징하여 4종 슬라이더 컴포넌트 구현
 
-### **데이터 모델링**
+  ![ezgif com-gif-maker](https://user-images.githubusercontent.com/78922001/192216019-dbc9b5a1-e572-4668-9db7-356de6cba78e.gif)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e08379cb-e48e-449f-a50b-d700850b1b56/Untitled.png)
 
-### **구현 기능 - 각자 담당했던 부분**
+### 2) 프로그램 페이지(/list)
+- 장르, 채널에 따른 filter / 인기순, 최신순 sorting 기능 구현
 
- **메인페이지, 프로그램 페이지**
+  ![ezgif com-gif-maker](https://user-images.githubusercontent.com/78922001/192218489-ff936904-5caa-4168-8c07-162013973099.gif)
 
-슬라이더로 프로그램 리스트, 프로그램 페이지에서 장르별, 채널별, 최신순, 인기순으로 필터링 기능 구현
 
-**/ 메인 페이지**
+### 3) 검색 모달, 검색 페이지(/search)
+- 검색어 입력 시, 엔터없이 API호출 후 결과 출력(lodash-debounce 라이브러리 사용/과도한 이벤트 발생 방지)
+- 최근 검색어 localStorage 저장 후 출력 및 삭제 기능 구현
+- 검색 후 유저가 프로그램을 클릭할 경우 실시간 인기 검색어API 호출(POST)
 
-- 메인 배너 슬라이더, 리스트 슬라이더(3종)
+  ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/78922001/192218780-8b61b5c8-4455-459c-9685-f89582bbe095.gif)
 
-- React-Swiper 라이브러리 이용 및 CSS 커스터마이즈 슬라이더 구현 
 
-**/ Nav, Footer**
-
+### 4) 공통 컴포넌트(Nav, footer)
+- Redux toolkit을 사용하여, 현재 페이지에 맞춰 검색 아이콘 변경
 - 스크롤 다운 시, Nav  linear-gradient값 증가
-
 - profile에 mouse-down시 드롭다운 메뉴
 
-- 페이지에 따른 검색 아이콘 변화(Redux-toolkit)
 
-**/메인페이지 API**
-
-**/main API**
-
-- Get:
-    - 시청 중 콘텐츠
-    - 인기순 콘텐츠 (검색이 많이 된 프로그램 기준)
-    - 장르, 배우, 감독별 추천, 새로고침시 랜덤으로 변경됨
-
-**/TV프로그램 API**
-
-**/list API**
-
-- Get: 모든 프로그램 불러오기 이후 장르/채널별 필터 적용. 인기순/최신순으로 정렬
-
- **검색모달 및 검색결과 페이지**
-
-모달창에서 키워드 검색 기능, 검색페이지에서 채널별로 분류하여 보여주는 기능, 최근 검색어, 인기검색어 기능 구현
-
-**/ 검색모달**
-
-- 검색 결과 유무에 따른 모달창 스위칭(keywordView, searchView)
-
-- 키워드 입력 시, API요청(lodash-debounce 라이브러리 사용/과도한 이벤트 발생 방지)
-
-- 입력한 키워드와 동일한 결과 키워드에 하이라이트 처리
-
-- 검색한 키워드를 localStorage에 저장하여 ‘최근 검색어’리스트로 노출(삭제 가능)
-
-**/ 검색결과 페이지**
-
-- 검색 결과를 장르 별로 나누어 슬라이더로 노출
-
-- 검색 후, 유저가 프로그램을 클릭할 경우 실시간 인기 검색어API 호출(POST)
-
-**/검색 API**
-
-**/search**
-
-- Get: 검색 결과페이지에 키워드 입력시, count와 datalist를 채널별로 분류하여 보냄.
-
-**/search/instant**
-
-- Get: 검색 모달에 키워드 입력시, count와 datalist
-
-**/search/popular**
-
-- Get: 인기검색어 목록
-
-**/search/:id**
-
-- Post: 검색하여 프로그램 클릭시, 해당 프로그램을 검색 로그에 Post
-
- **프로그램 상세, 콘텐츠 시청 페이지**
-
-콘텐츠 크리에이터, 출연 등 소개 및 마지막 시청 회차부터 이어보기
-본 프로그램을 시청한 유저가 본 다른 프로그램 추천, 동일 장르 프로그램 추천
-
-**/상세페이지**
-
-- 프로그램 정보 및 해당 프로그램의 에피소드 정보, 찜내역, 이어보기 관련 정보
-
-**/비디오플레이어**
-
-- 커스터마이징 필요성 : 모든 브라우저에서 동일한 디자인의 비디오 플레이어 제공이 필요
-
-- 커스터마이징한 비디오 플레이어로 필요한 기능만 선별하여 깔끔하게 구현
-
-**/상세API**
-
-**/program/:id**
-
-- Get : 프로그램 및 에피소드 관련 정보, 이어보기, 찜정보
-함께 즐겨보는 프로그램  : 이 프로그램을 보는 유저들이 함께 시청하는 프로그램 리스트
-유사한 프로그램 : 이 프로그램과 같은 장르들을 가지는 프로그램 리스트
-- Post : 찜 내역 업데이트
-
-**/episode/:id**
-
-- Get : 에피소드 재생 관련 정보 및 시청내역 업데이트
-
- **Mypage**
-
-**/마이페이지**
-
-- 시청 내역, 찜한 컨텐츠 모아보기 및 편집
-
-**/시청내역 및 찜 API**
-
-**/mypage/watch**
-
-- Get : 에피소드 단위 해당 유저의 시청내역 리스트
-- Delete : 선택한 시청내역들을 삭제
-
-**/mypage/favorite**
-
-- Get : 프로그램 단위 해당 유저의 찜 내역 리스트
-- Delete : 선택한 찜 내역들을 삭제
-
- **Opening page**
-
-소셜로그인으로 로그인 혹은 회원가입하여 메인페이지로 이동
-
-구글, 카카오, 네이버를 통한 간결한 회원가입
-
-**/회원가입, 로그인**
-
-소셜 로그인을 통한 간결한 회원가입
-
-- 소셜 로그인 버튼 클릭 시 소셜 로그인 API 호출
-- 소셜 로그인 측으로 부터 Code와 State 정보 수정
-- Code와 State를 인풋으로 하여 백엔드 소셜로그인 API 호출
-- 백엔드에서 토큰을 부여
-- 해당 토큰을 로컬 스토리지에 저장, 그 밖에 유저 정보는 Redux 전역 상태에 저장함.
-
-**/소셜로그인**
-
-- 각 소셜로그인 매체별 분기
-- 프론트 클라이언트에서 코드를 받아 권한부여 서버에 access_token을 발급받음
-- access_token으로 리소스 서버에 User info를 요청하여 받아옴
-- 자체 데이터 서버를 기반으로 JWT Token 자체 발행 및 전송
-- Token을 통해 미들웨어를 통해 user_id 정보 식별
-
-## **Reference**
-
-- 이 프로젝트는 [TVING](https://www.tving.com/onboarding) 사이트를 참조하여 학습목적으로 만들었습니다.
-- 실무수준의 프로젝트이지만 학습용으로 만들었기 때문에 이 코드를 활용하여 이득을 취하거나 무단 배포할 경우 법적으로 문제될 수 있습니다.
-- 이 프로젝트에서 사용하고 있는 사진은 [unsplash](https://images.unsplash.com)에서 사용하였습니다.
